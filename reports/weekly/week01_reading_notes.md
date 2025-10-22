@@ -1,6 +1,4 @@
 # Week 1 reading notes
-## Simo - Inelasticity, chapter 1 - 
-
 ## Computational Plasticity, chapter 2
 - Under plastic deformation, we can assume that there is two different strain
   - Elastic strain $\varepsilon^{e}$
@@ -27,7 +25,7 @@ where $\lambda$ is the plastic multiplider and $d\lambda$ the reate of change in
   =0$$
 For an incremental change in stress and plastic strain, we get:
 $$\dfrac{\partial f}{\partial \mathbf{\sigma}}\cdot d\sigma +
-    \dfrac{\partial f}{\partial p}\cdot dp$$
+    \dfrac{\partial f}{\partial p}\cdot dp = 0$$
 and using Hook's law:
 $$ d\mathbf{\sigma} = \mathbf{C}d\mathbf{\varepsilon^{e}}=\mathbf{C}(d\mathbf{\varepsilon}-d\mathbf{\varepsilon^{p}}) $$
 $$d\mathbf{\sigma}=\mathbf{C}(d\mathbf{\varepsilon}-d\lambda\dfrac{\partial f}{\partial\sigma}) $$
@@ -38,7 +36,13 @@ See equation 2.32 at page 37 for definition of the tangent stiffness matrix.
   $$f(\mathbf{\sigma},p)=\sigma_{e}-\sigma_{y0}-r(p)$$
 - Linear isotropic hardening ($dr(p)=hdp$)
 
-
+## Simo - Inelasticity, chapter 1
+- Will be less elaborate than the note on *Computational Plasticity* since the subject is similar
+- The yield function is either smaller than 0 or equal to zero. If it is equal to zero, it implies that there is plastic strain. If not, it means that the stress state is elastic.
+- The Kuhn-Tucker condition implies that $\gamma f(\mathbf{\sigma})=0$
+- The consistency condition implies that $\gamma \dot{f}(\mathbf{\sigma})=0$
+- Here, $d\lambda$ from Dunn is called the *slip rate* and is $\gamma$:
+  $$d\varepsilon^{p}=\gamma \dfrac{\partial f}{\partial \mathbf{\sigma}}$$ 
 
 ## Questions
 ### Dunne and Petrinic
@@ -52,11 +56,16 @@ See equation 2.32 at page 37 for definition of the tangent stiffness matrix.
 
 ### Simo and Hughes
 4. How does the 1D friction model relate to plasticity?
+- The simple friction/slip model takes into acound the elasticity of a spring (for the elastic part) and a sliping part that is not going back (for the plastic part). So, when a stress is applied the elastic part takes as much as it can, and once the limit of the friction element is reached (analogy of yield stress), the part starts to slip and keep this displacement as long as the stress keep rising (hardening) or beeing constant (perfectly plastic)
 5. What are the **loading/unloading conditions**
+- Loading is when f=0, unloading is when f<0. Where $f(\sigma)=|\sigma|-[\sigma_{y}+K\alpha]<=0$
 6. What is **return mapping**
+- When the actual stress state is returned to the yield surface after an initial guess. The initial guess is most likely the Young's modulus times the equivalent strain. When the strain is high enough, this make f >= 0 for a moment (with the initial guess) and then returned to the yield surface
 
 ## Confusing concept
-
+- Difference between associative and non associative
+- The physical signifiance of $\lambda$ the plastic multiplier(Dunn)/slip rate(Simo)
+- When is f(sigma)=0 supposed to happen so that the Kuhn-Tucker condition is respected
 
 ## Questions for next 
 - How is the isotropic hardening behavior changing for multiaxial stress state? Formulas used are all based on uniaxial stress state.
