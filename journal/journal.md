@@ -17,4 +17,12 @@ Questions for next meeting?
 
 ## Week 1: 2025-10-21 - 2025-10-26
 
+### 2025-10-22:
+- Completed lecture on Dunn (Introduciton to)
+
 ### 2022-10-21: Day 1
+- Defined the scope with Claude
+- Refined the subject to ***GPU accelerated framework for hyper reduced models for viscoplastic problems***
+- Created developper environement
+- Got required ressources: S&H Computationnal Inelasticity and Dunn Computational Plasticity
+- Started reading Dunn, added the first chapter on microplasticity to better understand the mechanism of slip and dislocation.
