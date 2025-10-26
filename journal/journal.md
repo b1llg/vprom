@@ -18,7 +18,9 @@ Questions for next meeting?
 
 ## Week 1: 2025-10-21 - 2025-10-26
 ### 2025-10-26:
-- Completing the code assignment for linear element
+- Completing the code assignment for linear element.
+- The error plot seems off but the error is so small that it seems like a round off error.
+- The displacement seems to be almost if not equal to the theoretical displaceent
 
 ### 2025-10-22:
 - Worked on the code assignement for simple bar finite element code. Trouble getting it to run using the elemental integration and not the analitical itnegratin. Using analytical integration would be way easier and I should simply compute E*A/L[1,-1;-1,1] for each element, but I prefer working with elemental definition since most of other elements are dificult to directly integrate

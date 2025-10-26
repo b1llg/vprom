@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-n_elements_vec = [1,2,5,10,100,1000,10000]
+n_elements_vec = [1,2,5,10,100,1000]
 errors = []
 hs = []
 
@@ -11,7 +11,7 @@ for n_elements in n_elements_vec:
     # define problems constant
     L = 1               # lenght of bar
     E = 2e11            # Young's modulus - Pa
-    D = 0.1             # Diameter - m
+    D = 0.001             # Diameter - m
     A = np.pi/4 * D**2  # Surface area in traction - m**2
     F = 100e3           # Force - N
 
@@ -48,6 +48,8 @@ for n_elements in n_elements_vec:
 
 fig, ax = plt.subplots()
 
-ax.plot(hs, errors)
+ax.loglog(hs, errors)
 ax.set_xlabel("Element size (m)")
 ax.set_ylabel("L2 error")
+plt.show()
+fig.savefig("error.jpeg")

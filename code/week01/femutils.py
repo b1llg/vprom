@@ -20,7 +20,7 @@ def generate_mesh(L: float, n_elements: int):
     dx = L/(n_elements)
 
     # Initialize tables
-    nodes = np.zeros((n_nodes))
+    nodes = np.zeros((n_nodes), dtype=np.float64)
 
     for i in range(1,n_nodes):
         nodes[i] = nodes[i-1] + dx 
@@ -198,13 +198,30 @@ def l2_error(nodes, u, E, A, F, L):
 
     returns: L2 error
     '''
+    nodes = np.array(nodes, dtype=np.float128)
+    u = np.array(u, dtype=np.float128)
+
     u_analytical = lambda x : F*x/(A*E) # Analytical formula for the displacement along x
 
-    u_theo = u_analytical(nodes) # Compute analytical value
+    u_theo = np.array(u_analytical(nodes), dtype = np.float128) # Compute analytical value
 
-    du = (u_theo - u)**2 # Compute the squared difference between analytical and fem
+    e = np.subtract(u_theo, u) # Compute the difference between theo and fem
 
-    return np.trapezoid(du, nodes) # Integrate along lengt and return -> L2 error
+    error = 0.0 # Initialize error value
+
+    for i in range(nodes.shape[0]-1):
+        dx = nodes[i+1] - nodes[i] # space between node, computed but is constant
+
+        # Nodal error
+        ei, eip1 = e[i], e[i+1]
+
+        #integral on each element
+        integral_e = (dx / 3.0) * (ei**2 + eip1**2 + ei * eip1)
+
+        # Sum the error
+        error += integral_e
+
+    return np.sqrt(error, dtype=np.float64)
 
 
 
