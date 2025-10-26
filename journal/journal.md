@@ -17,6 +17,12 @@ Questions for next meeting?
 ```
 
 ## Week 1: 2025-10-21 - 2025-10-26
+### 2025-10-26:
+- Completing the code assignment for linear element
+
+### 2025-10-22:
+- Worked on the code assignement for simple bar finite element code. Trouble getting it to run using the elemental integration and not the analitical itnegratin. Using analytical integration would be way easier and I should simply compute E*A/L[1,-1;-1,1] for each element, but I prefer working with elemental definition since most of other elements are dificult to directly integrate
+- Meshing seems to work for 2nd order but node generation is not working for 1st order
 
 ### 2025-10-22:
 - Completed lecture on Dunn (Introduciton to computational plasticity) and lecture on Simo (Computational inelasticity).
