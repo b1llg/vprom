@@ -1,6 +1,5 @@
-# Viscoplastic ROM PhD Project - VPROM
+# Viscoplastic ROM Project - VPROM
 
-**Student:** [Your name/handle]
 **Start Date:** October 21, 2025
 **Focus:** GPU Computing & Model Order Reduction for Viscoplastic Problems
 
@@ -18,4 +17,3 @@ Week 1: Setting up, implementing 1D elastic bar FEM
 - NumPy
 - SciPy
 - Matplotlib
-```
