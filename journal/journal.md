@@ -16,7 +16,24 @@ Interesting observations?
 Questions for next meeting?
 ```
 
+## Week 2: 2025-10-27 - 2025-11-02
+### 2025-10-29:
+- Completed the analytical assignement. Had trouble finding the plastic corrector, needed help from Claude
+- Worked on the plasticity_1d_perfect.py assignement. Stress history seems wrong (not unloading). Will check that tomorrow
+
+### 2025-10-28:
+- Installed Trilinos. Might be a good idea to use rather than MFEM for later in the project. It looks like very complex however.
+- An idea could be to start with MFEM+libCEED/libROM and then create custom kernels/Framework with Trilinos once MFEM/libROM can't handle the work.
+- I'd like to get rid of Python once working with 2d/3d problems. Might be a good idea to either work on a 1d problem with mfem next week.
+
+### 2025-10-27:
+- Started pseudo reading Simo and Dunn. I need to take my time and write the equations while reading because there is to much math to keep it all in my head.
+- Started to install MFEM and make some tests. Might be a good idea to use it soon
+
 ## Week 1: 2025-10-21 - 2025-10-26
+### Recap:
+- After reading theory. Things started to make sense. Some stuff was seen a while ago, it was a good reminder.
+- The coding assignement was also a good reminder of FE theory. Maybe need a refresher on that. 
 ### 2025-10-26:
 - Completing the code assignment for linear element.
 - The error plot seems off but the error is so small that it seems like a round off error.
