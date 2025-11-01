@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.collections import LineCollection
 
 def return_mapping_perfect_plasticity(eps_n, d_eps, eps_p_n, E, sigma_y):
     """
@@ -25,32 +26,41 @@ def return_mapping_perfect_plasticity(eps_n, d_eps, eps_p_n, E, sigma_y):
     eps_p : float
         Plastic strain at step n+1
     """
-    # Elastic predictor
-    sigma_e = E*(eps_n + d_eps)
+    # Yield function
+    sigma_eq = lambda eps_n, d_eps, eps_p_n :  E*(eps_n + d_eps - eps_p_n)
 
-    f = np.abs(sigma_e) - sigma_y # simo 2.2.37
+    # Yield criterion
+    f = lambda sigma_e, sigma_y : np.abs(sigma_e) - sigma_y # simo 2.2.37
+
+    # Elastic predictor
+    sigma_e = sigma_eq(eps_n, d_eps, eps_p_n)
+    f_e = f(sigma_e, sigma_y)
 
     # Check yield condition
-    if f <= 0: # elastic case
+    if f_e <= 0: # elastic case
         return sigma_e, eps_p_n
     else: # f > 0 compute plastic corrector
-        df_dsigma = np.sign(sigma_e)
-        gamma = df_dsigma*d_eps
-        d_eps_p = gamma * df_dsigma
 
+        delta_gamma = f_e/E
+
+        d_eps_p = delta_gamma * np.sign(sigma_e)
+               
         return sigma_y, eps_p_n + d_eps_p
 
 def test_perfect_plasticity():
     """Test against analytical solution from Assignment 2.2"""
     
     # Material properties
-    E = 200e9  # Pa
-    sigma_y = 250e6  # Pa
+    E = 200e3  # MPa
+    sigma_y = 250  # MPa
     
     # Loading history: Load -> Unload -> Reload
-    strain_load = np.linspace(0, 0.002, 11)
-    strain_unload = np.linspace(0.002, 0, 11)[1:]
-    strain_reload = np.linspace(0, 0.003, 11)[1:]
+
+    N = 11 # Points per segments
+
+    strain_load = np.linspace(0, 0.002,N)         # loading
+    strain_unload = np.linspace(0.002, 0, N)[1:]   # de-loading
+    strain_reload = np.linspace(0, 0.003, N)[1:]   # loading
     strain_history = np.concatenate([strain_load, strain_unload, strain_reload])
     
     # Initialize storage
@@ -63,35 +73,40 @@ def test_perfect_plasticity():
     
 
     #for each target strain in strain_history:
-    for target in strain_history:
+    for id, target in enumerate(strain_history):
         d_eps = target - eps_n # strain increment
-        sigma, epsp_n = return_mapping_perfect_plasticity(eps_n, d_eps, eps_p_n, E, sigma_y) # return mapping   
+        sigma, eps_p_n = return_mapping_perfect_plasticity(eps_n, d_eps, eps_p_n, E, sigma_y) # return mapping   
         
         # update variables
+        eps_n += d_eps
         stress_history.append(sigma)
-        plastic_strain_history.append(sigma)
+        plastic_strain_history.append(eps_p_n)
+        print(f"#{id+1:2} - eps: {eps_n:.2e} | stress: {sigma:.2e} | eps_p: {eps_p_n:.2e}")
     
-    # TODO: Convert to numpy arrays: why?
+       
+    # Plot stress vs strain
     
-    # TODO: Plot stress-strain curve
     fig, ax = plt.subplots()
-    ax.plot(strain_history, stress_history)
-    ax.set_xlabel("Total Strain")
-    ax.set_ylabel("Stress")
-    fig.savefig("stress_history.png")
 
-    # yield_array = np.ones((strain_history.size))
+    ax.plot(strain_history, stress_history,ls = '--', marker = 'o')
+    # Axis labels and styling
+    ax.set_xlabel("Strain (mm/mm)")
+    ax.set_ylabel("Stress (MPa)")
+    ax.set_title("Stress evolution")
+    ax.grid(alpha = 0.3)
+    plt.show()
 
-    # ax.hlines(yield_array, 0, np.max(strain_history))
+    fig.savefig("week02_perfect_plasticity.png")
 
-    #       - Compare to analytical from Assignment 2.2
-    #       - Mark yield stress with horizontal line
-    #       - Save as 'week02_perfect_plasticity.png'
-    
-    # TODO: Plot plastic strain evolution
-    #       - Save as 'week02_plastic_strain.png'
-    
-    pass
+    fig2, ax2 = plt.subplots()
+    ax2.plot(strain_history, plastic_strain_history)
+    ax2.set_ylabel("plastic Strain (mm/mm)")
+    ax2.set_xlabel("total strain (MPa)")
+    ax2.set_title("Stress evolution")
+    ax2.grid(alpha = 0.3)
+    plt.show()
+
+    fig2.savefig("week02_plastic_strain.png")
 
 if __name__ == '__main__':
     test_perfect_plasticity()

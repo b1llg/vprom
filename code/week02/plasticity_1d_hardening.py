@@ -31,57 +31,99 @@ def return_mapping_isotropic_hardening(eps_n, d_eps, eps_p_n, alpha_n, E, sigma_
     alpha : float
         Accumulated plastic strain at step n+1
     """
-    # TODO: Compute total strain at step n+1
+    # Total strain in current increment
+    eps_n = eps_n + d_eps
     
-    # TODO: Compute current yield stress: sigma_y = sigma_y0 + H * alpha_n
+    # Current yield stress
+    sig_y = lambda : sigma_y0 + H*alpha_n
     
-    # TODO: Elastic predictor - compute trial stress
-    
-    # TODO: Check yield condition (f_trial)
-    
-    # TODO: If elastic (f_trial <= 0):
-    #       - sigma = sigma_trial
-    #       - eps_p = eps_p_n (no change)
-    #       - alpha = alpha_n (no change)
-    
-    # TODO: If plastic (f_trial > 0):
-    #       - Compute plastic multiplier: d_lambda = f_trial / (E + H)
-    #       - sigma = (sigma_y + H * d_lambda) * sign(sigma_trial)
-    #       - eps_p = eps_p_n + d_lambda * sign(sigma_trial)
-    #       - alpha = alpha_n + d_lambda
-    
+    # Yield function
+    sigma_eq = lambda eps_n, d_eps, eps_p_n :  E*(eps_n + d_eps - eps_p_n)
+
+    # Yield criterion
+    f = lambda sigma_e, sigma_y : np.abs(sigma_e) - sigma_y # simo 2.2.37
+            
+    # Check yield condition
+    sigma_e = sigma_eq(eps_n, d_eps, eps_p_n)
+    f_e = f(sigma_e, sig_y())
+
+    if f_e <= 0: # elastic case
+        return sigma_e, eps_p_n, alpha_n
+    else: # f > 0 compute plastic corrector
+
+        # Compute plastic multiplier
+        delta_gamma = f_e / (E + H) 
+
+        # Compute plastic strain increment
+        d_eps_p = delta_gamma * np.sign(sigma_e)
+        eps_p_n += d_eps_p 
+
+        # Compute accumulated plastic strain
+        alpha_n += delta_gamma
+
+        # Compute stress
+        sigma = (1-delta_gamma*E/np.abs(sigma_e)) * sigma_e
+               
+        return sigma, eps_p_n + d_eps_p, alpha_n
+   
     pass
 
 def test_hardening_comparison():
     """Parameter study: H = 0, 1 GPa, 5 GPa"""
     
     # Material properties
-    E = 200e9  # Pa
-    sigma_y0 = 250e6  # Pa
-    H_values = [0, 1e9, 5e9]  # Pa
+    E = 210e3  # MPa
+    sigma_y0 = 250  # MPa
+    H_values = [0, 1e3, 5e3] # MPa
+    NINC = 20 # Number of increment in strain path
     
     # Same loading history as Assignment 2.3
-    strain_load = np.linspace(0, 0.002, 11)
-    strain_unload = np.linspace(0.002, 0, 11)[1:]
-    strain_reload = np.linspace(0, 0.003, 11)[1:]
+    strain_load = np.linspace(0, 0.002, NINC)
+    strain_unload = np.linspace(0.002, 0, NINC)[1:]
+    strain_reload = np.linspace(0, 0.003, NINC)[1:]
     strain_history = np.concatenate([strain_load, strain_unload, strain_reload])
     
-    # TODO: For each H value:
-    #       - Initialize state (eps_n=0, eps_p_n=0, alpha_n=0)
-    #       - Run time integration loop
-    #       - Store stress history
-    
-    # TODO: Plot all three curves on same figure
-    #       - Label: "H = 0 (perfect)", "H = 1 GPa", "H = 5 GPa"
-    #       - Save as 'week02_hardening_comparison.png'
-    
+
+
+    Hi_stress = []
+
+    for Hi in H_values:
+
+        # Initialisation
+        eps_n = 0
+        eps_p_n = 0
+        alpha_n = 0
+
+
+        stress_history = []
+        for strain in strain_history: # enumerate for test purpose
+            d_eps = strain - eps_n
+            sigma, eps_p_n, alpha_n = return_mapping_isotropic_hardening(eps_n, d_eps, eps_p_n, alpha_n, E, sigma_y0, Hi)
+            stress_history.append(sigma)
+        
+        # Append current stress state to history
+        Hi_stress.append(stress_history)
+
+        
+    # Plot all stress strain curves (f(H))
+    fig, ax = plt.subplots()
+    for stress, Hi in zip(Hi_stress, H_values):
+        ax.plot(strain_history, stress,ls = '--', marker = 'o', label = f"H={Hi:.1e}")
+
+    # Axis labels and styling
+    ax.set_xlabel("Strain (mm/mm)")
+    ax.set_ylabel("Stress (MPa)")
+    ax.set_title("Stress evolution")
+    ax.grid(alpha = 0.3)
+    ax.legend()
+    plt.show()
+    fig.savefig("week02_hardening_comparison.png")
+
     # TODO: Write analysis document answering:
     #       - How does H affect loading curve?
     #       - How does H affect unloading?
     #       - Residual stress for each case?
     #       - Physical explanation?
-    
-    pass
 
 if __name__ == '__main__':
     test_hardening_comparison()
