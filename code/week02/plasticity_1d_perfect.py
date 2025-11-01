@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.collections import LineCollection
+import pandas as pd
+import os
 
 def return_mapping_perfect_plasticity(eps_n, d_eps, eps_p_n, E, sigma_y):
     """
@@ -83,21 +84,32 @@ def test_perfect_plasticity():
         plastic_strain_history.append(eps_p_n)
         print(f"#{id+1:2} - eps: {eps_n:.2e} | stress: {sigma:.2e} | eps_p: {eps_p_n:.2e}")
     
+    #
+    #   Post processing
+    #
        
-    # Plot stress vs strain
+    ## Plot stress vs strain
+    # Read in analytical data
+    path = os.getcwd()
+    path += "/code/week02/plast_analytical.csv"
+    analytical_data = pd.read_csv(path)
     
     fig, ax = plt.subplots()
 
-    ax.plot(strain_history, stress_history,ls = '--', marker = 'o')
+    ax.plot(analytical_data["eps_total"], analytical_data["sigma_true"], lw = 2, label = "Analytical")
+    ax.plot(strain_history, stress_history,lw = 1, ls = '--', marker = 'o', label = "Python code")
+    
     # Axis labels and styling
     ax.set_xlabel("Strain (mm/mm)")
     ax.set_ylabel("Stress (MPa)")
     ax.set_title("Stress evolution")
     ax.grid(alpha = 0.3)
+    ax.legend()
     plt.show()
 
     fig.savefig("week02_perfect_plasticity.png")
 
+    ## Plot plastic strain vs total strain
     fig2, ax2 = plt.subplots()
     ax2.plot(strain_history, plastic_strain_history)
     ax2.set_ylabel("plastic Strain (mm/mm)")
@@ -107,6 +119,11 @@ def test_perfect_plasticity():
     plt.show()
 
     fig2.savefig("week02_plastic_strain.png")
+
+    ## Compute analytical vs algo error
+    error = np.array(analytical_data["sigma_true"]) - np.array(stress_history)
+    error = np.linalg.norm(error)
+    print(f"Error: {error:.4e} ")
 
 if __name__ == '__main__':
     test_perfect_plasticity()

@@ -74,7 +74,7 @@ def test_hardening_comparison():
     # Material properties
     E = 210e3  # MPa
     sigma_y0 = 250  # MPa
-    H_values = [0, 1e3, 5e3] # MPa
+    H_values = [0, 1e3, 5e3, 50e3] # MPa
     NINC = 20 # Number of increment in strain path
     
     # Same loading history as Assignment 2.3
@@ -100,9 +100,12 @@ def test_hardening_comparison():
             d_eps = strain - eps_n
             sigma, eps_p_n, alpha_n = return_mapping_isotropic_hardening(eps_n, d_eps, eps_p_n, alpha_n, E, sigma_y0, Hi)
             stress_history.append(sigma)
+            if strain == 0:
+                print(f"H={Hi:.2e}, eps={strain:.2e}, sigma={sigma}")
         
         # Append current stress state to history
         Hi_stress.append(stress_history)
+        print(f"H={Hi:.2e}, eps={strain_history[-1]:.2e}, sigma={stress_history[-1]}")
 
         
     # Plot all stress strain curves (f(H))

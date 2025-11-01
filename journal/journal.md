@@ -17,6 +17,10 @@ Questions for next meeting?
 ```
 
 ## Week 2: 2025-10-27 - 2025-11-02
+### 2025-11-01:
+- Finalized code and report assignment for the codes
+- Started to fill the submission form
+  
 ### 2025-10-31:
 - Completed perfect plasticity code.
 - Validated analytical vs code exercise
