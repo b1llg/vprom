@@ -65,8 +65,6 @@ def return_mapping_isotropic_hardening(eps_n, d_eps, eps_p_n, alpha_n, E, sigma_
         sigma = (1-delta_gamma*E/np.abs(sigma_e)) * sigma_e
                
         return sigma, eps_p_n + d_eps_p, alpha_n
-   
-    pass
 
 def test_hardening_comparison():
     """Parameter study: H = 0, 1 GPa, 5 GPa"""
@@ -85,7 +83,7 @@ def test_hardening_comparison():
     
 
 
-    Hi_stress = []
+    Hi_stress = [] # list of stress evolution with respect to H
 
     for Hi in H_values:
 
@@ -121,12 +119,6 @@ def test_hardening_comparison():
     ax.legend()
     plt.show()
     fig.savefig("week02_hardening_comparison.png")
-
-    # TODO: Write analysis document answering:
-    #       - How does H affect loading curve?
-    #       - How does H affect unloading?
-    #       - Residual stress for each case?
-    #       - Physical explanation?
 
 if __name__ == '__main__':
     test_hardening_comparison()

@@ -3,10 +3,10 @@
 ## Deliverables (Raw GitHub URLs):
 
 **Assignment 2.1 - Theory:**
-https://raw.githubusercontent.com/b1llg/vprom/main/reports/weekly/week02_return_mapping_theory.md
+https://raw.githubusercontent.com/b1llg/vprom/refs/heads/main/reports/weekly/week02_return-mapping-theory.md
 
 **Assignment 2.2 - Analytical:**
-https://raw.githubusercontent.com/b1llg/vprom/main/reports/weekly/week02_analytical_exercise.md
+https://raw.githubusercontent.com/b1llg/vprom/refs/heads/main/reports/weekly/week02_analytical_exercise.md
 
 **Assignment 2.3 - Perfect Plasticity Code:**
 https://raw.githubusercontent.com/b1llg/vprom/main/code/week02/plasticity_1d_perfect.py

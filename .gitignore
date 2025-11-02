@@ -16,11 +16,5 @@ venv/
 *.swp
 
 # Data/Results
-*.png
-*.jpg
 results/
 plots/
-
-# But keep example plots
-!examples/*.png
-```
