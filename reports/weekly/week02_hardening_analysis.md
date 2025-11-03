@@ -8,9 +8,7 @@ Initially, only $H = [0, 1, 5] GPa$ was requested. I added $H=50GPa$ to show the
 
 ### Effect on loading curve
 #### How does H change the stress-strain response during loading?
-The higher H gets, the higher/lower the stress becomes when raising or lowering the strain. This happens because of energy conservation where: 
-$$ E=\int_{\Omega}\sigma:\varepsilon d\Omega $$
-Meaning that for an increase in strain, the stress value has to be higher for and an higher value of H if the increase of strain is positive. The same goes if the increase of strain is negative (compression).
+Because hardening increases yield stress. Meaning that for an increase in strain, the stress value has to be higher for and an higher value of H if the increase of strain is positive. The same goes if the increase of strain is negative (compression).
 #### Why does stress continue increasing beyond σ_y0?
 Because of hardening. The hardening law is says that for an increase of $\epsilon^{p}$, $\sigma_{y}$ must increase proportional to parameter $H$
 
@@ -52,4 +50,4 @@ The more accumulated hardening (accumulated plastic strain) the higher the new y
 #### Explain physically what isotropic hardening represents
 Isotropic hardening means that when yielding occurs, the yield surface needs to expand in such a way that the yield criterion $f=0$. Also, that expansion needs to follow the vector normal to the yield surface, at that location.
 #### Why does larger H make the material "stiffer" during plastic flow?
-As explained before, because of energy conservation. Higher $H$, higher stress, smaller hysterisis path.
+Because of the same reason explained in a previous question. Increased plastic strain directly increase the yield stress, raising the stress significantly to match the increase in total strain.

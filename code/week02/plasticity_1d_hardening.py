@@ -65,6 +65,7 @@ def return_mapping_isotropic_hardening(eps_n, d_eps, eps_p_n, alpha_n, E, sigma_
         sigma = (1-delta_gamma*E/np.abs(sigma_e)) * sigma_e
                
         return sigma, eps_p_n + d_eps_p, alpha_n
+    
 
 def test_hardening_comparison():
     """Parameter study: H = 0, 1 GPa, 5 GPa"""
@@ -119,6 +120,7 @@ def test_hardening_comparison():
     ax.legend()
     plt.show()
     fig.savefig("week02_hardening_comparison.png")
+
 
 if __name__ == '__main__':
     test_hardening_comparison()

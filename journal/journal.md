@@ -15,8 +15,17 @@ What was frustrating?
 Interesting observations?
 Questions for next meeting?
 ```
+## Week 3: 25-11-03 - 25-11-19
+### 2025-11-02:
+- Started the reading assignement. About 1hr
+
+### 2025-11-02:
+- Read both required chapters in Simo and Dunn. About 2hrs.
 
 ## Week 2: 2025-10-27 - 2025-11-02
+### 2025-11-02:
+- Completed reading assignment. 
+
 ### 2025-11-01:
 - Finalized code and report assignment for the codes
 - Started to fill the submission form

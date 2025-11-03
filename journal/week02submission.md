@@ -4,34 +4,34 @@
 
 **Assignment 2.1 - Theory:**
 https://raw.githubusercontent.com/b1llg/vprom/refs/heads/main/reports/weekly/week02_return-mapping-theory.md
+return mapping figure: https://raw.githubusercontent.com/b1llg/vprom/refs/heads/main/reports/weekly/returnmapping_figure.png
+
 
 **Assignment 2.2 - Analytical:**
-https://raw.githubusercontent.com/b1llg/vprom/refs/heads/main/reports/weekly/week02_analytical_exercise.md
+https://raw.githubusercontent.com/b1llg/vprom/refs/heads/main/reports/weekly/week02_analytical_ecercise.md
 
 **Assignment 2.3 - Perfect Plasticity Code:**
-https://raw.githubusercontent.com/b1llg/vprom/main/code/week02/plasticity_1d_perfect.py
+https://raw.githubusercontent.com/b1llg/vprom/refs/heads/main/code/week02/plasticity_1d_perfect.py
+stress figure: https://raw.githubusercontent.com/b1llg/vprom/refs/heads/main/code/week02/week02_perfect_plasticity.png
+plastic strain figure: https://raw.githubusercontent.com/b1llg/vprom/refs/heads/main/code/week02/week02_plastic_strain.png
 
 **Assignment 2.4 - Hardening Code:**
-https://raw.githubusercontent.com/b1llg/vprom/main/code/week02/plasticity_1d_hardening.py
+https://raw.githubusercontent.com/b1llg/vprom/refs/heads/main/code/week02/plasticity_1d_hardening.py
+figure: https://raw.githubusercontent.com/b1llg/vprom/refs/heads/main/code/week02/week02_hardening_comparison.png
 
 **Assignment 2.4 - Hardening Analysis:**
-https://raw.githubusercontent.com/b1llg/vprom/main/reports/weekly/week02_hardening_analysis.md
+https://raw.githubusercontent.com/b1llg/vprom/refs/heads/main/reports/weekly/week02_hardening_analysis.md
 
 **Journal:**
 https://raw.githubusercontent.com/b1llg/vprom/main/journal/journal.md
 
 **Plots:**
-- https://raw.githubusercontent.com/b1llg/vprom/main/code/week02_perfect_plasticity.png
-- https://raw.githubusercontent.com/b1llg/vprom/main/code/week02_plastic_strain.png
-- https://raw.githubusercontent.com/b1llg/vprom/main/code/week02_hardening_comparison.png
-
-
+- See figures above
 
 ## Summary
 - Completed the code assignements and it helped me a lot. The theory makes a lot more sense now
 - The analytical exercice wich fits with the algorithm version with strain increment is really nice to see.
 - The reading assignement has been done at the end. Doing the applications first made it easier to understand
-
 
 ## Key Results
 
@@ -54,13 +54,8 @@ https://raw.githubusercontent.com/b1llg/vprom/main/journal/journal.md
 ## Code Snippet for Review
 - See links above
 
-
-
 ## Questions/Issues
-
 - Difference between $\varepsilon^{p}$ and $\alpha$
-
-
 
 ## Time Spent
 Total: approx. 25 hours
