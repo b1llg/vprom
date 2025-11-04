@@ -16,7 +16,10 @@ Interesting observations?
 Questions for next meeting?
 ```
 ## Week 3: 25-11-03 - 25-11-19
-### 2025-11-02:
+### 2025-11-04:
+- Started the coding assignement. Rate sensivity about 1.5hr
+- 
+### 2025-11-03:
 - Started the reading assignement. About 1hr
 
 ### 2025-11-02:
