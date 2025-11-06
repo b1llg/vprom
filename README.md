@@ -10,9 +10,9 @@
 - `literature/`: Papers and reading notes
 
 ## Current Status
-Week 1: Setting up, implementing 1D elastic bar FEM
-Week 2: Return mapping theory and implementation
-Week 3: Viscoplasticity and Perzyna constitutive model implementation
+- Week 1: Setting up, implementing 1D elastic bar FEM
+- Week 2: Return mapping theory and implementation
+- Week 3: Viscoplasticity and Perzyna constitutive model implementation
 
 ## Dependencies
 - Python 3.10+

@@ -16,9 +16,14 @@ Interesting observations?
 Questions for next meeting?
 ```
 ## Week 3: 25-11-03 - 25-11-19
+### 2025-11-05:
+- Did some test with strain rate and creep test. I wasn't sure that the strain rate sensitivity test was right so I did the creep test. Creep test results made sense so Im pretty sure that the results for rate sensitivity are now sane. Maybe that the combination of rates not so high with a somewhat neutral viscosity make the results look not too different from a non viscoplastic material. There is a change in stress though that confirms this, but visually it is not so evident.
+
 ### 2025-11-04:
-- Started the coding assignement. Rate sensivity about 1.5hr
-- 
+- Started the coding assignement. Rate sensivity in about 2hr
+- The peak stress doesnt seem to high. Something might be off
+- Need to find a way to set constant stress
+
 ### 2025-11-03:
 - Started the reading assignement. About 1hr
 
