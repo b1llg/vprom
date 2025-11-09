@@ -35,7 +35,7 @@ def return_mapping_viscoplasticity(eps_n, sig_n, d_eps, dt, eps_vp_n, E, sigma_y
         # * give the same results
         
         if n==1: # Linear overstress
-            d_lambda = eta * dt * f_trial / (sigma_0 + E * eta * dt)
+            d_lambda =  dt * f_trial / (eta*sigma_0 + E * eta * dt)
             
         else: # Nonlinear overstress
             
@@ -50,8 +50,8 @@ def return_mapping_viscoplasticity(eps_n, sig_n, d_eps, dt, eps_vp_n, E, sigma_y
                 f = f_trial - E*d_lambda 
                 
                 # Compute residual and derivatives
-                res = (f/sigma_0)**n - d_lambda/(eta*dt)
-                dres = -n*E*(f/sigma_0)**(n-1) / sigma_0 - 1/(eta*dt)
+                res = (f/sigma_0)**n - d_lambda*eta/dt
+                dres = -n*E*(f/sigma_0)**(n-1) / sigma_0 - eta/dt
                 
                 # Update d_lambda
                 d_lambda -= res/dres
@@ -63,8 +63,7 @@ def return_mapping_viscoplasticity(eps_n, sig_n, d_eps, dt, eps_vp_n, E, sigma_y
         sig_n = sigma_trial - E * d_lambda * s
         eps_vp_n += d_lambda * s
         
-        return sig_n, eps_vp_n     
-    
+        return sig_n, eps_vp_n        
    
 def rate_sensitivity():
     '''
@@ -80,7 +79,7 @@ def rate_sensitivity():
             
    
     # (3.2.1) Constant visosity, variable strain rate
-    DT = 1e-4                           # s -  constant time step
+    DT = 1e-2                           # s -  constant time step
     ETA = 1                             # MPa*s - Viscosity
        
     # Analysis parameters
@@ -107,7 +106,7 @@ def rate_sensitivity():
         # Loop untill max strain is reached
         while eps_n < MAX_EPS:
                             
-            sig_n, eps_vp_n = return_mapping_viscoplasticity(eps_n, sig_n, d_eps, DT, eps_vp_n, E, SIGMA_Y0, ETA,n=4)
+            sig_n, eps_vp_n = return_mapping_viscoplasticity(eps_n, sig_n, d_eps, DT, eps_vp_n, E, SIGMA_Y0, ETA,n=1)
             
             # Update variables and append history variables
             eps_n += d_eps # needs to be updated after the integration
@@ -371,7 +370,7 @@ def viscosity_effect():
 
 
 if __name__ == '__main__':
-    # rate_sensitivity()
+    rate_sensitivity()
     # creep_test()
     # relaxation_test()
-    viscosity_effect()
+    # viscosity_effect()
