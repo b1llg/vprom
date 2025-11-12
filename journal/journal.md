@@ -16,6 +16,9 @@ Interesting observations?
 Questions for next meeting?
 ```
 ## Week 3: 25-11-03 - 25-11-19
+### 2025-11-10:
+- Reading and analytic derivation from Simo textbook. Very high level
+
 ### 2025-11-09:
 - Had to postpone the submission for week 03. I'm not at ease with the subject and it bugs me. Might take the day off and start back tomorrow.
 
