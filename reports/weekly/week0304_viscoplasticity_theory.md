@@ -3,7 +3,6 @@
 - Dunne & Petrinic: Chapter 2, Sections 2.7 (Viscoplasticity and creep)
 
 ## 1. Rate-Dependent vs Rate-Independent Plasticity
-<!-- ! Recheck this section completly --> 
 ### What's the fundamental difference?
 Rate independent means that the rate at which the material is deformed, doesn't have any impact on material properties. Rate dependent means the opposite. For example, some steels at elevated temperature exhibit rate dependance. Higher strain rate means higher yield stress and most likely lower strain at failure. Lower strain means lower yield stress and for very low strain rate the material could exhibit creep.
 
@@ -39,12 +38,37 @@ $$ f(\sigma) = |\sigma| - \sigma_{y} $$
 $$ f(\sigma) = \eta\dot{\varepsilon}^{vp}$$
 
 Perzyna model states that the viscoplastic stress is proportional to a powerlaw that $\neq0$ if and only if $f>0$. Thus, $f(\sigma)$ is normalized to $\sigma_{0}$ (which can be defined by $\sigma_{y}$) and regulated by a function to ensure that $f(\sigma)$ is either positive or 0 $\rightarrow$ mackaulay brackets $\langle \mathbf{\cdot} \rangle$. We then define a function $\phi(f)$ where:
-$$ \phi(f) = \left(\frac{f}{\sigma_{0}}\right)^n $$ 
+$$ \phi(f) = \left(\frac{f}{\sigma_{0}}\right)^n $$
+
+and relate viscoplastic strain to this normalized quantity:
+
+$$ \dot{\varepsilon}^{vp} = \dfrac{1}{\eta}\langle\phi(f)\rangle^n \tag{3}  $$
+
+using the normality condition, we know that (in 1D):
+$$\dot{\varepsilon}^{vp} = \dot{\lambda}sign(\sigma)$$
+thus:
+$$\dot{\lambda}=\dfrac{1}{\eta}\langle\phi(f)\rangle^n \dfrac{1}{sign(\sigma)}$$
+
+Assuming possitive stress (tensile load only) and integrate over a time step $\Delta t$ the continuous form we obtain:
+$$\boxed{\Delta\lambda=\dfrac{\Delta t}{\eta}\langle \tfrac{f}{\sigma_{y}} \rangle^{n}}$$
+
+
 
 
 
 ## 4. Physical Phenomena
 ### Creep: constant stress, strain increases
+In a test bench setup, constant stress would be studied by using a load control program (apply a constant load proportional to the evolving section area of the specimen). The reason is that the strain gets split in two parts past a certain point: elastic strain and viscoplastic strain:
+$$\sigma = E(\varepsilon^{e} + \varepsilon^{vp})$$
+and since total strain is:
+$$\varepsilon = \varepsilon^{e} + \varepsilon^{vp}$$
+it can also be defined with:
+$$\sigma = E(\varepsilon - \varepsilon^{vp})$$
+
 ### Relaxation: constant strain, stress decreases
+In a test bench setup, a relatively high initial strain would be applied to a specimen and then the resulting force would be measured to determine the stress afterwards.
+
+Mathematically, the variable $\varepsilon$ (total strain) is at a constant value but $\varepsilon^{vp}$ evolves over time and tends to bring back the stress to yield stress (principle of overstress and KKT conditon)
+
 ### Strain rate sensitivity: higher rate → higher stress
-*Include sketch showing creep and relaxation behavior.*
+![image](../../code/week0304/week0304_rate_sensitivity.png). The higher the strain rate sensitivity is, the higher the stress overshoots the yield stress.

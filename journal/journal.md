@@ -17,9 +17,13 @@ Questions for next meeting?
 ```
 ## Week 3: 25-11-03 - 25-11-19
 
+### 2025-11-16
+- Finalized code and viscoplasticity analysis (about 1hr)
+- Completed viscoplasticity theory (about )
+
 ### 2025-11-14:
 - Worked on the derivation of the Perzyna model with a general approach. Things makes a bit more sense now however when going non linear ($n\neq1$) it requires a bit more thinking. (about 3hr)
-- Worked on the code using the help of Claude. 
+- Worked on the code using the help of Claude. (about 1hr)
 
 ### 2025-11-10:
 - Reading and analytic derivation from Simo textbook. Very high level (about 1hr)
