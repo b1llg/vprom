@@ -52,10 +52,6 @@ $$\dot{\lambda}=\dfrac{1}{\eta}\langle\phi(f)\rangle^n \dfrac{1}{sign(\sigma)}$$
 Assuming possitive stress (tensile load only) and integrate over a time step $\Delta t$ the continuous form we obtain:
 $$\boxed{\Delta\lambda=\dfrac{\Delta t}{\eta}\langle \tfrac{f}{\sigma_{y}} \rangle^{n}}$$
 
-
-
-
-
 ## 4. Physical Phenomena
 ### Creep: constant stress, strain increases
 In a test bench setup, constant stress would be studied by using a load control program (apply a constant load proportional to the evolving section area of the specimen). The reason is that the strain gets split in two parts past a certain point: elastic strain and viscoplastic strain:

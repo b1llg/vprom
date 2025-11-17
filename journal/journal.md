@@ -19,7 +19,7 @@ Questions for next meeting?
 
 ### 2025-11-16
 - Finalized code and viscoplasticity analysis (about 1hr)
-- Completed viscoplasticity theory (about )
+- Completed viscoplasticity theory (about 1hrs)
 
 ### 2025-11-14:
 - Worked on the derivation of the Perzyna model with a general approach. Things makes a bit more sense now however when going non linear ($n\neq1$) it requires a bit more thinking. (about 3hr)

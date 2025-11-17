@@ -12,10 +12,10 @@
 ## Current Status
 - Week 1: Setting up, implementing 1D elastic bar FEM
 - Week 2: Return mapping theory and implementation
-- Week 3: Viscoplasticity and Perzyna constitutive model implementation
+- Week 3-4: Viscoplasticity and Perzyna constitutive model implementation
 
 ## Dependencies
-- Python 3.10+
+- Python 3.12+
 - NumPy
 - SciPy
 - Matplotlib
