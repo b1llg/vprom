@@ -15,7 +15,12 @@ What was frustrating?
 Interesting observations?
 Questions for next meeting?
 ```
-## Week 3: 25-11-03 - 25-11-19
+## Week 5: 25-11-17 - 25-11-23
+
+### 2025-11-18
+- Wrote the layout of the monthly report. First time using LaTex so there is a bit of learning/debugging going on. 
+
+## Week 3-4: 25-11-03 - 25-11-16
 
 ### 2025-11-16
 - Finalized code and viscoplasticity analysis (about 1hr)
