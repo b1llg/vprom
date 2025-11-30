@@ -15,6 +15,29 @@ venv/
 .idea/
 *.swp
 
-# Data/Results
-results/
-plots/
+# LaTex
+# Auxiliary files
+*.aux
+*.bbl
+*.blg
+*.brf
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.snm
+*.toc
+*.vrb
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.xdv
+*.dvi
+*.ps
+*.pdf
+*.gz
+
