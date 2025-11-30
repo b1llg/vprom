@@ -48,6 +48,9 @@
 \usepackage{algorithm2e}
 \RestyleAlgo{ruled}
 
+%% Tikz
+\usepackage{tikz}
+
 %% The lineno packages adds line numbers. Start line numbering with
 %% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
 %% for the whole article with \linenumbers.
@@ -199,6 +202,28 @@ In a purely linear, 1D isotropic case (2) can be simply seen as the product of t
 
 Here, the symbole $\gamma$ is called the plastic multiplier and is part of the return mapping algorithm. Essentially, the plastic multiplier scale the equivalent inelastic strain in the current increment. And simply, equations \ref{eq::kkt1}, \ref{eq::kkt2}, \ref{eq::kkt3} constrain the problem so that for any stress state either $f(\mathbf{\sigma}) < 0$ meaning that the stress state is purely elastic or either $\gamma > 0$ meining inelastic strain is increasing. One other important aspect is that $f(\mathbf{\sigma})$ must at most be equal to zero. To better visualize, see this figure: 
 
+\begin{figure}
+\begin{tikzpicture}[
+  scale =0.8
+]
+  \filldraw[fill=gray, rotate=30] (0,0) ellipse (3cm and 2cm);
+  \draw[dashed, color=blue, rotate=30] (0,0) ellipse (4cm and 3cm);
+  \node at (0,0.5) {$\mathbb{E}\sigma$};
+  \node at (-2.5,1) {$\partial \mathbb{E}\sigma_{n}$};
+  \node at (-3,2.3) {$\partial \mathbb{E}\sigma_{n+1}$};
+  \filldraw[black] (0,2.15) circle (2pt) node[anchor=north] {$\sigma_{n}$};
+  \draw[->] (0,2.15) to[out=90, in=270] (1, 5);
+  \filldraw[black] (1,5) circle (2pt) node[anchor=south] {$\sigma^{trial}$};
+  \filldraw[black] (2,3.1) circle (2pt) node[anchor=south] {$\sigma_{n+1}$};
+  \draw[->] (1,5) to[out=0, in=90] (2, 3.6);
+
+\end{tikzpicture}
+\caption{Return mapping in 1D with strain hardening}
+\label{fig:returnmap}
+\end{figure}
+
+As seen in \ref{fig:returnmap}, an inital stress state at step ($n$) is defined by a domain of admissible stress ($\mathbb{E} \sigma$) and a boundary to this domain ($\partial \mathbb{E}\sigma_{n}$)
+**** AJOUTER VECTEUR DE LA SURFACE À SIGMAN+1 *****
 
 \subsection{Rate-Independent Plasticity}
 \label{Rate-Independent Plasticity}

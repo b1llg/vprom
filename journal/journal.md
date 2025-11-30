@@ -15,6 +15,10 @@ What was frustrating?
 Interesting observations?
 Questions for next meeting?
 ```
+## Week 6: 25-11-24 - 25-11-30
+- Started writing the report for month 1. Im loosing a lot of time due to formating latex but I'm learning.
+- I completed the intro and started to work on the theoretical background (about 2hrs)
+
 ## Week 5: 25-11-17 - 25-11-23
 
 ### 2025-11-18
