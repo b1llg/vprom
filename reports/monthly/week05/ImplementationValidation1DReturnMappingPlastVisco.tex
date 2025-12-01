@@ -127,7 +127,7 @@ Algorithms for Plasticity and Viscoplasticity}
 %% 6. Implications
 
 %% Text of abstract
-Constitutive material models are the cornerstone of finite element analysis in solid mechanics. Material behavior defines how displacements, velocities and accelerations are calculated at the nodes of each elements. For viscoplastic behavior, mathematical definitions ties the evolution of the viscoplastic strain to the evolution of stresses and strain over time. Thus for each increment of strain and time, algorithm must find the equilibrium at wich Karush-Kuhn-Tucker (KKT) conditions are met. However, since viscoplastic material exhibit stress dissipation, these conditions needs to be relaxed to accomodate the accumulation of viscoplastic strain. In this mock paper, a return mapping algorithm for the Perzyna viscoplastic model will be implemented to solve for the equilibirum of the KKT conditions considering the overstress concepts. The basic definitions of return mapping for regular plasticity will be showed and will serve as a basis for further implementation of the Perzyna model to show the impact of strain rates and material properties on constitutive behavior.
+Constitutive material models are the cornerstone of finite element analysis in solid mechanics. Material behavior direct consequences on how displacements, velocities and accelerations are calculated at the nodes of each elements. For viscoplastic behavior, mathematical definitions ties the evolution of the viscoplastic strain to the evolution of stresses and strain over time. Thus for each increment of strain and time, algorithm must find the equilibrium at wich Karush-Kuhn-Tucker (KKT) conditions are met. However, since viscoplastic material exhibit stress dissipation, these conditions needs to be relaxed to accomodate the accumulation of viscoplastic strain. In this mock paper, a return mapping algorithm for the Perzyna viscoplastic model will be implemented to solve for the equilibrium of the KKT conditions considering the overstress concepts. The basic definitions of return mapping for regular plasticity will be showed and will serve as a basis for further implementation of the Perzyna model to show the impact of strain rates and material properties on constitutive behavior.
 \end{abstract}
 
 % %%Graphical abstract
@@ -166,71 +166,87 @@ Return mapping \sep Plasticity \sep Viscoplasticity \sep Perzyna model \sep Back
 \section{Introduction}
 \label{Intro}
 %% Labels are used to cross-reference an item using \ref command.
-Consitutive material models are required to model the material response to loads in finite element analysis. For solid mechancis, variable of interest are the displacement, veolicity and acceleration of each and every node to compute variable of interest like stresses and strains. For linear behavior, where the stress response follows a linear relationship with strains (by definition displacements) this problem is rather easy to solve but even then, advanced algorithm are used to determine the displacements, stresses and strains efficiently. The same goes for other material behavior like plasticity and viscoplasticity.
+Consitutive material models are required to model the material response to loads in finite element analysis. For solid mechancis, variable of interest are the displacement, velocity and acceleration of each and every node to compute derived variables like stresses and strains. For linear behavior, where the stress response follows a linear relationship with strains (by definition displacements) this problem is rather easy to solve but even then, advanced algorithm are used to determine the displacements, stresses and strains efficiently. The same goes for other material behavior like plasticity and viscoplasticity.
 
-Return mapping is a well known algorithm and have been used for well over forty years. Early work by \cite{Krieg1977RadialReturn} on radial return have pave the way to the work of \cite{Ortiz1985ElastoplasticIntegration}. Since then, great textbook have also covered the topic and applied it to several material models (consitutive model)\cite{Simo1998Computational} \cite{MACrisfield2012}.
+Return mapping is a well known algorithm and have been used for well over forty years. Early work by \cite{Krieg1977RadialReturn} on radial return have paved the way to the work of \cite{Ortiz1985ElastoplasticIntegration}. Since then, great textbook have also covered the topic and applied it to several material models (consitutive model)\cite{Simo1998Computational} \cite{MACrisfield2012}.
 
-The goal of this mock paper is to condense gathered knowledge about computational plasticity, especially about return mapping applied to 1D viscoplastic constitutive Perzyna model. First, a survey of the theoretical background of return mapping will be presented. Then, The implementation of the algorithms will be shown and finally key results and observation to common material will be studied.
+The goal of this mock paper is to condense gathered knowledge about computational plasticity, especially about return mapping applied to 1D viscoplastic constitutive Perzyna model. First, a survey of the theoretical background of return mapping will be presented. Then, the implementation of the algorithms will be shown and finally key results and observation to common material will be studied.
 
 \section{Theoritical background}
 \label{Theoritical background}
 The governing equations in solid mechanics are defined by:
 \begin{equation}
-  \dfrac{\partial \sigma_{ij}}{x_{j}} + \rho b_{i} = \rho \ddot{u} \label{eq:equilibrium}
+  \nabla \cdot \boldsymbol{\sigma} + \boldsymbol{b} = \rho \ddot{\boldsymbol{u}} \label{eq:equilibrium}
 \end{equation}
 
 \begin{equation}
-   \sigma_{ij}=\mathcal{C}_{ijkl} \varepsilon_{ij} \label{eq:constitutive}
+   \sigma_{ij}=\mathbb{C}_{ijkl} \varepsilon_{ij} \label{eq:constitutive}
 \end{equation} 
 
 \begin{equation} \varepsilon_{ij}=\dfrac{1}{2} \left(\dfrac{\partial u_{i}}{\partial x_{j}} 
                 + \dfrac{\partial u_{j}}{\partial x_{i}} \right) \label{eq:straindisprel}
 \end{equation}
 
-known as \ref{eq:equilibrium}: the equilibrium equation , \ref{eq:constitutive}: the constitutive law and \ref{eq:straindisprel}: the strain-displacement relation. 
+known as the equilibrium equation (\ref{eq:equilibrium}), the constitutive law (\ref{eq:constitutive}) and  the strain-displacement relation (\ref{eq:straindisprel}). 
 
-In a purely linear, 1D isotropic case (2) can be simply seen as the product of the Young's modulus (\textit{E}) and the strain applied to a rod ($\varepsilon$). In multidimensional nonlinear computational mechanics, this can also be seen as the \textit{trial Stress} or \textit{elastic predictor}. As introduced in the last sentece, return mapping starts with an initial guess to see if the new increment of strain generate enough stress so that plasticity or viscoplasticity is indused in the material. To consider that inelastic stress is induced, the \textit{elastic predictor} must give a value that is beyond elastic stress, thus a value larger than $\sigma_{y}$. The stress from a loading is given by a yield function (e.g. Von Mises), and the concept of if the stress state is elastic or inelastic can be verified with a simple concept of yield criterion ($f$). Then, three conditions has to be met at all times, the Karush-Kuhn-Tucker (KKT) conditions:
+In a purely linear, 1D isotropic case (2) can be simply seen as the product of the Young's modulus (\textit{E}) and the strain applied to a rod ($\varepsilon$). In multidimensional nonlinear computational mechanics, this can also be seen as the \textit{trial stress} or \textit{elastic predictor}. As introduced in the last sentence, return mapping starts with an initial guess to see if the new increment of strain generate enough stress so that plasticity or viscoplasticity is indused in the material. To consider that inelastic stress is induced, the \textit{elastic predictor} must give a value that is beyond elastic stress, thus a value larger than $\sigma^{y}$. The stress from a loading is given by a yield function (e.g. Von Mises), and the concept of if the stress state is elastic or inelastic can be verified with the yield criterion ($f(\boldsymbol{\sigma})$). The yield criterion takes at its most simple form, the stress state at the next step ($n+1$) and the parameter $\sigma^{y}$ and is defined as:
+\begin{equation}
+  f (\boldsymbol{\sigma}_{n+1}) = \boldsymbol{\sigma}_{n+1} - \sigma^{y}_{n} \label{eq:yieldcrit_simple}
+\end{equation}
+
+Then, three conditions has to be met at all times, the Karush-Kuhn-Tucker (KKT) conditions:
 \begin{equation}
   \gamma \geq 0 \label{eq::kkt1}
 \end{equation}
 \begin{equation}
-  f(\mathbf{\sigma}) \leq 0 \label{eq::kkt2}
+  f(\boldsymbol{\sigma}) \leq 0 \label{eq::kkt2}
 \end{equation}
 \begin{equation}
-  \gamma f(\mathbf{\sigma})  = 0 \label{eq:kkt3}
+  \gamma f(\boldsymbol{\sigma})  = 0 \label{eq::kkt3}
 \end{equation}
 
-Here, the symbole $\gamma$ is called the plastic multiplier and is part of the return mapping algorithm. Essentially, the plastic multiplier scale the equivalent inelastic strain in the current increment. And simply, equations \ref{eq::kkt1}, \ref{eq::kkt2}, \ref{eq::kkt3} constrain the problem so that for any stress state either $f(\mathbf{\sigma}) < 0$ meaning that the stress state is purely elastic or either $\gamma > 0$ meining inelastic strain is increasing. One other important aspect is that $f(\mathbf{\sigma})$ must at most be equal to zero. To better visualize, see this figure: 
+
+Here, the symbol $\gamma$ is called the plastic multiplier and is part of the return mapping algorithm. Essentially, the plastic multiplier scale either the vector giving the direction of plastic flow (either $\vec{n}$ or $\vec{m}$) to give the inelastic strain increment (See Figure \ref{fig:returnmap}). Here $\vec{n}$ is the vector normal to the yield function and $\vec{m}$ the vector normal to the plastic potential. If $\vec{n}=\vec{m}$ ,meaning that the yield function and plastic potential are the same, this is called associative plasticity. In the opposite case called anassociative, when $\vec{n} \neq \vec{m}$. Typically, viscoplasticity is associative \cite{MACrisfield2012,Simo1998Computational}. This normality condition thus defines the inelastic strain increment:
+\begin{equation}
+  \dot{\varepsilon}^{inelastic}=\gamma \vec{m} \label{eq::normality}
+\end{equation}
+
+Equations \ref{eq::kkt1}, \ref{eq::kkt2}, \ref{eq::kkt3} constrain the problem so that for any stress state either $f(\boldsymbol{\sigma}) < 0$ meaning that the stress state is purely elastic or either $\gamma > 0$ meaning inelastic strain is increasing. One other important aspect is that $f(\boldsymbol{\sigma})$ must at most be equal to zero. As seen in Figure \ref{fig:returnmap}, an inital stress state at step ($n$) is defined by a domain of admissible stress ($\mathbb{E} \sigma$) and a boundary to this domain ($\partial \mathbb{E}\sigma_{n}$). The way the next stress state is found is, as stated before, when all KKT conditions are met.  
 
 \begin{figure}
+\centering
 \begin{tikzpicture}[
   scale =0.8
 ]
-  \filldraw[fill=gray, rotate=30] (0,0) ellipse (3cm and 2cm);
-  \draw[dashed, color=blue, rotate=30] (0,0) ellipse (4cm and 3cm);
+  \filldraw[draw=green, fill=gray, rotate=30] (0,0) ellipse (3cm and 2cm);
+  \draw[dashed, color=green, rotate=30] (0,0) ellipse (4cm and 3cm);
   \node at (0,0.5) {$\mathbb{E}\sigma$};
-  \node at (-2.5,1) {$\partial \mathbb{E}\sigma_{n}$};
-  \node at (-3,2.3) {$\partial \mathbb{E}\sigma_{n+1}$};
+  \node[green] at (-2,-1.3) {$\partial \mathbb{E}\sigma_{n}$};
+  \node[green] at (-3,2.4) {$\partial \mathbb{E}\sigma_{n+1}$};
   \filldraw[black] (0,2.15) circle (2pt) node[anchor=north] {$\sigma_{n}$};
-  \draw[->] (0,2.15) to[out=90, in=270] (1, 5);
+  \draw[-latex] (0,2.15) to[out=90, in=270] (1, 5);
   \filldraw[black] (1,5) circle (2pt) node[anchor=south] {$\sigma^{trial}$};
   \filldraw[black] (2,3.1) circle (2pt) node[anchor=south] {$\sigma_{n+1}$};
-  \draw[->] (1,5) to[out=0, in=90] (2, 3.6);
+  \draw[-latex] (1,5) to[out=0, in=90] (2, 3.6);
+  % N
+  \draw[-latex, blue, thick] (1.5,2.2) -- (1.7,3.2);
+  \node[blue] at (1, 2.7) {$\vec{n}$};
+  % M
+  \draw[-latex, red, thick] (1.5,2.2) -- (2,3);
+  \node[red] at (2.2, 2.5) {$\vec{m}$};
 
 \end{tikzpicture}
 \caption{Return mapping in 1D with strain hardening}
 \label{fig:returnmap}
 \end{figure}
 
-As seen in \ref{fig:returnmap}, an inital stress state at step ($n$) is defined by a domain of admissible stress ($\mathbb{E} \sigma$) and a boundary to this domain ($\partial \mathbb{E}\sigma_{n}$)
-**** AJOUTER VECTEUR DE LA SURFACE À SIGMAN+1 *****
 
 \subsection{Rate-Independent Plasticity}
 \label{Rate-Independent Plasticity}
+Rate-independence means that what ever the rate the material is deformed, properties do not change because of it. This however, does not mean that material cannot undergo strain hardening. In this case, it is quite straightforward to obtain the increment of plastic strain. For the sake of simplicity and stay in line with the mock paper objectives, only 1D case will be defined.
+
+From equation \ref{eq::kkt3},  
 \begin{itemize}
-  \item Yield function: $f(\sigma)=|\sigma|-\sigma_{y}$
-  \item Flow rule with normality
-  \item Kuhn-Tucker conditions
   \item Key equation: $\Delta \lambda = f^{trial} / E$
 \end{itemize}
 
@@ -238,7 +254,7 @@ As seen in \ref{fig:returnmap}, an inital stress state at step ($n$) is defined 
 \label{Viscoplasticity}
 In some cases and conditions, metals exhibit viscoplastic behavior. Viscoplasticity can be defined by the dependence of meterial state evolution to the strain rate. 
 \begin{itemize}
-  \item Perzyna mode: $\dot{\varepsilon}^{vp}= \dfrac{1}{n} \left\langle  \dfrac{f}{\sigma_{y}} \right\rangle^{n} sign(\sigma)$
+  \item Perzyna mode: $\dot{\varepsilon}^{vp}= \dfrac{1}{n} \left\langle  \dfrac{f}{\sigma^{y}} \right\rangle^{n} sign(\sigma)$
   \item Physical meaning of $\eta$ and n
   \item Limiting case $n \rightarrow 0$ (recovers rate indenpendence)
 \end{itemize}

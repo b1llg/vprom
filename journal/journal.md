@@ -15,14 +15,20 @@ What was frustrating?
 Interesting observations?
 Questions for next meeting?
 ```
+
 ## Week 6: 25-11-24 - 25-11-30
+### 2025-11-30
+- Correct article latex bugs. About 0.5 hrs
+- Write up until rate independent plasticity. About 1.5 hrs
+
+### 2025-11-29
 - Started writing the report for month 1. Im loosing a lot of time due to formating latex but I'm learning.
-- I completed the intro and started to work on the theoretical background (about 2hrs)
+- I completed the intro and started to work on the theoretical background (about 3.5hrs)
 
 ## Week 5: 25-11-17 - 25-11-23
 
 ### 2025-11-18
-- Wrote the layout of the monthly report. First time using LaTex so there is a bit of learning/debugging going on. 
+- Wrote the layout of the monthly report. First time using LaTex, so there is a bit of learning/debugging going on. 
 
 ## Week 3-4: 25-11-03 - 25-11-16
 
