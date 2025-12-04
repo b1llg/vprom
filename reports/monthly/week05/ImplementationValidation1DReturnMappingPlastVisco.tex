@@ -36,6 +36,7 @@
 %% For including figures, graphicx.sty has been loaded in
 %% elsarticle.cls. If you prefer to use the old commands
 %% please give \usepackage{epsfig}
+\usepackage{float}
 
 %% The amssymb package provides various useful mathematical symbols
 \usepackage{amssymb}
@@ -164,7 +165,7 @@ Return mapping \sep Plasticity \sep Viscoplasticity \sep Perzyna model \sep Back
 
 %% Use \section commands to start a section
 \section{Introduction}
-\label{Intro}
+\label{sect:intro}
 %% Labels are used to cross-reference an item using \ref command.
 Consitutive material models are required to model the material response to loads in finite element analysis. For solid mechancis, variable of interest are the displacement, velocity and acceleration of each and every node to compute derived variables like stresses and strains. For linear behavior, where the stress response follows a linear relationship with strains (by definition displacements) this problem is rather easy to solve but even then, advanced algorithm are used to determine the displacements, stresses and strains efficiently. The same goes for other material behavior like plasticity and viscoplasticity.
 
@@ -173,7 +174,7 @@ Return mapping is a well known algorithm and have been used for well over forty 
 The goal of this mock paper is to condense gathered knowledge about computational plasticity, especially about return mapping applied to 1D viscoplastic constitutive Perzyna model. First, a survey of the theoretical background of return mapping will be presented. Then, the implementation of the algorithms will be shown and finally key results and observation to common material will be studied.
 
 \section{Theoritical background}
-\label{Theoritical background}
+\label{sect:theoriticalbackground}
 The governing equations in solid mechanics are defined by:
 \begin{equation}
   \nabla \cdot \boldsymbol{\sigma} + \boldsymbol{b} = \rho \ddot{\boldsymbol{u}} \label{eq:equilibrium}
@@ -196,22 +197,22 @@ In a purely linear, 1D isotropic case (2) can be simply seen as the product of t
 
 Then, three conditions has to be met at all times, the Karush-Kuhn-Tucker (KKT) conditions:
 \begin{equation}
-  \gamma \geq 0 \label{eq::kkt1}
+  \gamma \geq 0 \label{eq:kkt1}
 \end{equation}
 \begin{equation}
-  f(\boldsymbol{\sigma}) \leq 0 \label{eq::kkt2}
+  f(\boldsymbol{\sigma}) \leq 0 \label{eq:kkt2}
 \end{equation}
 \begin{equation}
-  \gamma f(\boldsymbol{\sigma})  = 0 \label{eq::kkt3}
+  \gamma f(\boldsymbol{\sigma})  = 0 \label{eq:kkt3}
 \end{equation}
 
 
-Here, the symbol $\gamma$ is called the plastic multiplier and is part of the return mapping algorithm. Essentially, the plastic multiplier scale either the vector giving the direction of plastic flow (either $\vec{n}$ or $\vec{m}$) to give the inelastic strain increment (See Figure \ref{fig:returnmap}). Here $\vec{n}$ is the vector normal to the yield function and $\vec{m}$ the vector normal to the plastic potential. If $\vec{n}=\vec{m}$ ,meaning that the yield function and plastic potential are the same, this is called associative plasticity. In the opposite case called anassociative, when $\vec{n} \neq \vec{m}$. Typically, viscoplasticity is associative \cite{MACrisfield2012,Simo1998Computational}. This normality condition thus defines the inelastic strain increment:
+Here, the symbol $\gamma$ is called the plastic multiplier and is part of the return mapping algorithm. Essentially, the plastic multiplier scale the vector giving the direction of plastic flow (either $\vec{n}$ or $\vec{m}$) to give the inelastic strain increment (See Figure \ref{fig:returnmap}). Here $\vec{n}$ is the vector normal to the yield function and $\vec{m}$ the vector normal to the plastic potential. If $\vec{n}=\vec{m}$ ,meaning that the yield function and plastic potential are the same, this is called associative plasticity. The opposite case is called anassociative, when $\vec{n} \neq \vec{m}$. Typically, viscoplasticity is associative \cite{MACrisfield2012,Simo1998Computational}. This normality condition thus defines the inelastic strain increment:
 \begin{equation}
-  \dot{\varepsilon}^{inelastic}=\gamma \vec{m} \label{eq::normality}
+  \boldsymbol{\dot{\varepsilon}}^{inelastic}=\gamma \boldsymbol{m} \label{eq:normality}
 \end{equation}
 
-Equations \ref{eq::kkt1}, \ref{eq::kkt2}, \ref{eq::kkt3} constrain the problem so that for any stress state either $f(\boldsymbol{\sigma}) < 0$ meaning that the stress state is purely elastic or either $\gamma > 0$ meaning inelastic strain is increasing. One other important aspect is that $f(\boldsymbol{\sigma})$ must at most be equal to zero. As seen in Figure \ref{fig:returnmap}, an inital stress state at step ($n$) is defined by a domain of admissible stress ($\mathbb{E} \sigma$) and a boundary to this domain ($\partial \mathbb{E}\sigma_{n}$). The way the next stress state is found is, as stated before, when all KKT conditions are met.  
+Equations \ref{eq:kkt1}, \ref{eq:kkt2}, \ref{eq:kkt3} constrain the problem so that for any stress state either $f(\boldsymbol{\sigma}) < 0$ meaning that the stress state is purely elastic or either $\gamma > 0$ meaning inelastic strain is increasing. One other important aspect is that $f(\boldsymbol{\sigma})$ must at most be equal to zero. As seen in Figure \ref{fig:returnmap}, an inital stress state at step ($n$) is defined by a domain of admissible stress ($\mathbb{E} \sigma$) and a boundary to this domain ($\partial \mathbb{E}\sigma_{n}$). The way the next stress state is found is, as stated before, when all KKT conditions are met.  
 
 \begin{figure}
 \centering
@@ -242,26 +243,90 @@ Equations \ref{eq::kkt1}, \ref{eq::kkt2}, \ref{eq::kkt3} constrain the problem s
 
 
 \subsection{Rate-Independent Plasticity}
-\label{Rate-Independent Plasticity}
-Rate-independence means that what ever the rate the material is deformed, properties do not change because of it. This however, does not mean that material cannot undergo strain hardening. In this case, it is quite straightforward to obtain the increment of plastic strain. For the sake of simplicity and stay in line with the mock paper objectives, only 1D case will be defined.
+\label{sub:Rate-Independent Plasticity}
+Rate-independence means that what ever the rate the material is deformed, properties do not change because of it. This however, does not mean that material cannot undergo strain hardening. In this case, it is quite straightforward to obtain the increment of plastic strain. For the sake of simplicity and stay in line with the mock paper objectives, only 1D case will be defined for perfect plasticity $(H=0)$ and isotropic hardening $(H>0)$.
 
-From equation \ref{eq::kkt3},  
-\begin{itemize}
-  \item Key equation: $\Delta \lambda = f^{trial} / E$
-\end{itemize}
+Knowing that the elastic predictor is:
+\begin{equation}
+  \sigma^{trial}=\sigma_{n}+E\Delta \varepsilon \label{eq:elasticpred}  
+\end{equation}
+we combine it to the extension of equation \ref{eq:yieldcrit_simple} to obtain the definition of the next step stress:
+
+\begin{equation}
+  \sigma_{n+1} = \sigma^{trial}-E\Delta \varepsilon^{p}
+\end{equation}
+
+from the equation \ref{eq:normality}, and assuming 1D plasticity we then obtain:
+\begin{equation}
+  \sigma_{n+1} = \sigma^{trial}-E\Delta \gamma sign(\sigma^{trial})
+\end{equation}
+
+and finally, we rearrange the terms to obtain the increment in plastic multiplier:
+\begin{equation}
+  \Delta \gamma = \dfrac{f^{trial}}{E} \label{eq:gammainc}
+\end{equation}
+
+Back to the normality equation \ref{eq:normality}, the increment in plastic strain is obtained \ref{eq:normality}. Also, similar approach is taken to define the increment of plastic multiplier for plasticity with hardening. Then the increment increment is:
+\begin{equation}
+  \Delta \gamma = \dfrac{f^{trial}}{E + H} \label{eq:gammainchard}
+\end{equation}
+
 
 \subsection{Viscoplasticity}
-\label{Viscoplasticity}
-In some cases and conditions, metals exhibit viscoplastic behavior. Viscoplasticity can be defined by the dependence of meterial state evolution to the strain rate. 
+\label{sub:Viscoplasticity}
+In some cases and conditions, metals exhibit viscoplastic behavior. Viscoplasticity can be defined by the dependence of material state evolution to the strain rate. This behavior can be represented by a spring-frictional-dashpot element see Figure \ref{fig:dashpot}. The dashpot add a relationship with the strain rate and is defined by a viscosity property.
+
+
+\begin{figure}[H]
+  \center
+  \includegraphics[width=8cm]{./figures/dashpot.png}
+  \caption{Spring-frictional-dashpot element representation (from \cite{MACrisfield2012})}
+  \label{fig:dashpot}
+\end{figure}
+
+The definition of the viscoplastic strain rate ($\dot{\varepsilon}^{vp}$) in the Perzyna model is:
+
+\begin{equation}
+  \boldsymbol{\dot{\varepsilon}}^{vp} = \tfrac{1}{\eta}\left\langle \varphi(f) \right\rangle \boldsymbol{m} \label{eq:perzyna1}
+\end{equation}
+where:
+\begin{equation}
+  \varphi(f)=\left( \dfrac{f}{\bar{\sigma}} \right)^{n}
+\end{equation}
+
+The parameters n and $\eta$ change the behavior of the material:
 \begin{itemize}
-  \item Perzyna mode: $\dot{\varepsilon}^{vp}= \dfrac{1}{n} \left\langle  \dfrac{f}{\sigma^{y}} \right\rangle^{n} sign(\sigma)$
-  \item Physical meaning of $\eta$ and n
-  \item Limiting case $n \rightarrow 0$ (recovers rate indenpendence)
+  \item n: rate sensitivity exponent
+  \item $\eta$: viscosity parameter
+\end{itemize}
+
+Similar development as in section \ref{sub:Rate-Independent Plasticity} and in the relationship between $\dot{\varepsilon}^{vp}$ and $\gamma$ is made. The exception is since it is a time dependent solution, the variables must be integrated. Typically, a backward Euler scheme is used for unconditional stability because it is fully implicit (See \cite{MACrisfield2012,Simo1998Computational}). The definition of the increment of the plastic multiplier, for the 1D case is then (in incremental form):
+\begin{equation}
+  \Delta\gamma=\dfrac{\Delta t}{\eta}\left\langle \dfrac{f}{\bar{\sigma}} \right\rangle^{n}
+\end{equation}
+
+For the Perzyna model, the KKT conditions are relaxed, meaning that $f>0$ is allowed. The reason is that the viscous stress (or over stress) is considered as a complementary state and not included implicitely in the definition in the stress state of the material point since it fades over time.  As is $f$ could be seen as:
+\begin{equation}
+  f(\sigma) = |\sigma| - \sigma^{y} - \sigma^{viscous} = 0 \label{eq:overstress}
+\end{equation}
+
+The only limiting case for the Perzyna model is when $\eta\rightarrow0$ as this solution recovers the rate-independant solution.
+
+The Perzyna model is relatively simple to implement and requires few parameters (minimize the number of tests to calibrate the material model). However, other models exist and take into account other mechanics and/or parameters. To name a few:
+\begin{itemize}
+  \item Duvaut-Lions: add a back bone stress concept, stress in rate independent case. Viscoplastic strain is then computed as:
+  \begin{equation}
+    \boldsymbol{\dot{\varepsilon}}^{vp} = \tfrac{1}{\tau}\left( \boldsymbol{D}^e\right)^-1(\boldsymbol{\sigma} - \boldsymbol{\bar{\sigma}})
+  \end{equation}
+  where $\tau$ is the relaxation time, computed as:
+  \item Consistency model
+  \item Chaboche
+  \item Johnson-Cook 
 \end{itemize}
 
 \section{Implementation}
-\label{Implementation}
-
+\label{sect:Implementation}
+In this section, the implementation details of the return mapping algorithm applied to Viscoplasticity will be shown
 \subsection{Algorithm Structure}
 \label{Algorithm Structure}
 \begin{itemize}

@@ -38,6 +38,5 @@ venv/
 *.xdv
 *.dvi
 *.ps
-*.pdf
 *.gz
 
