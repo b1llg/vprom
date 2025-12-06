@@ -49,7 +49,7 @@ $$\dot{\varepsilon}^{vp} = \dot{\lambda}sign(\sigma)$$
 thus:
 $$\dot{\lambda}=\dfrac{1}{\eta}\langle\phi(f)\rangle^n \dfrac{1}{sign(\sigma)}$$
 
-Assuming possitive stress (tensile load only) and integrate over a time step $\Delta t$ the continuous form we obtain:
+Assuming positive stress (tensile load only) and integrate over a time step $\Delta t$ the continuous form we obtain:
 $$\boxed{\Delta\lambda=\dfrac{\Delta t}{\eta}\langle \tfrac{f}{\sigma_{y}} \rangle^{n}}$$
 
 ## 4. Physical Phenomena

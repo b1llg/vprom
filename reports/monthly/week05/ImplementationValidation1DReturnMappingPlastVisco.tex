@@ -128,7 +128,7 @@ Algorithms for Plasticity and Viscoplasticity}
 %% 6. Implications
 
 %% Text of abstract
-Constitutive material models are the cornerstone of finite element analysis in solid mechanics. Material behavior direct consequences on how displacements, velocities and accelerations are calculated at the nodes of each elements. For viscoplastic behavior, mathematical definitions ties the evolution of the viscoplastic strain to the evolution of stresses and strain over time. Thus for each increment of strain and time, algorithm must find the equilibrium at wich Karush-Kuhn-Tucker (KKT) conditions are met. However, since viscoplastic material exhibit stress dissipation, these conditions needs to be relaxed to accomodate the accumulation of viscoplastic strain. In this mock paper, a return mapping algorithm for the Perzyna viscoplastic model will be implemented to solve for the equilibrium of the KKT conditions considering the overstress concepts. The basic definitions of return mapping for regular plasticity will be showed and will serve as a basis for further implementation of the Perzyna model to show the impact of strain rates and material properties on constitutive behavior.
+Constitutive material models are the cornerstone of finite element analysis in solid mechanics. Material behavior has direct consequences on how displacements, velocities and accelerations are calculated at the nodes of each elements. For viscoplastic behavior, mathematical definitions ties the evolution of the viscoplastic strain to the evolution of stresses and strain over time. Thus for each increment of strain and time, algorithm must find the equilibrium at wich Karush-Kuhn-Tucker (KKT) conditions are met. However, since viscoplastic material exhibit stress dissipation, these conditions needs to be relaxed to accomodate the accumulation of viscoplastic strain. In this mock paper, a return mapping algorithm for the Perzyna viscoplastic model will be implemented to solve for the equilibrium of the KKT conditions considering the overstress concepts. The basic definitions of return mapping for regular plasticity will be showed and will serve as a basis for further implementation of the Perzyna model to show the impact of strain rates and material properties on constitutive behavior.
 \end{abstract}
 
 % %%Graphical abstract
@@ -219,11 +219,11 @@ Equations \ref{eq:kkt1}, \ref{eq:kkt2}, \ref{eq:kkt3} constrain the problem so t
 \begin{tikzpicture}[
   scale =0.8
 ]
-  \filldraw[draw=green, fill=gray, rotate=30] (0,0) ellipse (3cm and 2cm);
-  \draw[dashed, color=green, rotate=30] (0,0) ellipse (4cm and 3cm);
+  \filldraw[draw=black, fill=gray, rotate=30] (0,0) ellipse (3cm and 2cm);
+  \draw[dashed, color=black, rotate=30] (0,0) ellipse (4cm and 3cm);
   \node at (0,0.5) {$\mathbb{E}\sigma$};
-  \node[green] at (-2,-1.3) {$\partial \mathbb{E}\sigma_{n}$};
-  \node[green] at (-3,2.4) {$\partial \mathbb{E}\sigma_{n+1}$};
+  \node[black] at (-2,-1.3) {$\partial \mathbb{E}\sigma_{n}$};
+  \node[black] at (-3,2.4) {$\partial \mathbb{E}\sigma_{n+1}$};
   \filldraw[black] (0,2.15) circle (2pt) node[anchor=north] {$\sigma_{n}$};
   \draw[-latex] (0,2.15) to[out=90, in=270] (1, 5);
   \filldraw[black] (1,5) circle (2pt) node[anchor=south] {$\sigma^{trial}$};
@@ -266,7 +266,7 @@ and finally, we rearrange the terms to obtain the increment in plastic multiplie
   \Delta \gamma = \dfrac{f^{trial}}{E} \label{eq:gammainc}
 \end{equation}
 
-Back to the normality equation \ref{eq:normality}, the increment in plastic strain is obtained \ref{eq:normality}. Also, similar approach is taken to define the increment of plastic multiplier for plasticity with hardening. Then the increment increment is:
+Back to the normality equation \ref{eq:normality}, the increment in plastic strain is obtained. Also, similar approach is taken to define the increment of plastic multiplier for plasticity with hardening. Then the increment increment is:
 \begin{equation}
   \Delta \gamma = \dfrac{f^{trial}}{E + H} \label{eq:gammainchard}
 \end{equation}
@@ -305,91 +305,156 @@ Similar development as in section \ref{sub:Rate-Independent Plasticity} and in t
   \Delta\gamma=\dfrac{\Delta t}{\eta}\left\langle \dfrac{f}{\bar{\sigma}} \right\rangle^{n}
 \end{equation}
 
-For the Perzyna model, the KKT conditions are relaxed, meaning that $f>0$ is allowed. The reason is that the viscous stress (or over stress) is considered as a complementary state and not included implicitely in the definition in the stress state of the material point since it fades over time.  As is $f$ could be seen as:
-\begin{equation}
-  f(\sigma) = |\sigma| - \sigma^{y} - \sigma^{viscous} = 0 \label{eq:overstress}
-\end{equation}
+For the Perzyna model, the KKT conditions are relaxed, meaning that $f>0$ is allowed. The reason is that the viscous stress (or over stress) is considered as a complementary state and not included implicitely in the definition in the stress state of the material point since it fades over time. The only limiting case for the Perzyna model is when $\eta\rightarrow0$ as this solution recovers the rate-independant solution.
 
-The only limiting case for the Perzyna model is when $\eta\rightarrow0$ as this solution recovers the rate-independant solution.
-
-The Perzyna model is relatively simple to implement and requires few parameters (minimize the number of tests to calibrate the material model). However, other models exist and take into account other mechanics and/or parameters. To name a few:
+The Perzyna model is relatively simple to implement and requires few parameters (minimize the number of tests to calibrate the material model). However, other models and frameworks exist and take into account other mechanics and/or parameters. Here, parameters are identified through the mean of optimization, identification algorithm or any other numerical method (e.g. Levenberg-Marquardt algorithm, genetic algorithm, machine learning, etc.). To name a few:
 \begin{itemize}
-  \item Duvaut-Lions: add a back bone stress concept, stress in rate independent case. Viscoplastic strain is then computed as:
+  \item Duvaut-Lions: add a back-bone stress concept $(\bar{\sigma})$. Viscoplastic strain is then computed as:
   \begin{equation}
     \boldsymbol{\dot{\varepsilon}}^{vp} = \tfrac{1}{\tau}\left( \boldsymbol{D}^e\right)^-1(\boldsymbol{\sigma} - \boldsymbol{\bar{\sigma}})
   \end{equation}
-  where $\tau$ is the relaxation time, computed as:
-  \item Consistency model
-  \item Chaboche
-  \item Johnson-Cook 
+  where $\tau$ is the relaxation time and $\boldsymbol{D}^e$ the elastic stiffness matrix linked to material properties. Back-bone stress is the stress state in the rate-independent case. Meaning that on every iteration, the rate-idependent case has to be solved along the viscoplastic state.
+  
+  \item Consistency model: The stress state must lie on the yield surface. Thus the redefinition of equation \ref{eq:kkt2} gives:
+  \begin{equation}
+    f(\boldsymbol{\sigma},\boldsymbol{\dot{\varepsilon}}^{vp}) \leq 0
+  \end{equation}
+  \item Johnson-Cook \cite{Johnson1983}: An empirical model, meaning it is based on paramete calibration rather than material thermodynamics, with the form:
+  \begin{equation}
+    \sigma_y = \underbrace{(A + B \varepsilon_p^n)}_{\text{strain hardening}} \cdot \underbrace{(1 + C \ln \dot{\varepsilon}^*)}_{\text{strain rate sensitivity}} \cdot \underbrace{(1 - T^{*m})}_{\text{thermal softening}}
+  \end{equation}
+   The advantages of the Johnson-cook model is that it is the yield stress that is defined through the model, therefore the stress can be evaluated with any other yield function. An other advantage is the modularity. If for example the material do not exhibit strain hardening or thermal softening, the equation becomes:
+  \begin{equation}
+    \sigma_y = A + C \ln \dot{\varepsilon}^*
+  \end{equation}
+  \item Chaboche \cite{Chaboche1986}: Framework used in cyclic viscoplasticity. It includes:
+  \begin{itemize}
+    \item Isotropic hardening
+    \item Multiple backstress tensors with Armstrong-Frederick kinematic hardening rules
+    \item Viscous flow rule (Typically Norton-type or Perzyna-type)
+  \end{itemize}   
+  
 \end{itemize}
 
 \section{Implementation}
 \label{sect:Implementation}
-In this section, the implementation details of the return mapping algorithm applied to Viscoplasticity will be shown
-\subsection{Algorithm Structure}
+In this section, the implementation details of the return mapping algorithm applied to first, the elastoplastic model with linear hardening, and then for the Perzyna-type viscoplastic modelin 1D. The extansion to higher dimension is pretty straightforward.
+
+\subsection{Algorithm Structure and Code Organization}
 \label{Algorithm Structure}
+The algorithm, for either models, have the same basic structure:
 \begin{itemize}
   \item Elastic predictor
   \item Yield check
-  \item Plastic corrector
-  \item Figure
-  \begin{itemize}
-    \item Simple flowchart to illustrate the process of return mapping
-  \end{itemize}
+  \item Inelastic corrector
 \end{itemize}
 
-\subsection{Code Organization}
-\label{Code Organization}
+In the case of the linear hardening elastoplastic model, the application is pretty straightforward in regard to the previous list (see Algorithm \ref{algo:linhard})
+\begin{algorithm}
+  \KwIn{Current step material data ($\sigma_{n}, \varepsilon_{n}, \varepsilon^{p}_{n}, \sigma^{y0}, \alpha_n, H$)}
+  \KwOut{Updated material data ($\sigma_{n+1}, \varepsilon_{n+1}, \varepsilon^{p}_{n+1}, \alpha_{n+1}$)}
+  $\sigma_n^y \gets \sigma^{y0} + H\alpha_n$\;
+  $f(\boldsymbol{\sigma}^{trial}) \gets \sigma_n + E(\Delta\varepsilon - \varepsilon^p_n) - \sigma^y_n$\;
+  \uIf{$f(\boldsymbol{\sigma}^{trial})<0$}
+  {
+    $\sigma_{n+1} \gets \sigma^{trial}$\;
+    $\varepsilon_{n+1} \gets \varepsilon_n + \Delta\varepsilon$\;
+    $\varepsilon_{n+1}^p=\varepsilon^p_n$;
+
+  }
+  \Else{
+    $\Delta \gamma \gets \dfrac{f(\sigma^{trial})}{E+H}$\;
+    $\Delta \varepsilon_p \gets \Delta \gamma \cdot sign(\sigma^{trial})$\;
+    $\varepsilon_{n+1}^p \gets \varepsilon_n^p + \Delta \varepsilon^p$\;
+    $\alpha_n \gets \alpha_n + \Delta \gamma$\;
+    $\sigma_{n+1} \gets \dfrac{1-\Delta \gamma E}{|\sigma^{trial}|}\sigma^{trial}$\;
+  }
+  
+  \Return{$\sigma_{n+1}, \varepsilon_{n+1}, \varepsilon^{p}_{n+1}, \alpha_{n+1}$}\;
+  \caption{{\sc LinearHardeningReturnMapping} Solve the stress state for next stress increment using return mapping for the linear hardening elasto-plastic model}
+  \label{algo:linhard}
+\end{algorithm}
+
+In the case of the Perzyna-type viscoplastic model, the implementation is similar. It only incorporates a nonlinear solve if the strain-rate sentitivity parameter $n > 1$ (See algorithm \ref{algo:retmapperzyna})
 
 \begin{algorithm}
-\DontPrintSemicolon % Some LaTeX compilers require you to use \dontprintsemicolon instead
-\KwIn{Current step material data ($\sigma_{n}, \varepsilon_{n}, \varepsilon^{p}_{n}$)}
-\KwOut{Updated material data ($\sigma_{n+1}, \varepsilon_{n+1}, \varepsilon^{p}_{n+1}$)}
-$max \gets a_1$\;
-\For{$i \gets 2$ \textbf{to} $n$} {
-  \If{$a_i > max$} {
-    $max \gets a_i$\;
+  \KwIn{Current step material data ($\sigma_{n}, \varepsilon_{n}, \varepsilon^{vp}_{n}, \eta, n$)}
+  \KwOut{Updated material data ($\sigma_{n+1}, \varepsilon_{n+1}, \varepsilon^{vp}_{n+1}$)}
+  $f(\boldsymbol{\sigma}^{trial}) \gets \sigma_n + E(\Delta\varepsilon - \varepsilon^{vp}_n)$\;
+  \uIf{$f(\boldsymbol{\sigma}^{trial})<0$}
+  {
+    $\sigma_{n+1} \gets \sigma^{trial}$\;
+    $\varepsilon_{n+1} \gets \varepsilon_n + \Delta\varepsilon$\;
+    $\varepsilon_{n+1}^{vp}=\varepsilon^{vp}_n$;
+
   }
-}
-\Return{$max$}\;
-\caption{{\sc Max} finds the maximum number}\label{alg:one}
-\label{algo:max}
+  \Else{
+    \uIf{$n = 1$}
+    {
+      $\Delta \gamma \gets \dfrac{\Delta t f(\sigma^{trial})}{\eta \Delta t E}$
+    }
+    \Else{
+      $\Delta \gamma \gets \mathit{NonLinear\Delta\gamma}(f(\sigma^{trial}), \Delta t, E, \sigma^{y}, \eta, n)$\;
+    }
+    $\varepsilon_{n+1}^{vp} \gets \varepsilon_n^{vp} + \Delta \gamma \cdot sign(\sigma^{trial})$\;
+    $\sigma_{n+1} = \sigma^{trial} - E\Delta\gamma\cdot sign(\sigma^{trial})$
+  }
+  
+  \Return{$\sigma_{n+1}, \varepsilon_{n+1}, \varepsilon^{p}_{n+1}, \alpha_{n+1}$}\;
+  \caption{{\sc $NonLinear\Delta\gamma$} Compute the plastic multiplier value for $n>1$ for the Perzyna-type viscoplastic model}
+  \label{algo:retmapperzyna}
+\end{algorithm}
+
+\begin{algorithm}
+  \KwIn{$f(\sigma^{trial}), \Delta t, E, \sigma^{y}, \eta, n$}
+  \KwOut{$\Delta \gamma$}
+
+
+    $itermax \gets 30$\;
+    $tol \gets 10^{-10}$\;
+
+    
+
+  
+  \Return{$\Delta \gamma$}\;
+  \caption{{$NonLinear\Delta\gamma$} Solve the plastic multiplier increment for the Perzyna-type viscoplastic model for the $n>1$ non-linear case}
+  \label{algo:lindgamma}
 \end{algorithm}
 
 
-%% The Appendices part is started with the command \appendix;
-%% appendix sections are then done as normal sections
-\appendix
-\section{Example Appendix Section}
-\label{app1}
 
-Appendix text.
+% %% The Appendices part is started with the command \appendix;
+% %% appendix sections are then done as normal sections
+% \appendix
+% \section{Example Appendix Section}
+% \label{app1}
 
-%% Refer following link for more details.
-%% https://en.wikibooks.org/wiki/LaTeX/Mathematics
-%% https://en.wikibooks.org/wiki/LaTeX/Advanced_Mathematics
+% Appendix text.
 
-%% Use a table environment to create tables.
-%% Refer following link for more details.
-%% https://en.wikibooks.org/wiki/LaTeX/Tables
-\begin{table}[t]%% placement specifier
-%% Use tabular environment to tag the tabular data.
-%% https://en.wikibooks.org/wiki/LaTeX/Tables#The_tabular_environment
-\centering%% For centre alignment of tabular.
-\begin{tabular}{l c r}%% Table column specifiers
-%% Tabular cells are separated by &
-  1 & 2 & 3 \\ %% A tabular row ends with \\
-  4 & 5 & 6 \\
-  7 & 8 & 9 \\
-\end{tabular}
-%% Use \caption command for table caption and label.
-\caption{Table Caption}\label{fig1}
-\end{table}
+% %% Refer following link for more details.
+% %% https://en.wikibooks.org/wiki/LaTeX/Mathematics
+% %% https://en.wikibooks.org/wiki/LaTeX/Advanced_Mathematics
 
-%% If you have bib database file and want bibtex to generate the
-%% bibitems, please use
-%%
+% %% Use a table environment to create tables.
+% %% Refer following link for more details.
+% %% https://en.wikibooks.org/wiki/LaTeX/Tables
+% \begin{table}[t]%% placement specifier
+% %% Use tabular environment to tag the tabular data.
+% %% https://en.wikibooks.org/wiki/LaTeX/Tables#The_tabular_environment
+% \centering%% For centre alignment of tabular.
+% \begin{tabular}{l c r}%% Table column specifiers
+% %% Tabular cells are separated by &
+%   1 & 2 & 3 \\ %% A tabular row ends with \\
+%   4 & 5 & 6 \\
+%   7 & 8 & 9 \\
+% \end{tabular}
+% %% Use \caption command for table caption and label.
+% \caption{Table Caption}\label{fig1}
+% \end{table}
+
+% %% If you have bib database file and want bibtex to generate the
+% %% bibitems, please use
+% %%
 \bibliographystyle{elsarticle-num} 
 \bibliography{references}
 
