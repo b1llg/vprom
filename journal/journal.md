@@ -15,6 +15,12 @@ What was frustrating?
 Interesting observations?
 Questions for next meeting?
 ```
+## Week 7: 25-12-01 - 25-12-07
+### 2025-12-06
+- Write paper content about vicoplastic models and algorithm implementation (about 2hrs)
+
+### 2025-12-03
+- Write paper content about viscoplastic models (About 2hrs)
 
 ## Week 6: 25-11-24 - 25-11-30
 ### 2025-11-30
