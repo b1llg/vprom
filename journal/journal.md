@@ -1,21 +1,6 @@
 # GPU accelerated ROM framework for viscoplastic models
-\table
 
-```
-Daily (2-3 sentences):
-
-"Worked on mesh generation. Indexing was confusing at first but figured it out."
-"Read Dunne Ch 1. Yield surface concept makes sense now."
-"Convergence plot shows O(h²) - matches theory!"
-
-Weekly reflection:
-
-What worked well?
-What was frustrating?
-Interesting observations?
-Questions for next meeting?
-```
-## Week 9: 25-12-14 - 25-12-21
+## Milestone 1: Recap paper for block 1,2 and 3
 ### 2025-12-21
 - Update figures, writing. 
 - Finalize second draft (about 1.5 hrs)
@@ -23,14 +8,12 @@ Questions for next meeting?
 ### 2025-12-20
 - Write paper content about algorithms. (about 2.5hrs)
 
-## Week 7: 25-12-01 - 25-12-07
 ### 2025-12-06
 - Write paper content about vicoplastic models and algorithm implementation (about 2hrs)
 
 ### 2025-12-03
 - Write paper content about viscoplastic models (About 2hrs)
 
-## Week 6: 25-11-24 - 25-11-30
 ### 2025-11-30
 - Correct article latex bugs. About 0.5 hrs
 - Write up until rate independent plasticity. About 1.5 hrs
@@ -44,7 +27,7 @@ Questions for next meeting?
 ### 2025-11-18
 - Wrote the layout of the monthly report. First time using LaTex, so there is a bit of learning/debugging going on. 
 
-## Week 3-4: 25-11-03 - 25-11-16
+## Block 3: Viscoplasticity introduction and Perzyna-type model
 
 ### 2025-11-16
 - Finalized code and viscoplasticity analysis (about 1hr)
@@ -80,7 +63,7 @@ Questions for next meeting?
 ### 2025-11-02:
 - Read both required chapters in Simo and Dunn. About 2hrs.
 
-## Week 2: 2025-10-27 - 2025-11-02
+## Block 2: Return mapping, perfectly plastic and isotropic hardening models
 ### 2025-11-02:
 - Completed reading assignment. 
 
@@ -105,7 +88,7 @@ Questions for next meeting?
 - Started pseudo reading Simo and Dunn. I need to take my time and write the equations while reading because there is to much math to keep it all in my head.
 - Started to install MFEM and make some tests. Might be a good idea to use it soon
 
-## Week 1: 2025-10-21 - 2025-10-26
+## Block 1: Linear elastic 1D FEM
 ### Recap:
 - After reading theory. Things started to make sense. Some stuff was seen a while ago, it was a good reminder.
 - The coding assignement was also a good reminder of FE theory. Maybe need a refresher on that. 

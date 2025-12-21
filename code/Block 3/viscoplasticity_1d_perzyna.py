@@ -280,7 +280,7 @@ def test_rate_sensitivity():
         plt.plot(eps_hist, sig_hist, marker='.', markevery=max(1, len(eps_hist)//20), 
                 label=rate_labels[i])
     
-    plt.axhline(y=sigma_y, color='r', linestyle='--', alpha=0.5, label='Yield stress')
+    plt.axhline(y=sigma_y, color='k', linestyle='--', alpha=0.5, label='Yield stress')
     plt.xlabel('Strain')
     plt.ylabel('Stress [MPa]')
     plt.title('Rate Sensitivity Test ($\eta=40 \ GPa \cdot s)$')

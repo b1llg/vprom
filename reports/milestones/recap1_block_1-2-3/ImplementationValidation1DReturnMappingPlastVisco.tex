@@ -178,11 +178,11 @@ Return mapping \sep Plasticity \sep Viscoplasticity \sep Perzyna model \sep Back
 \section{Introduction}
 \label{sect:intro}
 %% Labels are used to cross-reference an item using \ref command.
-Consitutive material models are required to model the material response to loads in finite element analysis. For solid mechancis, variable of interest are the displacement, velocity and acceleration of each and every node to compute derived variables like stresses and strains. For linear behavior, where the stress response follows a linear relationship with strains (by definition displacements) this problem is rather easy to solve but even then, advanced algorithm are used to determine the displacements, stresses and strains efficiently. The same goes for other material behavior like plasticity and viscoplasticity.
+Constitutive material models are required to model the material response to loads in finite element analysis. For solid mechanics, variable of interest are the displacement, velocity and acceleration of each and every node to compute derived variables like stresses and strains. For linear behavior, where the stress response follows a linear relationship with strains (by definition displacements) this problem is rather easy to solve but even then, advanced algorithm are used to determine the displacements, stresses and strains efficiently. The same goes for other material behavior like plasticity and viscoplasticity.
 
 Return mapping is a well known algorithm and have been used for well over forty years. Early work by \cite{Krieg1977RadialReturn} on radial return have paved the way to the work of \cite{Ortiz1985ElastoplasticIntegration}. Since then, great textbook have also covered the topic and applied it to several material models (consitutive model)\cite{Simo1998Computational} \cite{MACrisfield2012}.
 
-The goal of this mock paper is to condense gathered knowledge about computational plasticity, especially about return mapping applied to 1D viscoplastic constitutive Perzyna model. First, a survey of the theoretical background of return mapping will be presented. Then, the implementation of the algorithms will be shown and finally key results and observation to common material will be studied.
+The goal of this paper is to condense gathered knowledge about computational plasticity, especially about return mapping applied to 1D viscoplastic constitutive Perzyna model. First, a survey of the theoretical background of return mapping will be presented. Then, the implementation of the algorithms will be shown and finally key results and observation to common material will be studied.
 
 \section{Theoritical background}
 \label{sect:theoriticalbackground}
@@ -206,7 +206,7 @@ In a purely linear, 1D isotropic case (2) can be simply seen as the product of t
   f (\boldsymbol{\sigma}_{n+1}) = \boldsymbol{\sigma}_{n+1} - \sigma^{y}_{n} \label{eq:yieldcrit_simple}
 \end{equation}
 
-Then, three conditions has to be met at all times, the Karush-Kuhn-Tucker (KKT) conditions:
+Then, three conditions have to be met at all times, the Karush-Kuhn-Tucker (KKT) conditions:
 \begin{equation}
   \gamma \geq 0 \label{eq:kkt1}
 \end{equation}
@@ -220,7 +220,7 @@ Then, three conditions has to be met at all times, the Karush-Kuhn-Tucker (KKT) 
 
 Here, the symbol $\gamma$ is called the plastic multiplier and is part of the return mapping algorithm. Essentially, the plastic multiplier scale the vector giving the direction of plastic flow (either $\vec{n}$ or $\vec{m}$) to give the inelastic strain increment (See \cref{fig:returnmap}). Here $\vec{n}$ is the vector normal to the yield function and $\vec{m}$ the vector normal to the plastic potential. If $\vec{n}=\vec{m}$ ,meaning that the yield function and plastic potential are the same, this is called associative plasticity. The opposite case is called anassociative, when $\vec{n} \neq \vec{m}$. Typically, viscoplasticity is associative \cite{MACrisfield2012,Simo1998Computational}. This normality condition thus defines the inelastic strain increment:
 \begin{equation}
-  \boldsymbol{\dot{\varepsilon}}^{inelastic}=\gamma \boldsymbol{m} \label{eq:normality}
+  \boldsymbol{\dot{\varepsilon}}^{inelastic}=\gamma \vec{m} \label{eq:normality}
 \end{equation}
 
 Equations \ref{eq:kkt1}, \ref{eq:kkt2}, \ref{eq:kkt3} constrain the problem so that for any stress state either $f(\boldsymbol{\sigma}) < 0$ meaning that the stress state is purely elastic or either $\gamma > 0$ meaning inelastic strain is increasing. One other important aspect is that $f(\boldsymbol{\sigma})$ must at most be equal to zero. As seen in \cref{fig:returnmap}, an inital stress state at step ($n$) is defined by a domain of admissible stress ($\mathbb{E} \sigma$) and a boundary to this domain ($\partial \mathbb{E}\sigma_{n}$). The way the next stress state is found is, as stated before, when all KKT conditions are met.  
@@ -255,7 +255,7 @@ Equations \ref{eq:kkt1}, \ref{eq:kkt2}, \ref{eq:kkt3} constrain the problem so t
 
 \subsection{Rate-Independent Plasticity}
 \label{sub:Rate-Independent Plasticity}
-Rate-independence means that what ever the rate the material is deformed, properties do not change because of it. This however, does not mean that material cannot undergo strain hardening. In this case, it is quite straightforward to obtain the increment of plastic strain. For the sake of simplicity and stay in line with the mock paper objectives, only 1D case will be defined for perfect plasticity $(H=0)$ and isotropic hardening $(H>0)$.
+Rate-independence means that what ever the rate the material is deformed, properties do not change because of it. This however, does not mean that material cannot undergo strain hardening. In this case, it is quite straightforward to obtain the increment of plastic strain. For the sake of simplicity and stay in line with the paper objectives, only 1D case will be defined for perfect plasticity $(H=0)$ and isotropic hardening $(H>0)$.
 
 Knowing that the elastic predictor is:
 \begin{equation}
@@ -285,7 +285,7 @@ Back to the normality \cref{eq:normality}, the increment in plastic strain is ob
 
 \subsection{Viscoplasticity}
 \label{sub:Viscoplasticity}
-In some cases and conditions, metals exhibit viscoplastic behavior. Viscoplasticity can be defined by the dependence of material state evolution to the strain rate. This behavior can be represented by a spring-frictional-dashpot element see \cref{fig:dashpot}. The dashpot add a relationship with the strain rate and is defined by a viscosity property.
+In some cases and conditions, metals exhibit viscoplastic behavior. Viscoplasticity can be defined by the dependence of material state evolution to the strain rate and internal forces tied to the material viscosity. This behavior can be represented by a spring-frictional-dashpot element see \cref{fig:dashpot}. The dashpot add a relationship with the strain rate and is defined by a viscosity property.
 
 
 \begin{figure}[H]
@@ -331,7 +331,7 @@ for values of $n>1$, algorithm such as Newton-Raphson are needed to solve for th
 
 \section{Implementation}
 \label{sec:implementation}
-In this section, the implementation details of the return mapping algorithm applied to first, the elastoplastic model with linear hardening, and then for the Perzyna-type viscoplastic modelin 1D. The extansion to higher dimension is pretty straightforward. Note that the implemetenation is shown without material properties. The use of the implementation will be adressed in \cref{sec:validation}. All implementation have been made in Python using \cite{2020SciPy-NMeth,harris2020array}
+In this section, the implementation details of the return mapping algorithm applied to first, the elastoplastic model with linear hardening, and then for the Perzyna-type viscoplastic model in 1D. The extension to higher dimension is pretty straightforward. Note that the implemententation is shown without material properties. The use of the implementation will be addressed in \cref{sec:validation}. All implementation have been made in Python using \cite{2020SciPy-NMeth,harris2020array}
 
 \subsection{Algorithm Structure and Code Organization}
 \label{Algorithm Structure}
@@ -342,7 +342,7 @@ The algorithm, for either models, have the same basic structure:
   \item Inelastic corrector
 \end{itemize}
 
-In the case of the linear hardening elastoplastic model, the application is pretty straightforward in regard to the previous list (see \cref{algo:linhard}). First the algorithm detemine if the stress increment is elastic. If it is not, the next substep is to detemine the value of the increment of the plastic multiplier to finally obtain the increment of plastic strain.
+In the case of the linear hardening elastoplastic model, the application is pretty straightforward in regard to the previous list (see \cref{algo:linhard}). First the algorithm determines if the stress increment is elastic. If it is not, the next substep is to determine the value of the increment of the plastic multiplier to finally obtain the increment of plastic strain.
 
 \begin{algorithm}
   \KwIn{Current step material data ($\sigma_{n}, \varepsilon_{n}, \varepsilon^{p}_{n}, \sigma^{y0}, \alpha_n, H$)}
@@ -427,7 +427,7 @@ In the case of the Perzyna-type viscoplastic model, the implementation is simila
 
   
   \Return{$\Delta \gamma$}\;
-  \caption{{$NonLinear\Delta\gamma$} Solve the plastic multiplier increment for the Perzyna-type viscoplastic model for the $n>1$ non-linear case using Newton-Raphson algorithm}
+  \caption{{$NonLinear\Delta\gamma$} Solve the plastic multiplier increment for the Perzyna-type viscoplastic model for the $n>1$ non-linear case using the Newton-Raphson algorithm}
   \label{algo:nlgamma}
 \end{algorithm}
 
@@ -471,7 +471,7 @@ In the case of perfect plasticity, as expected the stress plateaus at the yield 
   \label{fig:perfplaststress}
 \end{figure}
 
-It can be seen (\cref{fig:perfplaststrain}), that the plastic strain starts at 0 and plateaus at a value of approximately $\varepsilon^p = 0.00075$ during unloading. Then rise up again during the final loading.
+In \cref{fig:perfplaststrain}, it is shown that the plastic strain starts at 0 and plateaus at a value of approximately $\varepsilon^p = 0.00075$ during unloading. Then rise up again during the final loading.
 
 \begin{figure}[H]
   \center
@@ -505,7 +505,7 @@ As shown in \cref{fig:ratesensitivitytest}, for these material properties (see \
 \end{figure}
 
 \subsubsection{Creep Test}
-The creep test consist of applying constant stress to the material. This means that the total strain rate is not constant and the spectrum of strain is in constant change. Two things, in this case, are constant : viscoplastic strain rate and stress. Especially for this case, a typical return mapping algorithm has not been used. The reason is that typical return mapping algorithm use a strain driven approach. This prevents from controlling the loading with a constant stress approach. As seen in \cref{fig:creeptest}, the values of strain are in constant change. The value of viscoplastic strain keeps rising at a constant rate since the value of stress is constant and above the yield stress value.
+The creep test consist of applying constant stress to the material. This means that the total strain rate is not constant and the spectrum of strain is in constant change. Two things in this case, are constant : viscoplastic strain rate and stress. Especially for this case, a return mapping algorithm has not been used. The reason is that,typically, return mapping algorithm use a strain driven approach. This prevents from controlling the loading with a constant stress approach. Instead, a direct integration of the rate equation has been used. As seen in \cref{fig:creeptest}, the values of strain are in constant change. The value of viscoplastic strain keeps rising at a constant rate since the value of stress is constant and above the yield stress value.
 \label{subsec:creeptest}
 \begin{figure}[H]
   \center
@@ -528,7 +528,7 @@ The stress relaxation test consist of applying a large, initial stress. The init
 
 
 \subsubsection{Viscosity Effect}
-The last test (the viscosity effect test) consist of evaluating the stress response for the same generic material to the same strain rate ($\dot{\varepsilon}=0.01 \tfrac{1}{s}$). As shown in \cref{fig:viscotest}, the higher the viscosity, the greater the amount of overstress. 
+The last test (the viscosity effect test) consist of evaluating the stress response for the same generic material to the same strain rate ($\dot{\varepsilon}=0.01 \tfrac{1}{s}$) with a varying value of $\eta$ (viscosity). As shown in \cref{fig:viscotest}, the higher the viscosity, the greater the amount of overstress. 
 \label{subsec:viscosityeffects}
 \begin{figure}[H]
   \center
@@ -554,16 +554,15 @@ These implementation challenges have lead to a better understanding of :
   \item Solve nonlinear material equations
 \end{itemize} 
 
-Even thought the algorithms show great agreement with theoretical values, it's use are very limited. Since 1D cases are rather easy to solve, they are not relevant in industrial application. Also, multiple assumptions have been made to simplify the problems enough to obtain a simple 1D case. Thus, their extension to multi-axial problems (2D and 3D) are limited and probably impossible.
+Even thought the algorithms show great agreement with theoretical values, no validation have been made against experimental data (no data available considering the context) and it's uses are very limited. Since 1D cases are rather easy to solve, they are not relevant in industrial application. Also, multiple assumptions have been made to simplify the problems enough to obtain a simple 1D case. Thus, their extension to multi-axial problems (2D and 3D) are limited and probably impossible.
 
 \section{Conclusion and Future Works}
 \label{sec:Conclusion}
-The present paper have demonstrated rate independent and rate dependent models can be implemented in Python to solve 1D problems in solid mechanics. All algorithm results show good agreement with theoretical values : plastic strain with 0\% error (perfectly plastic model), creep rate predicted with 0\% error, proper material behavior (rate dependence and viscosity effect) have been observed and that it's finite element implementation with a fully implicit integration can solve 1D viscoplastic problems. However, their application in an industrial context are limited due to their restricted axial assumptions.
+The present paper have demonstrated that rate independent and rate dependent models can be implemented in Python to solve 1D problems in solid mechanics. All algorithm results show good agreement with theoretical values : plastic strain with 0\% error (perfectly plastic model), creep rate predicted with 0\% error, proper material behavior (rate dependence and viscosity effect) have been observed and that it's finite element implementation with a fully implicit integration can solve 1D viscoplastic problems. However, their application in an industrial context are limited due to their restricted axial assumptions.
 
-Future steps include implementing the material laws in a production code (MFEM \cite{mfem-2024}) for better performance, gain the ability to solve multi-dimensional problems and solve coupled thermal-mechanical problems. 
+Future steps include implementing viscoplastic material laws and framework in a production grade code based on MFEM \cite{mfem-2024} for better performance, gain the ability to solve multi-dimensional problems and solve coupled thermal-mechanical problems. 
 
 In the long term, this paper could lead to development of a reduced order framework with hyper reduction capabilities for high temperature component life prediction.
-
 
 \section{CRediT}
 Billy Guy: Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Resources, Data Curation, Writing - Original Draft, Writing - Review \& Editing, Visualization, Project administration.

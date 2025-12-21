@@ -1,4 +1,4 @@
-# Elastic_bar_1d.py
+# Block 1 code:
 Simple code to solve the bar in traction problem
 
 ## Parameters
