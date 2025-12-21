@@ -1,0 +1,71 @@
+\documentclass[]{book}
+
+% Graphics packages
+\usepackage{graphics}
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%% The amsmath package provides various useful equation environments.
+\usepackage{amsmath}
+%% The amsthm package provides extended theorem environments
+% \usepackage{amsthm}
+
+%% Load algorithm2e
+\usepackage{algorithm2e}
+\RestyleAlgo{ruled}
+
+%% Tikz
+\usepackage{tikz}
+
+%% Use cleve ref
+\usepackage{cleveref}[noabrev, capitalize]
+
+
+% Load required package for theorem, lemme and corrolaries
+\usepackage[english]{babel}
+\newtheorem{theorem}{Theorem}
+\newtheorem{readingref}{Reading Reference}
+
+% Box and custom box
+\usepackage[most]{tcolorbox}
+
+\newtcolorbox{chapterref}{
+    title=Chapter References,
+    boxrule=2pt,
+    colframe=black!90,
+    colback=black!5
+}
+
+\newtcolorbox[auto counter, number within=section]{example}[2][]{
+    title={Example \thetcbcounter: #2},
+    boxrule=2pt,
+    colframe=blue!30,
+    colback=blue!5,
+    #1 % This allows you to pass extra options like labels
+}
+
+\newtcolorbox[auto counter, number within=section]{keyconcept}[2][]{
+    title={Key Concept \thetcbcounter: #2},
+    boxrule=2pt,
+    colframe=red!30,
+    colback=red!5,
+    #1
+}
+
+
+
+
+
+\begin{document}
+
+
+\tableofcontents
+
+\input{TensorFundamentals/TensorFundamentals.tex}
+
+\input{PrincipalStresses/PrincipalStresses.tex}
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}
