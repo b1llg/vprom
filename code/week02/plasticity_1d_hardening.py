@@ -1,6 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+import scienceplots
+
+plt.style.use(['science','no-latex','high-vis'])
+
 def return_mapping_isotropic_hardening(eps_n, d_eps, eps_p_n, alpha_n, E, sigma_y0, H):
     """
     1D return mapping with linear isotropic hardening
@@ -110,7 +114,7 @@ def test_hardening_comparison():
     # Plot all stress strain curves (f(H))
     fig, ax = plt.subplots()
     for stress, Hi in zip(Hi_stress, H_values):
-        ax.plot(strain_history, stress,ls = '--', marker = 'o', label = f"H={Hi:.1e}")
+        ax.plot(strain_history, stress,ls = '--', marker = '.', label = f"H={Hi:.1e}")
 
     # Axis labels and styling
     ax.set_xlabel("Strain (mm/mm)")

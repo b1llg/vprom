@@ -15,6 +15,10 @@ What was frustrating?
 Interesting observations?
 Questions for next meeting?
 ```
+## Week 9: 25-12-14 - 25-12-21
+### 2025-12-20
+- Write paper content about algorithms. (about 2hrs)
+
 ## Week 7: 25-12-01 - 25-12-07
 ### 2025-12-06
 - Write paper content about vicoplastic models and algorithm implementation (about 2hrs)

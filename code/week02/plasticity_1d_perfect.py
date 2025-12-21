@@ -2,6 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import os
+import scienceplots
+
+plt.style.use(['science','no-latex','high-vis'])
 
 def return_mapping_perfect_plasticity(eps_n, d_eps, eps_p_n, E, sigma_y):
     """
@@ -97,7 +100,7 @@ def test_perfect_plasticity():
     fig, ax = plt.subplots()
 
     ax.plot(analytical_data["eps_total"], analytical_data["sigma_true"], lw = 2, label = "Analytical")
-    ax.plot(strain_history, stress_history,lw = 1, ls = '--', marker = 'o', label = "Python code")
+    ax.plot(strain_history, stress_history,lw = 1, ls = '--', marker = '.', label = "Python code")
     
     # Axis labels and styling
     ax.set_xlabel("Strain (mm/mm)")
@@ -114,7 +117,7 @@ def test_perfect_plasticity():
     ax2.plot(strain_history, plastic_strain_history)
     ax2.set_ylabel("plastic Strain (mm/mm)")
     ax2.set_xlabel("total strain (MPa)")
-    ax2.set_title("Stress evolution")
+    ax2.set_title("Plastic strain evolution")
     ax2.grid(alpha = 0.3)
     plt.show()
 

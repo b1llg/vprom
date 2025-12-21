@@ -11,6 +11,9 @@ Be transparent and honest.
 """
 import numpy as np
 import matplotlib.pyplot as plt
+import scienceplots
+
+plt.style.use(['science','no-latex','high-vis'])
 
 def return_mapping_viscoplasticity(eps_n, sig_n, d_eps, dt, eps_vp_n, E, sigma_y, eta, n=1):
     """
@@ -280,7 +283,7 @@ def test_rate_sensitivity():
     plt.axhline(y=sigma_y, color='r', linestyle='--', alpha=0.5, label='Yield stress')
     plt.xlabel('Strain')
     plt.ylabel('Stress [MPa]')
-    plt.title('Rate Sensitivity Test (Steel, η=40 GPa·s)')
+    plt.title('Rate Sensitivity Test (Steel, $\eta=40 GPa \cdot s)$')
     plt.legend()
     plt.grid(True, alpha=0.3)
     plt.savefig('week0304_rate_sensitivity.png', dpi=150, bbox_inches='tight')
@@ -476,7 +479,7 @@ def test_creep():
     # Add theoretical line
     eps_elastic = sigma_applied / E
     strain_theory = eps_elastic + eps_vp_dot_theory * time_array
-    ax1.plot(time_array, strain_theory, 'k:', linewidth=2, alpha=0.6, label='Theoretical (ε = σ/E + ε̇ᵛᵖ·t)')
+    ax1.plot(time_array, strain_theory, 'k:', linewidth=2, alpha=0.6, label=r'Theoretical: $(\varepsilon = \dfrac{\sigma}{E} + \dot{\varepsilon}^p \cdot t)$')
     
     ax1.set_xlabel('Time [s]', fontsize=12, fontweight='bold')
     ax1.set_ylabel('Strain', fontsize=12, fontweight='bold')
@@ -501,7 +504,7 @@ def test_creep():
     
     # Plot 3: Creep rate vs time
     ax3 = axes[1, 0]
-    ax3.plot(time_history, creep_rate, 'm-', linewidth=2.5, label='Numerical (dε/dt)')
+    ax3.plot(time_history, creep_rate, 'm-', linewidth=2.5, label=r'Numerical $\dfrac{d\varepsilon}{dt}$')
     ax3.axhline(y=eps_vp_dot_theory, color='k', linestyle='--', linewidth=1.5,
                 alpha=0.6, label=f'Theoretical: {eps_vp_dot_theory:.2e} /s')
     
@@ -522,7 +525,7 @@ def test_creep():
     
     ax4.set_xlabel('Time [s]', fontsize=12, fontweight='bold')
     ax4.set_ylabel('Strain', fontsize=12, fontweight='bold')
-    ax4.set_title('Strain Decomposition: ε = εᵉ + εᵛᵖ', fontsize=13, fontweight='bold')
+    ax4.set_title(r'Strain Decomposition: $\varepsilon = \varepsilon^e + \varepsilon^vp $', fontsize=13, fontweight='bold')
     ax4.legend(fontsize=10)
     ax4.grid(True, alpha=0.3)
     
@@ -613,7 +616,8 @@ def test_relaxation():
                 alpha=0.7, label=f'Yield stress ({sigma_y} MPa)')
     plt.xlabel('Time [s]')
     plt.ylabel('Stress [MPa]')
-    plt.title(f'Relaxation Test: ε = {eps_applied:.4f} (constant)')
+    pltlabel = r'Relaxation Test: $\varepsilon$={} (constant)'.format(eps_applied)
+    plt.title(pltlabel)
     plt.legend()
     plt.grid(True, alpha=0.3)
     plt.savefig('week0304_relaxation.png', dpi=150, bbox_inches='tight')
@@ -640,11 +644,11 @@ def test_viscosity_effect():
     # Three viscosity values (vary by factor of 10)
     eta_values = [0, 10e3, 40e3, 160e3, 1e16]  # MPa·s
     eta_labels = [
-        'η=0 GPa·s (very low rate sensitivity -> rate independance)',
-        'η=10 GPa·s (low rate sensitivity)',
-        'η=40 GPa·s (moderate)',
-        'η=160 GPa·s (high rate sensitivity)',
-        'η=1e16 GPa·s (very high rate sensitivity)',
+        r'$\eta=0 \ GPa\cdot s$ (very low rate sensitivity : rate independance)',
+        r'$\eta=10 \ GPa\cdot s$ (low rate sensitivity)',
+        r'$\eta=40 \ GPa\cdot s$ (moderate)',
+        r'$\eta=160 \ GPa\cdot s$ (high rate sensitivity)',
+        r'$\eta=1\cdot 10^{16} \ GPa\cdot s$ (very high rate sensitivity)',
     ]
     n = 1
     
@@ -714,8 +718,8 @@ def test_viscosity_effect():
         print(f"  {eta_labels[i]}: {peak:.2f} MPa (overshoot: {overshoot:.2f} MPa)")
     
     print("\nInterpretation:")
-    print("  Higher η → more rate sensitivity → higher stress at given rate")
-    print("  Lower η → approaches rate-independent → closer to yield stress")
+    print("  Higher $\eta$ = more rate sensitivity → higher stress at given rate")
+    print("  Lower $\eta$ = approaches rate-independent → closer to yield stress")
     
 if __name__ == "__main__":
     test_rate_sensitivity()
