@@ -275,15 +275,15 @@ def test_rate_sensitivity():
         results.append((strain_history, stress_history))
     
     # Plot
-    plt.figure(figsize=(10, 6))
+    plt.figure() #figsize=(10, 6)
     for i, (eps_hist, sig_hist) in enumerate(results):
-        plt.plot(eps_hist, sig_hist, marker='o', markevery=max(1, len(eps_hist)//20), 
+        plt.plot(eps_hist, sig_hist, marker='.', markevery=max(1, len(eps_hist)//20), 
                 label=rate_labels[i])
     
     plt.axhline(y=sigma_y, color='r', linestyle='--', alpha=0.5, label='Yield stress')
     plt.xlabel('Strain')
     plt.ylabel('Stress [MPa]')
-    plt.title('Rate Sensitivity Test (Steel, $\eta=40 GPa \cdot s)$')
+    plt.title('Rate Sensitivity Test ($\eta=40 \ GPa \cdot s)$')
     plt.legend()
     plt.grid(True, alpha=0.3)
     plt.savefig('week0304_rate_sensitivity.png', dpi=150, bbox_inches='tight')
@@ -469,17 +469,21 @@ def test_creep():
     # PLOTTING
     # =========================================================================
     
-    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+    fig, axes = plt.subplots(2, 2, figsize=(10, 8)) #, figsize=(14, 10)
     
     # Plot 1: Total strain vs time (primary creep curve)
     ax1 = axes[0, 0]
-    ax1.plot(time_history, eps_total_history, 'b-', linewidth=2.5, label='Total strain (numerical)')
-    ax1.plot(time_history, eps_vp_history, 'g--', linewidth=2, label='Viscoplastic strain')
     
     # Add theoretical line
     eps_elastic = sigma_applied / E
     strain_theory = eps_elastic + eps_vp_dot_theory * time_array
-    ax1.plot(time_array, strain_theory, 'k:', linewidth=2, alpha=0.6, label=r'Theoretical: $(\varepsilon = \dfrac{\sigma}{E} + \dot{\varepsilon}^p \cdot t)$')
+    ax1.plot(time_array, strain_theory, 'k-', linewidth=4, label=r'Theoretical: $(\varepsilon = \dfrac{\sigma}{E} + \dot{\varepsilon}^{vp} \cdot t)$')
+    
+    # model
+    ax1.plot(time_history, eps_total_history, 'r-', linewidth=2, label='Total strain (numerical)')
+    ax1.plot(time_history, eps_vp_history, 'b-', linewidth=2, label='Viscoplastic strain')
+    
+
     
     ax1.set_xlabel('Time [s]', fontsize=12, fontweight='bold')
     ax1.set_ylabel('Strain', fontsize=12, fontweight='bold')
@@ -489,10 +493,10 @@ def test_creep():
     
     # Plot 2: Stress vs time (should be perfectly constant)
     ax2 = axes[0, 1]
-    ax2.plot(time_history, stress_history, 'r-', linewidth=2.5, label='Applied stress')
-    ax2.axhline(y=sigma_applied, color='k', linestyle='--', linewidth=1.5, 
+    ax2.plot(time_history, stress_history, 'r-', linewidth=4, label='Applied stress')
+    ax2.axhline(y=sigma_applied, color='k', linestyle='--', linewidth=2, 
                 alpha=0.5, label=f'Target: {sigma_applied} MPa')
-    ax2.axhline(y=sigma_y, color='orange', linestyle=':', linewidth=1.5,
+    ax2.axhline(y=sigma_y, color = 'k', linestyle='-', marker = '.', linewidth=2,
                 alpha=0.7, label=f'Yield: {sigma_y} MPa')
     
     ax2.set_xlabel('Time [s]', fontsize=12, fontweight='bold')
@@ -504,8 +508,8 @@ def test_creep():
     
     # Plot 3: Creep rate vs time
     ax3 = axes[1, 0]
-    ax3.plot(time_history, creep_rate, 'm-', linewidth=2.5, label=r'Numerical $\dfrac{d\varepsilon}{dt}$')
-    ax3.axhline(y=eps_vp_dot_theory, color='k', linestyle='--', linewidth=1.5,
+    ax3.plot(time_history, creep_rate, 'r-', linewidth=4, label=r'Numerical $\dfrac{d\varepsilon}{dt}$')
+    ax3.axhline(y=eps_vp_dot_theory, color='k', linestyle='--', linewidth=2,
                 alpha=0.6, label=f'Theoretical: {eps_vp_dot_theory:.2e} /s')
     
     ax3.set_xlabel('Time [s]', fontsize=12, fontweight='bold')
@@ -519,9 +523,9 @@ def test_creep():
     # Plot 4: Strain components breakdown
     ax4 = axes[1, 1]
     eps_elastic_history = stress_array / E
-    ax4.plot(time_history, eps_total_history, 'b-', linewidth=2.5, label='Total strain')
-    ax4.plot(time_history, eps_vp_history, 'g-', linewidth=2, label='Viscoplastic strain')
-    ax4.plot(time_history, eps_elastic_history, 'c-', linewidth=2, label='Elastic strain')
+    ax4.plot(time_history, eps_total_history, 'k-', linewidth=2.5, label='Total strain')
+    ax4.plot(time_history, eps_vp_history, 'r-', linewidth=2, label='Viscoplastic strain')
+    ax4.plot(time_history, eps_elastic_history, 'b-', linewidth=2, label='Elastic strain')
     
     ax4.set_xlabel('Time [s]', fontsize=12, fontweight='bold')
     ax4.set_ylabel('Strain', fontsize=12, fontweight='bold')
@@ -610,7 +614,7 @@ def test_relaxation():
         strain_history.append(eps_n)
     
     # Plot
-    plt.figure(figsize=(10, 6))
+    plt.figure() #figsize=(10, 8)
     plt.plot(time_history, stress_history, 'b-', linewidth=2)
     plt.axhline(y=sigma_y, color='r', linestyle='--', linewidth=2, 
                 alpha=0.7, label=f'Yield stress ({sigma_y} MPa)')
@@ -618,7 +622,6 @@ def test_relaxation():
     plt.ylabel('Stress [MPa]')
     pltlabel = r'Relaxation Test: $\varepsilon$={} (constant)'.format(eps_applied)
     plt.title(pltlabel)
-    plt.legend()
     plt.grid(True, alpha=0.3)
     plt.savefig('week0304_relaxation.png', dpi=150, bbox_inches='tight')
     plt.show()
@@ -644,11 +647,11 @@ def test_viscosity_effect():
     # Three viscosity values (vary by factor of 10)
     eta_values = [0, 10e3, 40e3, 160e3, 1e16]  # MPa·s
     eta_labels = [
-        r'$\eta=0 \ GPa\cdot s$ (very low rate sensitivity : rate independance)',
-        r'$\eta=10 \ GPa\cdot s$ (low rate sensitivity)',
-        r'$\eta=40 \ GPa\cdot s$ (moderate)',
-        r'$\eta=160 \ GPa\cdot s$ (high rate sensitivity)',
-        r'$\eta=1\cdot 10^{16} \ GPa\cdot s$ (very high rate sensitivity)',
+        r'$\eta=0 \ GPa\cdot s$', #(very low rate sensitivity : rate independance)
+        r'$\eta=10 \ GPa\cdot s$', #(low rate sensitivity)
+        r'$\eta=40 \ GPa\cdot s$', #(moderate)' 
+        r'$\eta=160 \ GPa\cdot s$', #(high rate sensitivity)
+        r'$\eta=1\cdot 10^{16} \ GPa\cdot s$', #(very high rate sensitivity)
     ]
     n = 1
     
@@ -694,9 +697,9 @@ def test_viscosity_effect():
         results.append((strain_history, stress_history))
     
     # Plot
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(5, 4)) 
     for i, (eps_hist, sig_hist) in enumerate(results):
-        plt.plot(eps_hist, sig_hist, marker='o', 
+        plt.plot(eps_hist, sig_hist, marker='.', 
                 markevery=max(1, len(eps_hist)//20),
                 linewidth=2, label=eta_labels[i])
     

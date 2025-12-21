@@ -331,7 +331,7 @@ for values of $n>1$, algorithm such as Newton-Raphson are needed to solve for th
 
 \section{Implementation}
 \label{sec:implementation}
-In this section, the implementation details of the return mapping algorithm applied to first, the elastoplastic model with linear hardening, and then for the Perzyna-type viscoplastic modelin 1D. The extansion to higher dimension is pretty straightforward. Note that the implemetenation is shown without material properties. The use of the implementation will be adressed in \cref{sec:validation}.
+In this section, the implementation details of the return mapping algorithm applied to first, the elastoplastic model with linear hardening, and then for the Perzyna-type viscoplastic modelin 1D. The extansion to higher dimension is pretty straightforward. Note that the implemetenation is shown without material properties. The use of the implementation will be adressed in \cref{sec:validation}. All implementation have been made in Python using \cite{2020SciPy-NMeth,harris2020array}
 
 \subsection{Algorithm Structure and Code Organization}
 \label{Algorithm Structure}
@@ -410,13 +410,17 @@ In the case of the Perzyna-type viscoplastic model, the implementation is simila
 
     $k \gets 0$;
 
-    \While{$k < itermax$}
+    \While{$k < itermax$ || $err > tol$}
     {
       $f_{current} \gets f_{trial}-E\Delta \gamma$\;
       $R = \Delta \gamma - \tfrac{\Delta t}{\eta} \left(\tfrac{f_{trial}}{\sigma^{y}}\right) ^n $\;
       $\dfrac{\partial R}{\partial \Delta \gamma} \gets  1 + n \tfrac{\Delta t E}{\eta \cdot (\sigma^y)^n} \dfrac{f_{current}}{\sigma^{y}}^{n-1}$\;
 
-      $\Delta \gamma \gets \Delta \gamma - \dfrac{R}{\dfrac{\partial R}{\partial \Delta \gamma}}$
+      $\Delta \gamma_{new} \gets \Delta \gamma - \dfrac{R}{\dfrac{\partial R}{\partial \Delta \gamma}}$\;
+
+      $err \gets |\Delta \gamma - \Delta \gamma_{new}|$\;
+
+      $\Delta \gamma = \Delta \gamma_{new}$\;
     }
 
     
@@ -450,7 +454,9 @@ Rate exponent (n)         & 1              & --             \\
 \end{tabular}
 \end{table}
 
-All test are equivalent of solving the equation for one quadrature point in a finite element model. i.e. The equations solved do not rely on a finite element. Also, generic parameters will be changed during certain tests to evaluate the sensititivity to this parameter.
+All test are the equivalent of solving the equation for one quadrature point in a finite element model. Also, generic parameters will be changed during certain tests to evaluate the sensitivity to this parameter. 
+
+All figures in the following sections have been generated using \cite{SciencePlots}.
 
 \subsection{Rate-Independent Plasticity}
 The tests consist of loading the material up until $\varepsilon = 0.02$, then unload and reload to $\varepsilon = 0.03$. Tests will be the same for perfect plasticity and isotropic hardening.
@@ -486,9 +492,11 @@ In the case of isotropic hardening, the load path is the same. However, the hard
 
 
 \subsection{Viscoplasticity}
-For rate  dependent case (viscoplastic), tests have to be different to evaluate the rate effects on material properties.
+For rate  dependent case (viscoplastic), tests have to be different to evaluate the rate effects on material properties. Each next subsections (\cref{subsec:ratesensitivity}, \cref{subsec:creeptest},\cref{subsec:stressrelax} and \cref{subsec:viscosityeffects}) will cover tests related to the material response and parameter effect in a Perzyna-type model.
 
 \subsubsection{Rate Sensititivity}
+As shown in \cref{fig:ratesensitivitytest}, for these material properties (see \cref{table:matprop}), the higher the strain rate is, the greater the value of overstress is. At slower strain rate, the value of stress is closer to the value of yield stress.
+\label{subsec:ratesensitivity}
 \begin{figure}[H]
   \center
   \includegraphics[width=8cm]{./figures/week0304_rate_sensitivity.png}
@@ -497,6 +505,8 @@ For rate  dependent case (viscoplastic), tests have to be different to evaluate 
 \end{figure}
 
 \subsubsection{Creep Test}
+The creep test consist of applying constant stress to the material. This means that the total strain rate is not constant and the spectrum of strain is in constant change. Two things, in this case, are constant : viscoplastic strain rate and stress. Especially for this case, a typical return mapping algorithm has not been used. The reason is that typical return mapping algorithm use a strain driven approach. This prevents from controlling the loading with a constant stress approach. As seen in \cref{fig:creeptest}, the values of strain are in constant change. The value of viscoplastic strain keeps rising at a constant rate since the value of stress is constant and above the yield stress value.
+\label{subsec:creeptest}
 \begin{figure}[H]
   \center
   \includegraphics[width=8cm]{./figures/week0304_creep.png}
@@ -504,7 +514,11 @@ For rate  dependent case (viscoplastic), tests have to be different to evaluate 
   \label{fig:creeptest}
 \end{figure}
 
+The numerical calculation is in good agreement with the theoretical values.
+
 \subsubsection{Stress Relaxation}
+The stress relaxation test consist of applying a large, initial stress. The initial stress is induced by an initial strain of $\varepsilon=0.002$ and is kept constant for the entire test. Here (see \cref{fig:relaxtest}), the initial stress of about $400 \ Mpa$ drops rapidly to a value close to the yield stress (about $250 \ MPa$). 
+\label{subsec:stressrelax}
 \begin{figure}[H]
   \center
   \includegraphics[width=8cm]{./figures/week0304_relaxation.png}
@@ -514,19 +528,51 @@ For rate  dependent case (viscoplastic), tests have to be different to evaluate 
 
 
 \subsubsection{Viscosity Effect}
+The last test (the viscosity effect test) consist of evaluating the stress response for the same generic material to the same strain rate ($\dot{\varepsilon}=0.01 \tfrac{1}{s}$). As shown in \cref{fig:viscotest}, the higher the viscosity, the greater the amount of overstress. 
+\label{subsec:viscosityeffects}
 \begin{figure}[H]
   \center
   \includegraphics[width=8cm]{./figures/week0304_viscosity_effect.png}
   \caption{Viscosity sensibility test with Perzyna type viscoplastic model}
   \label{fig:viscotest}
 \end{figure}
+At a value of viscosity $\eta = 0 \ GPa \cdot s$, the rate independent case is recovered. By recalling \cref{eq:perzyna1}, the non-viscous material case cancels rate effects.
 
 
 \section{Discussion}
 \label{sec:discussion}
+The present work have shown that the algorithms worked well at predicting material behavior, with excellent agreement with theoretical values.
+
+Significant time have been invested in solving the analytical equations to obtain the increment of plastic multiplier and viscoplastic multiplier. Also, the implementation of the nonlinear $\Delta \gamma$ solve for case where $n>1$ have required deep mathematical understanding.
+
+These implementation challenges have lead to a better understanding of :
+\begin{itemize}
+  \item Return mapping theory
+  \item Implementation challenges for constitutive law in Python
+  \item Difference between rate dependence and rate independence
+  \item Integration schemes and the requirement for stability
+  \item Solve nonlinear material equations
+\end{itemize} 
+
+Even thought the algorithms show great agreement with theoretical values, it's use are very limited. Since 1D cases are rather easy to solve, they are not relevant in industrial application. Also, multiple assumptions have been made to simplify the problems enough to obtain a simple 1D case. Thus, their extension to multi-axial problems (2D and 3D) are limited and probably impossible.
 
 \section{Conclusion and Future Works}
+\label{sec:Conclusion}
+The present paper have demonstrated rate independent and rate dependent models can be implemented in Python to solve 1D problems in solid mechanics. All algorithm results show good agreement with theoretical values : plastic strain with 0\% error (perfectly plastic model), creep rate predicted with 0\% error, proper material behavior (rate dependence and viscosity effect) have been observed and that it's finite element implementation with a fully implicit integration can solve 1D viscoplastic problems. However, their application in an industrial context are limited due to their restricted axial assumptions.
 
+Future steps include implementing the material laws in a production code (MFEM \cite{mfem-2024}) for better performance, gain the ability to solve multi-dimensional problems and solve coupled thermal-mechanical problems. 
+
+In the long term, this paper could lead to development of a reduced order framework with hyper reduction capabilities for high temperature component life prediction.
+
+
+\section{CRediT}
+Billy Guy: Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Resources, Data Curation, Writing - Original Draft, Writing - Review \& Editing, Visualization, Project administration.
+
+\section{Funding}
+This research did not receive any specific grant from funding agencies in the public, commercial, or not-for-profit sectors
+
+\section{Declaration of Generative AI and AI-assisted technologies in the writing process}
+The abstract as been rewrited entirely by an LLM (Claude Sonnet 4.5). Claude has also been used as a paper review tool.
 
 
 %% The Appendices part is started with the command \appendix;

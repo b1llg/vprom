@@ -16,8 +16,12 @@ Interesting observations?
 Questions for next meeting?
 ```
 ## Week 9: 25-12-14 - 25-12-21
+### 2025-12-21
+- Update figures, writing. 
+- Finalize second draft (about 1.5 hrs)
+
 ### 2025-12-20
-- Write paper content about algorithms. (about 2hrs)
+- Write paper content about algorithms. (about 2.5hrs)
 
 ## Week 7: 25-12-01 - 25-12-07
 ### 2025-12-06
