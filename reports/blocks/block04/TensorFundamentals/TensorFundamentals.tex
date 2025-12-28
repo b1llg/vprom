@@ -3,34 +3,192 @@
 \begin{chapterref}
 The references used in this chapter are:
     \begin{itemize}
-        \item Belytschko chapter 3.1 \cite{Belytschko_Liu_Moran_Elkhodary_2014}
-        \item Crisfield chapter 1.1-1.3 \cite{MACrisfield2012}
+        \item Belytschko chapter 3 \cite{Belytschko_Liu_Moran_Elkhodary_2014}
+        \item Continuum Mechanics website \cite{McGinty}
     \end{itemize}
 \end{chapterref}
-This chapter will cover the vector and tensor essentials to understand tensor algebra applied to solid mechanics. Vectors and matrix are essentially containers for scalars. Scalar are ordered in a certain fashion and some operation can be done with them. Tensors are an extension to vector and matrix.  
+This chapter will cover the vector and tensor essentials to understand tensor algebra applied to solid mechanics. Vectors and matrix are essentially containers for scalars. Scalar are ordered in a certain fashion and some operation can be done with them. Tensors are an extension to vector and matrix. In this report, this notation will be used:
+\begin{itemize}
+    \item Scalars will be lower case letters, i.e.: $a,b,c,..$
+    \item Vectors will be lowercase bold letters, i.e.: $\boldsymbol{x,v,a}$ or $\boldsymbol{x, \dot{x}, \ddot{x}}$
+    \item Matrix will be uppercase bold letters: $\boldsymbol{A, C, X}$
+\end{itemize} 
 
-\begin{example}{First test with example}
-    This is an example
+\section{Matrices, Vectors and Tensors}
+A vector is defined as:
+$$ 
+    \boldsymbol{v} = 
+    \begin{pmatrix}
+        i \\
+        ... \\
+        n
+    \end{pmatrix}    
+$$
+
+A matrix is defined as:
+$$ 
+    \boldsymbol{M} = 
+    \begin{bmatrix}
+        1 & 2 & n \\
+        2 & ... & ...\\
+        m & ... & mn    
+    \end{bmatrix}    
+$$
+The dot product of two vector is: 
+$$ \mathbf{a}\cdot \mathbf{b} = a_i b_i = a_1b_1 + a_2b_2 + a_3b_3 = c$$
+
+
+Above, the example use tensor notation and $c$ is a scalar. That means that the use of subscript defines the size of each container (vector $=$ 1st order tensor) and how they interact with each other. 
+\begin{keyconcept}{Einstein notation}
+    \label{ex:einstein}
+    Their is one relatively simple rule with indices: is an index is repeated twice, it is summed. For example:
+    $$c_{ij} = a_ib_j \neq a_1b_1 + a_2b_2 + a_3b_3$$
+
+    instead, $a_ib_j$ yields a matrix or a second order tensor:
+
+    $$c_{ij} =  a_1b_j = 
+    \begin{bmatrix}
+        a_1b_1 & a_1b_2 & a_1b_3 \\
+        a_2b_1 & a_2b_2 & a_2b_3 \\
+        a_3b_1 & a_3b_2 & a_3b_3
+    \end{bmatrix}  $$
+\end{keyconcept}
+
+As seen in the concept above, the way the indices are called defines how they are used. This introduce also the concept of tensor product and contraction. The first example $a_ib_i$ can be seen as the tensor contraction of two 1st order tensor:
+
+$$\mathbf{a} : \mathbf{b} = a_ib_i = a_1b_1 + a_2b_2 + a_3b_3 $$
+
+The later can be seen as the tensor product or dyadic product of two 1st order tensor:
+
+$$ \mathbf{a} \otimes \mathbf{b} =     
+    \begin{bmatrix}
+        a_1b_1 & a_1b_2 & a_1b_3 \\
+        a_2b_1 & a_2b_2 & a_2b_3 \\
+        a_3b_1 & a_3b_2 & a_3b_3
+    \end{bmatrix}  
+$$
+
+For the sake of comprehension, the same operations can be done with vector-matrix notation. Consiering both vectors $\mathbf{a}$ and $\mathbf{b}$ are column vectors :
+
+$$\mathbf{a}^T\mathbf{b} = \mathbf{a} \cdot \mathbf{b} = \mathbf{a} : \mathbf{b}$$
+
+and 
+
+$$\mathbf{a}\mathbf{b}^T = \mathbf{a}\otimes \mathbf{b}$$
+
+Here, the difference between the tensor contraction and dot product is that tensor contraction works on higher tensor dimensions while the dot product only work on a combination of vector. The same goes for the dyadic product. An example of higher order tensor contraction would be the combination of the elastic stiffness tensor (4th order) and strain tensor (2nd order ) that yields the stress tensor (2nd order):
+
+$$ \boldsymbol{\Sigma} = \mathbb{C}:\boldsymbol{E} $$
+
+Important note: here, this expression could be reduced to a simpler expression using the symetries in $\mathbb{C}$ and using the difinition of stress and strain in Voigt notation, yielding:
+
+$$ \boldsymbol{\sigma} = \boldsymbol{C} :\boldsymbol{\varepsilon} $$
+
+Voigt notation will be in \hl{chapter n}.
+
+\section{Symbols and Tensor Operation}
+Another use of index notation and helpful for expression contraction is the Kronecker Delta ($\delta_{ij}$). The Kronecker Delta takes two inputs ($i$ and $j$) and returns one if both are greater than zero (should always be) and are equal.
+
+\begin{example}{Identity matrix and the Kronecker Delta}
+The identity matrix in tensor notation is the Kronecker Delta.
+    $$ 
+        \boldsymbol{I} = 
+        \begin{bmatrix}
+        1 & 0 & 0 \\
+        0 & 1 & 0 \\
+        0 & 0 & 1    
+        \end{bmatrix}
+        =
+        \delta_{ij}
+    $$
+
+    Important note: the identity matrix is not the Kronecker Delta since it is a scalar (either 0 or 1).
+
 \end{example}
 
-\begin{keyconcept}{Einstein notation}
-    This is a concept
-\end{keyconcept}
-\section{Index Notation \& Einstein Summation}
-\label{sec:indexnotation}
+Another symbol called the permutation symbol (or the Levi-Civita symbol) is scalar defined as $\varepsilon_{ijk...}$. The $...$ means that it exists for higher indices the symbol works with the same logic. The idea is that if it follow a certain ordering the return value is either 1, -1 or 0 :
 
-\section{Stress Tensor Derivation}
-\label{sec:stresstensorderivation}
+$$
+\epsilon_{ijk} =
+\begin{cases}
++1 & \text{if } (i,j,k) \ (1,2,3), (2,3,1) \text{ or } (3,1,2) \rightarrow \text{ even permutation },  \\
+-1 & \text{if } (i,j,k) \ (3,2,1), (2,1,3) \text{ or } (1,3,2) \rightarrow \text{ odd permutation }, \\
+0 & \text{if any two indices are equal}
+\end{cases}
+$$
 
-\section{Strain Tensor Derivation}
-\label{sec:straintensorderivation}
+The Levi-Civita symbol can be used to define the cross product of two vector, let $\mathbf{a} \times \mathbf{b}$, thus:
+$$c_i = \epsilon_{ijk}a_jb_k$$
 
-\section{Problem sets}
-\label{sec:tensorhandcalcs}
+\begin{example}{Cross product using Levi-Civita symbol $\epsilon_{ijk}$}
+    To find each component of the vector $ \mathbf{c} = \mathbf{a} \times \mathbf{b}$, we take each component that are not equal to 0 in the permutation, thus:
 
-\begin{enumerate}
-    \item Einstein Summation
-    \item Displacement Field
-    \item Stress Tensor Components
-    \item Traction Calculation
-\end{enumerate}
+    $$
+        \begin{bmatrix}
+            c_1 \\
+            c_2 \\
+            c_3
+        \end{bmatrix}
+        = 
+        \begin{bmatrix}
+            \epsilon_{1jk}a_jb_k\\
+            \epsilon_{2jk}a_jb_k\\
+            \epsilon_{3jk}a_jb_k\\
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            a_2b_3 - a_3b_2\\
+            a_3b_1 - a_1b_3\\
+            a_1b_2 - a_2b_1\\
+        \end{bmatrix}
+    $$
+    
+\end{example}
+
+
+\section{Problem set}
+
+\begin{problem}
+    Einstein summation
+\end{problem}
+    Given the following vectors:
+    $$
+        \mathbf{a} = 
+        \begin{bmatrix}
+            2 \\ -1 \\ 3    
+        \end{bmatrix}
+        \mathbf{b} = 
+        \begin{bmatrix}
+            2 \\ -1 \\ 3    
+        \end{bmatrix}
+    $$
+    Find $a_ib_i$.
+    \\
+    \hrule 
+    \noindent
+    \\
+    Answer: Since index $i$ is repeated, we sum all components on $i$:
+
+    $
+    \mathbf{c} = 
+    \begin{bmatrix}
+        2+2 \\
+        -1 + -1 \\
+        3 + 3
+    \end{bmatrix}= 
+    \begin{bmatrix}
+        4 \\
+        -2 \\
+        6
+    \end{bmatrix}
+    $
+%%
+%% **Problem 1.1:** Given a = [2, -1, 3], b = [1, 4, -2], calculate aᵢbᵢ showing all terms
+
+%% **Problem 1.2:** Given matrix A and vector x, calculate yᵢ = Aᵢⱼxⱼ for each component
+
+%% **Problem 1.3:** Verify δᵢⱼδⱼₖ = δᵢₖ for specific values of i, k
+
+%% **Problem 1.4:** Calculate cross product using (a × b)ᵢ = εᵢⱼₖaⱼbₖ
+
+%% **Problem 1.5:** Calculate trace using Aᵢᵢ notation
