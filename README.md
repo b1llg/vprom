@@ -10,7 +10,7 @@
 - `literature/`: Papers and reading notes (Not started yet)
 
 ## Current Status
-- ✅ Block 1: Setting up, implementing 1D elastic bar FEM
+- ✅ Block 1: Implementing 1D elastic bar FEM
 - ✅ Block 2: Return mapping theory and implementation
 - ✅ Block 3: Viscoplasticity and Perzyna constitutive model implementation
 - ✅ Milestone 1: Recap article for the implementation of the Perzyna model in 1D

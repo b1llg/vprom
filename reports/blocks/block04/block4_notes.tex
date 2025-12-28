@@ -1,4 +1,4 @@
-\documentclass[]{book}
+\documentclass[]{report}
 
 % Graphics packages
 \usepackage{graphics}
@@ -17,9 +17,8 @@
 %% Tikz
 \usepackage{tikz}
 
-%% Use cleve ref
+%% Citations
 \usepackage{cleveref}[noabrev, capitalize]
-
 
 % Load required package for theorem, lemme and corrolaries
 \usepackage[english]{babel}
@@ -29,8 +28,12 @@
 % Box and custom box
 \usepackage[most]{tcolorbox}
 
+% % Python support
+% \usepackage{pythontex}
+
+
 \newtcolorbox{chapterref}{
-    title=Chapter References,
+    title=Section References,
     boxrule=2pt,
     colframe=black!90,
     colback=black!5
@@ -52,18 +55,19 @@
     #1
 }
 
-
-
-
+%%%%%%%%%%%%%%%%%%%
+\title{Block 4: Introduction to continuum mechanics}
+\author{Billy Guy}
+\date{25-12-22}
 
 \begin{document}
+\maketitle
+
 
 
 \tableofcontents
 
 \input{TensorFundamentals/TensorFundamentals.tex}
-
-\input{PrincipalStresses/PrincipalStresses.tex}
 
 \bibliographystyle{plain}
 \bibliography{references}

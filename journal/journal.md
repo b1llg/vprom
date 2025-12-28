@@ -1,5 +1,14 @@
 # GPU accelerated ROM framework for viscoplastic models
 
+## Block 4: Tensor and Continuum Mechanics
+### 2025-12-28
+- Read Crisfield chapter 1.1-1.3 (about 0.5 hrs)
+- Read Belytschko chapter 3
+
+### 2025-12-21
+- Create latex report for notes on tensor algbra an continuum mechanics (about 1hr)
+
+
 ## Milestone 1: Recap paper for block 1,2 and 3
 ### 2025-12-21
 - Update figures, writing. 
