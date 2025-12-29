@@ -87,7 +87,16 @@ $$ \boldsymbol{\sigma} = \boldsymbol{C} :\boldsymbol{\varepsilon} $$
 Voigt notation will be in \hl{chapter n}.
 
 \section{Symbols and Tensor Operation}
-Another use of index notation and helpful for expression contraction is the Kronecker Delta ($\delta_{ij}$). The Kronecker Delta takes two inputs ($i$ and $j$) and returns one if both are greater than zero (should always be) and are equal.
+\label{sec:tensoroperation}
+Another use of index notation and helpful for expression contraction is the Kronecker Delta ($\delta_{ij}$). The Kronecker Delta takes two inputs ($i$ and $j$) and returns one if both are greater than zero (should always be) and are equal:
+
+$$
+\delta_{ij}=
+\begin{cases}
+    1 & \text{i=j},\\
+    0 & \text{else}
+\end{cases}
+$$
 
 \begin{example}{Identity matrix and the Kronecker Delta}
 The identity matrix in tensor notation is the Kronecker Delta.
@@ -106,7 +115,7 @@ The identity matrix in tensor notation is the Kronecker Delta.
 
 \end{example}
 
-Another symbol called the permutation symbol (or the Levi-Civita symbol) is scalar defined as $\varepsilon_{ijk...}$. The $...$ means that it exists for higher indices the symbol works with the same logic. The idea is that if it follow a certain ordering the return value is either 1, -1 or 0 :
+Another symbol called the permutation symbol (or the Levi-Civita symbol) is a scalar defined as $\varepsilon_{ijk...}$. The $...$ means that it exists for higher indices the symbol and works with the same logic. The idea is that if it follows a certain ordering the return value is either 1, -1 or 0 :
 
 $$
 \epsilon_{ijk} =
@@ -117,7 +126,7 @@ $$
 \end{cases}
 $$
 
-The Levi-Civita symbol can be used to define the cross product of two vector, let $\mathbf{a} \times \mathbf{b}$, thus:
+The Levi-Civita symbol can be used to define the cross product of two vector for example, let $\mathbf{a} \times \mathbf{b}$, thus:
 $$c_i = \epsilon_{ijk}a_jb_k$$
 
 \begin{example}{Cross product using Levi-Civita symbol $\epsilon_{ijk}$}
@@ -146,49 +155,4 @@ $$c_i = \epsilon_{ijk}a_jb_k$$
 \end{example}
 
 
-\section{Problem set}
-
-\begin{problem}
-    Einstein summation
-\end{problem}
-    Given the following vectors:
-    $$
-        \mathbf{a} = 
-        \begin{bmatrix}
-            2 \\ -1 \\ 3    
-        \end{bmatrix}
-        \mathbf{b} = 
-        \begin{bmatrix}
-            2 \\ -1 \\ 3    
-        \end{bmatrix}
-    $$
-    Find $a_ib_i$.
-    \\
-    \hrule 
-    \noindent
-    \\
-    Answer: Since index $i$ is repeated, we sum all components on $i$:
-
-    $
-    \mathbf{c} = 
-    \begin{bmatrix}
-        2+2 \\
-        -1 + -1 \\
-        3 + 3
-    \end{bmatrix}= 
-    \begin{bmatrix}
-        4 \\
-        -2 \\
-        6
-    \end{bmatrix}
-    $
-%%
-%% **Problem 1.1:** Given a = [2, -1, 3], b = [1, 4, -2], calculate aᵢbᵢ showing all terms
-
-%% **Problem 1.2:** Given matrix A and vector x, calculate yᵢ = Aᵢⱼxⱼ for each component
-
-%% **Problem 1.3:** Verify δᵢⱼδⱼₖ = δᵢₖ for specific values of i, k
-
-%% **Problem 1.4:** Calculate cross product using (a × b)ᵢ = εᵢⱼₖaⱼbₖ
-
-%% **Problem 1.5:** Calculate trace using Aᵢᵢ notation
+\input{TensorFundamentals/problemset.tex}

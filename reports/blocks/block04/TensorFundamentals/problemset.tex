@@ -1,0 +1,142 @@
+\section{Problem set}
+
+\begin{problem}
+    Einstein summation
+\end{problem}
+    Given the following vectors:
+    $$
+        \mathbf{a} = 
+        \begin{bmatrix}
+            2 \\ -1 \\ 3    
+        \end{bmatrix}
+        \mathbf{b} = 
+        \begin{bmatrix}
+            2 \\ -1 \\ 3    
+        \end{bmatrix}
+    $$
+    Find $a_ib_i$. \\\\ \textbf{Answer:} Since index $i$ is repeated, we sum all components on $i$. Thus, it becomes a dot product. The result is:
+\begin{pyblock}
+a = np.array([2,-1,3])
+b = np.array([1,4,-2])
+c = np.dot(a,b)
+\end{pyblock}
+
+$$
+\py{ltx_num_matrix(a)} \cdot \py{ltx_num_matrix(b)} = \py{c}
+$$
+
+\begin{problem}
+    Matrix-Vector product    
+\end{problem}
+
+Given matrix $A$ and vector $x$, compute $y_i = A_{ij}x_j$ for each component
+\\\\
+\textbf{Answer: }Since index $j$ is repeated, each $y_i$ component will be a sum of combination of $A_{ij}b_j$.
+\begin{pyblock}
+from sympy import MatrixSymbol
+A = MatrixSymbol('A', 3, 3)
+x = MatrixSymbol('x', 3, 1)
+y = MatrixSymbol('y', 3, 1)
+y = A * x
+\end{pyblock}
+$$
+A = \py{ltx_sym_matrix(A)}
+x = \py{ltx_sym_matrix(x)}
+$$
+$$
+y = Ax
+$$
+$$
+y = \py{ltx_sym_matrix(y)}
+$$
+As expected, $i$ is fixed on $A$ and summed on $j$ for both $A$ and $x$. Note that Sympy indicate a double index notation for $x$ even thought that it is a vector. However, the second index doesn't change.
+
+
+\begin{problem}
+    Kronecker Delta
+\end{problem}
+
+Prove that $\delta_{ij}\delta_{jk} = \delta_{ik}$
+\\\\
+\textbf{Answer: } using a range of $i,j,k \in \begin{pmatrix} 
+    {1,2,3}
+\end{pmatrix}$
+$\delta_{ij}$ or $\delta_{jk}$ can only be non null if $i=j$ or $j=k$. Then only combination of $i=k$ will yield a result because by definition $i=j=k$ in this case.
+For example:
+
+\begin{pyblock}
+# Create a Kronecker Delta function
+def deltakron(i,j):
+    if i==j:
+        return 1 
+    else:
+        return 0
+
+# Intialize sum variables
+sum = 0
+sum2 = 0
+
+# Compute using i-j-k
+for i in range(3):
+    for j in range(3):
+        for k in range(3):
+            sum += deltakron(i,j)*deltakron(j,k)
+
+# Compute using i-k
+for i in range(3):
+        for k in range(3):
+            sum2 += deltakron(i,k)
+\end{pyblock}
+As expected, $sum = \py{sum}$ and $sum2 = \py{sum2}$
+
+\begin{problem}
+    Cross product using Levi-Civita symbol $\epsilon_{ijk}$
+\end{problem}
+Compute the cross product of two vectors $\mathbf{a} \times \mathbf{b}$ using the Levi-Civita symbol.
+\\\\
+\textbf{Answer: } In reference to the worked example, see \cref{sec:tensoroperation}. The numeric resolution gives:
+
+\begin{pyblock}
+from sympy import Eijk
+
+# Initialize two 3x1 vectors
+a = MatrixSymbol('a', 3, 1)
+b = MatrixSymbol('b', 3, 1)
+
+# Since MatrixSymbol doesnt support insertion, a list and a sum are initialized
+c = []
+# Loop over indices and sum
+for i in range(3):
+    sum = 0
+    for j in range(3):
+        for k in range(3):
+            sum += Eijk(i,j,k)*a[j]*b[k]
+    
+    c.append(sum)
+
+\end{pyblock}
+
+$c = \py{ltx_sym_matrix(c)}$
+
+\begin{problem}
+    Trace
+\end{problem}
+Compute the trace of $A$ using tensor notation
+\\\\
+\textbf{Answer: } The trace is computed as $A_{ii}$. Since $i$ is repeated twice it is summed. Thus:
+\begin{pyblock}
+# Intialize a 3x3 matrix
+A = MatrixSymbol('A',3,3)
+
+# Initialize a sum to compute trace
+sum = 0
+
+for i in range(3):
+    sum += A[i,i]
+
+# Compute trace using numpy
+sum2 = np.trace(A)
+\end{pyblock}
+
+As expected, $sum=\py{sum}$ and $sum2=\py{sum2}$
+%% **Problem 1.5:** Calculate trace using Aᵢᵢ notation

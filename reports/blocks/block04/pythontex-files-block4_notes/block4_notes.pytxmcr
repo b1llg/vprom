@@ -1,0 +1,35 @@
+%Last time of file creation:  1767034145.2073092
+
+\pytx@SVMCR{pytx@MCR@py@default@default@2}
+\begin{bmatrix} 2 \\ -1 \\ 3 \end{bmatrix}\endpytx@SVMCR
+
+\pytx@SVMCR{pytx@MCR@py@default@default@3}
+\begin{bmatrix} 1 \\ 4 \\ -2 \end{bmatrix}\endpytx@SVMCR
+
+\pytx@SVMCR{pytx@MCR@py@default@default@4}
+-8\endpytx@SVMCR
+
+\pytx@SVMCR{pytx@MCR@py@default@default@6}
+\left[\begin{array}{ccc}{A}_{0,0} & {A}_{0,1} & {A}_{0,2}\\{A}_{1,0} & {A}_{1,1} & {A}_{1,2}\\{A}_{2,0} & {A}_{2,1} & {A}_{2,2}\end{array}\right]\endpytx@SVMCR
+
+\pytx@SVMCR{pytx@MCR@py@default@default@7}
+\left[\begin{array}{c}{x}_{0,0}\\{x}_{1,0}\\{x}_{2,0}\end{array}\right]\endpytx@SVMCR
+
+\pytx@SVMCR{pytx@MCR@py@default@default@8}
+\left[\begin{array}{c}{A}_{0,0} {x}_{0,0} + {A}_{0,1} {x}_{1,0} + {A}_{0,2} {x}_{2,0}\\{A}_{1,0} {x}_{0,0} + {A}_{1,1} {x}_{1,0} + {A}_{1,2} {x}_{2,0}\\{A}_{2,0} {x}_{0,0} + {A}_{2,1} {x}_{1,0} + {A}_{2,2} {x}_{2,0}\end{array}\right]\endpytx@SVMCR
+
+\pytx@SVMCR{pytx@MCR@py@default@default@10}
+3\endpytx@SVMCR
+
+\pytx@SVMCR{pytx@MCR@py@default@default@11}
+3\endpytx@SVMCR
+
+\pytx@SVMCR{pytx@MCR@py@default@default@13}
+\left[\begin{matrix}{a}_{1,0} {b}_{2,0} - {a}_{2,0} {b}_{1,0}\\- {a}_{0,0} {b}_{2,0} + {a}_{2,0} {b}_{0,0}\\{a}_{0,0} {b}_{1,0} - {a}_{1,0} {b}_{0,0}\end{matrix}\right]\endpytx@SVMCR
+
+\pytx@SVMCR{pytx@MCR@py@default@default@15}
+A[0, 0] + A[1, 1] + A[2, 2]\endpytx@SVMCR
+
+\pytx@SVMCR{pytx@MCR@py@default@default@16}
+A[0, 0] + A[1, 1] + A[2, 2]\endpytx@SVMCR
+

@@ -58,6 +58,59 @@
     colback=red!5,
     #1
 }
+\begin{pycode}
+### Import packages and define functions
+import numpy as np
+import sympy
+
+# symbolic containers
+def ltx_sym_matrix(mat):
+    # Converts any input to a SymPy Matrix and returns LaTeX code
+    # This handles symbols like x, y, pi, and fractions automatically
+    return sympy.latex(sympy.Matrix(mat))
+
+def ltx_sym_tensor4(tensor):
+    # tensor is expected to be a 4D nested list or array
+    # We manually build the outer matrix structure
+    outer_rows = []
+    for i in range(len(tensor)):
+        row_matrices = []
+        for j in range(len(tensor[i])):
+            # Format each 2D sub-matrix using SymPy
+            sub_mat = sympy.latex(sympy.Matrix(tensor[i][j]))
+            row_matrices.append(sub_mat)
+        outer_rows.append(r" & ".join(row_matrices))
+    
+    return r"\begin{bmatrix} " + r" \\ ".join(outer_rows) + r" \end{bmatrix}"
+# Numeric containers
+def ltx_num_matrix(mat, precision=2):
+    arr = np.array(mat)
+    
+    # Helper to format numbers (rounds floats, leaves others)
+    def fmt(x):
+        return str(round(x, precision)) if isinstance(x, (float, np.floating)) else str(x)
+
+    if arr.ndim == 1:
+        rows = [fmt(x) for x in arr]
+    else:
+        rows = [r" & ".join(fmt(x) for x in row) for row in arr]
+    
+    return r"\begin{bmatrix} " + r" \\ ".join(rows) + r" \end{bmatrix}"
+
+def ltx_num_tensor4(tensor, precision=1):
+    arr = np.array(tensor)
+    outer_rows = []
+    for i in range(arr.shape[0]):
+        row_matrices = []
+        for j in range(arr.shape[1]):
+            # Reuse the numeric matrix formatter for sub-blocks
+            sub_mat = ltx_num_matrix(arr[i, j], precision)
+            row_matrices.append(sub_mat)
+        outer_rows.append(r" & ".join(row_matrices))
+    
+    return r"\begin{bmatrix} " + r" \\ ".join(outer_rows) + r" \end{bmatrix}"
+
+\end{pycode}
 
 
 %------ Problem definition

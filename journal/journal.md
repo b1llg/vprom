@@ -1,13 +1,17 @@
 # GPU accelerated ROM framework for viscoplastic models
 
 ## Block 4: Tensor and Continuum Mechanics
+### 2025-12-29
+- Debug the installation of pythontex to integrate the direct problem solving inside the document (about 1hr)
+- Complete assignement 4.1 (about 2hrs)
+
 ### 2025-12-28
 - Read Crisfield chapter 1.1-1.3 (about 0.5 hrs)
-- Read Belytschko chapter 3
+- Reprogramed Claude since token limit was reached with first discussiong. Had to restart a chat to put it in context (about 1hr)
+- Completed up until problem 2, assignment 4.1 including reading assignement (about 2hrs)
 
 ### 2025-12-21
 - Create latex report for notes on tensor algbra an continuum mechanics (about 1hr)
-
 
 ## Milestone 1: Recap paper for block 1,2 and 3
 ### 2025-12-21
