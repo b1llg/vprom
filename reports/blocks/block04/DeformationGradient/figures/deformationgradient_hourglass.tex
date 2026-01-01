@@ -1,0 +1,42 @@
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+    % Grid
+    \draw[help lines, gray!30] (-4,-3) grid (10,7);
+    
+    % Axes
+    \draw[thick, -Stealth] (-4,0) -- (10,0);
+    \draw[thick, -Stealth] (0,-3) -- (0,7);
+    
+    % Tick marks and labels
+    \foreach \x in {-4,-2,2,4,6,8,10}
+        \draw (\x,0.1) -- (\x,-0.1);
+    \foreach \y in {-3,-2,-1,1,2,3,4,5,6,7}
+        \draw (0.1,\y) -- (-0.1,\y);
+    
+    % Undeformed configuration (blue)
+    \draw[blue, very thick] 
+        (-2,-2) -- (-2,2) -- (2,2) -- (2,-2) -- cycle;
+    
+    % Filled square points for undeformed
+    \foreach \point in {(-2,-2), (-2,2), (2,2), (2,-2)}
+        \fill[blue] \point circle (3pt);
+    
+    % Deformed configuration (red) - trapezoid showing hourglassing
+    \draw[red, very thick] 
+        (4,2) -- (2,6) -- (9,6) -- (7,2) -- cycle;
+    
+    % Filled square points for deformed
+    \foreach \point in {(4,2), (2,6), (9,6), (7,2)}
+        \fill[red] \point circle (3pt);
+    
+    % Deformation arrow
+    \draw[-Stealth, very thick, black] (1,2.2) -- (2.8,3.8);
+    
+    % Labels
+    \node[below, blue] at (3.5,-0.5) {Undeformed};
+    \node[right, red] at (4.5,4) {Deformed};
+    
+\end{tikzpicture}
+
+\textit{Figure: Example of hourglassing and deformed configuration of a body}
+\end{center}

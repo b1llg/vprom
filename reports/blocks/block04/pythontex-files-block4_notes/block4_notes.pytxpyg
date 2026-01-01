@@ -212,6 +212,30 @@
 \PYG{n}{y} \PYG{o}{=} \PYG{n}{A} \PYG{o}{*} \PYG{n}{x}
 \end{pytx@SaveVerbatim}
 
+\begin{pytx@SaveVerbatim}[commandchars=\\\{\}]{pytx@py@default@default@9}
+\PYG{c+c1}{\PYGZsh{} Create a Kronecker Delta function}
+\PYG{k}{def} \PYG{n+nf}{deltakron}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{n}{j}\PYG{p}{)}\PYG{p}{:}
+    \PYG{k}{if} \PYG{n}{i}\PYG{o}{==}\PYG{n}{j}\PYG{p}{:}
+        \PYG{k}{return} \PYG{l+m+mi}{1}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{k}{return} \PYG{l+m+mi}{0}
+
+\PYG{c+c1}{\PYGZsh{} Intialize sum variables}
+\PYG{n+nb}{sum} \PYG{o}{=} \PYG{l+m+mi}{0}
+\PYG{n}{sum2} \PYG{o}{=} \PYG{l+m+mi}{0}
+
+\PYG{c+c1}{\PYGZsh{} Compute using i\PYGZhy{}j\PYGZhy{}k}
+\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{)}\PYG{p}{:}
+    \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{)}\PYG{p}{:}
+        \PYG{k}{for} \PYG{n}{k} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{)}\PYG{p}{:}
+            \PYG{n+nb}{sum} \PYG{o}{+}\PYG{o}{=} \PYG{n}{deltakron}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{n}{j}\PYG{p}{)}\PYG{o}{*}\PYG{n}{deltakron}\PYG{p}{(}\PYG{n}{j}\PYG{p}{,}\PYG{n}{k}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Compute using i\PYGZhy{}k}
+\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{)}\PYG{p}{:}
+        \PYG{k}{for} \PYG{n}{k} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{)}\PYG{p}{:}
+            \PYG{n}{sum2} \PYG{o}{+}\PYG{o}{=} \PYG{n}{deltakron}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{n}{k}\PYG{p}{)}
+\end{pytx@SaveVerbatim}
+
 \begin{pytx@SaveVerbatim}[commandchars=\\\{\}]{pytx@py@default@default@12}
 \PYG{k+kn}{from} \PYG{n+nn}{sympy} \PYG{k}{import} \PYG{n}{Eijk}
 
@@ -243,29 +267,5 @@
 
 \PYG{c+c1}{\PYGZsh{} Compute trace using numpy}
 \PYG{n}{sum2} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{trace}\PYG{p}{(}\PYG{n}{A}\PYG{p}{)}
-\end{pytx@SaveVerbatim}
-
-\begin{pytx@SaveVerbatim}[commandchars=\\\{\}]{pytx@py@default@default@9}
-\PYG{c+c1}{\PYGZsh{} Create a Kronecker Delta function}
-\PYG{k}{def} \PYG{n+nf}{deltakron}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{n}{j}\PYG{p}{)}\PYG{p}{:}
-    \PYG{k}{if} \PYG{n}{i}\PYG{o}{==}\PYG{n}{j}\PYG{p}{:}
-        \PYG{k}{return} \PYG{l+m+mi}{1}
-    \PYG{k}{else}\PYG{p}{:}
-        \PYG{k}{return} \PYG{l+m+mi}{0}
-
-\PYG{c+c1}{\PYGZsh{} Intialize sum variables}
-\PYG{n+nb}{sum} \PYG{o}{=} \PYG{l+m+mi}{0}
-\PYG{n}{sum2} \PYG{o}{=} \PYG{l+m+mi}{0}
-
-\PYG{c+c1}{\PYGZsh{} Compute using i\PYGZhy{}j\PYGZhy{}k}
-\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{)}\PYG{p}{:}
-    \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{)}\PYG{p}{:}
-        \PYG{k}{for} \PYG{n}{k} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{)}\PYG{p}{:}
-            \PYG{n+nb}{sum} \PYG{o}{+}\PYG{o}{=} \PYG{n}{deltakron}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{n}{j}\PYG{p}{)}\PYG{o}{*}\PYG{n}{deltakron}\PYG{p}{(}\PYG{n}{j}\PYG{p}{,}\PYG{n}{k}\PYG{p}{)}
-
-\PYG{c+c1}{\PYGZsh{} Compute using i\PYGZhy{}k}
-\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{)}\PYG{p}{:}
-        \PYG{k}{for} \PYG{n}{k} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{)}\PYG{p}{:}
-            \PYG{n}{sum2} \PYG{o}{+}\PYG{o}{=} \PYG{n}{deltakron}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{n}{k}\PYG{p}{)}
 \end{pytx@SaveVerbatim}
 

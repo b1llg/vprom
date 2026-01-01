@@ -10,16 +10,25 @@
 - `literature/`: Papers and reading notes (Not started yet)
 
 ## Current Status
-- ✅ Block 1: Implementing 1D elastic bar FEM
-- ✅ Block 2: Return mapping theory and implementation
-- ✅ Block 3: Viscoplasticity and Perzyna constitutive model implementation
-- ✅ Milestone 1: Recap article for the implementation of the Perzyna model in 1D
-- 🔄 **BLOCK 4:** 2D/3D Continuum Theory 
-- 📋 **BLOCK 5:** 2D/3D Python Implementation 
-- 📋 **BLOCK 6:** MFEM Fundamentals 
+✅ Block 1: 1D elastic FEM
+✅ Block 2: 1D plasticity 
+✅ Block 3: 1D viscoplasticity
+✅ Milestone 1: Month 1 summary
+🔄 Block 4: Continuum theory 
+📋 Block 5: MFEM fundamentals
+📋 Block 6: Elasticity in MFEM 
+📋 Block 7: Plasticity in MFEM 
+📋 Block 8: Viscoplasticity in MFEM 
+📋 Milestone 2: TBD
 
 ## Dependencies
+### Python related
 - Python 3.12+
 - NumPy
 - SciPy
 - Matplotlib
+- Sympy
+
+### LaTeX related
+- Pythontex
+- Texlive-Full

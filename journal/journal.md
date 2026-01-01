@@ -1,13 +1,21 @@
 # GPU accelerated ROM framework for viscoplastic models
 
 ## Block 4: Tensor and Continuum Mechanics
+
+### 2026-01-01
+- Deformation gradient reading and writing (about 1.5 hrs)
+
+### 2025-12-30
+- Started reading about deformation gradient, material vs spatial description (about 0.75hr)
+- Chapter writing and tikz figure rendering (about 1hr)
+
 ### 2025-12-29
 - Debug the installation of pythontex to integrate the direct problem solving inside the document (about 1hr)
 - Complete assignement 4.1 (about 2hrs)
 
 ### 2025-12-28
 - Read Crisfield chapter 1.1-1.3 (about 0.5 hrs)
-- Reprogramed Claude since token limit was reached with first discussiong. Had to restart a chat to put it in context (about 1hr)
+- Reprogramed Claude since token limit was reached with first discussion. Had to restart a chat to put it in context (about 1hr)
 - Completed up until problem 2, assignment 4.1 including reading assignement (about 2hrs)
 
 ### 2025-12-21

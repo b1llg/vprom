@@ -3,7 +3,151 @@
 \begin{chapterref}
 The references used in this chapter are:
     \begin{itemize}
-        \item \hl{Belytschko chapter 3} \cite{Belytschko_Liu_Moran_Elkhodary_2014}
+        \item Belytschko \cite{Belytschko_Liu_Moran_Elkhodary_2014}
+        \begin{itemize}
+            \item 3.2.2-3.2.3
+            \item 3.2.6
+            \item 3.7.1
+        \end{itemize}
         \item Continuum Mechanics website \cite{McGinty}
+        \begin{itemize}
+            \item Deformation Gradient
+            \item Polar Decomposition
+        \end{itemize}
     \end{itemize}
 \end{chapterref}
+
+\section{Introduction}
+Continuum mechanics introduce the concepts of \textbf{material} and \textbf{spatial} definition. See \cref{fig:spatialmaterialdescription}. The difference between material and spatial is the definition of what is observed:
+\begin{itemize}
+    \begin{keyconcept}{Material vs Spatial description}
+        \label{keyconcept:materialspatial}
+            \item Material $\rightarrow$ Lagrangian: Following a person in a crowd. Typical in solid mechanics (FEA).
+            \item Spatial $\rightarrow$ Eulerian: Fixing a point in a crowd and seeing who passes through. Typical in fluid mechanics (CFD).
+    \end{keyconcept}
+\end{itemize}
+
+The configuration of a body is defined by the symbol $\Omega$ and it's boundaries are represented by $\Gamma$. The subscript $_0$ indicates an initial state. To go from $\Omega_0$ to $\Omega$, the body goes from $\mathbf{X}$ to $\mathbf{x}$. Essentially $\mathbf{X}$ means which particle (where is it initially) and $\mathbf{x}$ means where is it now? The idea is the same for the definition of any point $\mathbf{P}$ and $\mathbf{p}$. Then, how $\mathbf{x}$ relates to $\mathbf{X}$ is defined by the deformation map $\varphi(\mathbf{X},t)$ and it's displacement $\mathbf{u}=\mathbf{x} - \mathbf{X}$. The deformation map can be seen as a tracker in the "crowd" example above: Given this initial point in space, what happend to whatever went through this point initially.
+
+\input{DeformationGradient/figures/spatialmaterialdescription.tex}
+
+
+\section{Deformation Gradient}
+The deformation gradient $\mathbf{F}$ is simply the derivative of each component of the deformed vector from the deformed configuration:  $\mathbf{x}$ with respect to each component of the reference configuration $\mathbf{X}$:
+\begin{equation}
+    \label{eq:deformationgradient}
+    F_{ij}=
+    x_{i,j}=
+    \dfrac{\partial x_{i}}{\partial X_j}
+    = \begin{bmatrix}
+        \dfrac{\partial x_{1}}{\partial X_1} && \dfrac{\partial x_{1}}{\partial X_2 } && \dfrac{\partial x_{1}}{\partial X_3} \\
+        \dfrac{\partial x_{2}}{\partial X_1} && \dfrac{\partial x_{2}}{\partial X_2 } && \dfrac{\partial x_{2}}{\partial X_3} \\
+        \dfrac{\partial x_{3}}{\partial X_1} && \dfrac{\partial x_{3}}{\partial X_2 } && \dfrac{\partial x_{3}}{\partial X_3}
+    \end{bmatrix}
+\end{equation}
+
+\begin{example}{Rigid body motion}
+The displacement function is :
+$$ 
+    \mathbf{u} = \begin{bmatrix}
+        x = X + 5 \\
+        y = Y + 2
+    \end{bmatrix}
+$$
+Here, $\mathbf{F}$ is simply $\mathbf{I}$ because
+$$
+    \mathbf{F}=\dfrac{x_i}{X_j}=\begin{bmatrix}
+        \dfrac{\partial (X + 5)}{\partial X} && \dfrac{\partial (X + 5)}{\partial Y}\\
+        \dfrac{\partial (Y + 2)}{\partial X} && \dfrac{\partial (Y + 2)}{\partial Y}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        1 && 0 \\
+        0 && 1
+    \end{bmatrix}
+$$
+Thus, the body is not deformed hence the title \it{Rigid body}.
+\end{example}
+
+\begin{example}{Rotation}
+    The displacement function is:
+$$ 
+    \mathbf{u} = \begin{bmatrix}
+        x = X \cos \theta - Y \sin \theta \\
+        y = X \sin \theta + Y \cos \theta
+    \end{bmatrix}
+$$
+$\mathbf{F}$ is then:
+$$
+    \mathbf{F}=\dfrac{\partial x_i}{\partial X_j}=\begin{bmatrix}
+        \dfrac{\partial (X \cos \theta - Y \sin \theta)}{\partial X} && \dfrac{\partial (X \cos \theta - Y \sin \theta)}{\partial Y}\\
+        \dfrac{\partial (X \sin \theta + Y \cos \theta)}{\partial X} && \dfrac{\partial (X \sin \theta + Y \cos \theta)}{\partial Y}
+    \end{bmatrix}
+$$ 
+$$
+    \mathbf{F}=
+    \begin{bmatrix}
+        \cos \theta && -\sin \theta \\
+        \sin \theta && \cos \theta
+    \end{bmatrix}
+$$
+\end{example}
+\begin{keyconcept}{Deformation gradient and hourglassing}
+    Sometimes, displaced bodies that undergo true deformation do not yield deformation when computed. This is the case with hourglassing, a numerical error in finite element when elements do not yield any deformation when in fact they deform. It is typical in dominant bending problems and when selected elements use reduced integration. While this is out of topic, it is an important concept and gives a good example of the calculation of deformation gradient. Example adapted and taken from \cite{McGinty}.
+
+    The displacement function is given by:
+    $$
+        \mathbf{u} = \begin{bmatrix}
+            x = X + \tfrac{1}{4}XY + 5 \\
+            Y + 4
+        \end{bmatrix}
+    $$
+    The deformation gradient is then:
+    $$
+        \mathbf{F} = \begin{bmatrix}
+            1+\tfrac{1}{4}Y && \tfrac{1}{4}X \\
+            0 && 1
+        \end{bmatrix}
+    $$
+    at $(0,0)$, the initial position of the centre of the square, the deformation gradient is $\mathbf{I}$ since $X=0$ and $Y=0$, even though visually the body deforms:
+    $$
+        \mathbf{F} = \begin{bmatrix}
+            1 && 0 \\
+            0 && 1
+        \end{bmatrix}
+    $$
+    
+    \input{DeformationGradient/figures/deformationgradient_hourglass.tex}
+\end{keyconcept}
+
+
+\section{Motion}
+\label{sec:motion}
+As described earlier, the displacement of a body is defined by: 
+\begin{equation}
+    \mathbf{u = x - X}
+    \label{eq:continuumdisplaceent}
+\end{equation}
+
+and the map from $\mathbf{X}$ to $\mathbf{x}$ is:
+\begin{equation}
+    \phi(\mathbf{X},t)
+    \label{eq:deformationmap}
+\end{equation}
+
+The velocity $\mathbf{v}(\mathbf{X}, t)$ is then, from \cref{eq:continuumdisplaceent} and \cref{eq:deformationmap}:
+\begin{equation}
+    \mathbf{v}(\mathbf{X}, t)=\dfrac{\partial \phi (\mathbf{X}, t)}{\partial t}=\dfrac{\partial \mathbf{u}(\mathbf{X}, t)}{\partial t} \equiv \dot{\mathbf{u}}
+\end{equation}
+
+in the same fashion, the acceleration is:
+\begin{equation}
+    \mathbf{a}(\mathbf{X}, t)=\dfrac{\partial^2 \phi (\mathbf{X}, t)}{\partial t^2}=\dfrac{\partial^2 \mathbf{u}(\mathbf{X}, t)}{\partial t^2}=\dfrac{\partial \mathbf{v}(\mathbf{X}, t)}{\partial t} \equiv \ddot{\mathbf{u}}
+\end{equation}
+
+
+
+
+
+
+

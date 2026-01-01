@@ -3,8 +3,13 @@
 \begin{chapterref}
 The references used in this chapter are:
     \begin{itemize}
-        \item Belytschko chapter 3 \cite{Belytschko_Liu_Moran_Elkhodary_2014}
         \item Continuum Mechanics website \cite{McGinty}
+        \begin{itemize}
+            \item Vectors
+            \item Matrices \& Tensors
+            \item Tensor Notation (Basics)
+            \item Tensor Notation (Advanced)
+        \end{itemize}
     \end{itemize}
 \end{chapterref}
 This chapter will cover the vector and tensor essentials to understand tensor algebra applied to solid mechanics. Vectors and matrix are essentially containers for scalars. Scalar are ordered in a certain fashion and some operation can be done with them. Tensors are an extension to vector and matrix. In this report, this notation will be used:
@@ -12,7 +17,10 @@ This chapter will cover the vector and tensor essentials to understand tensor al
     \item Scalars will be lower case letters, i.e.: $a,b,c,..$
     \item Vectors will be lowercase bold letters, i.e.: $\boldsymbol{x,v,a}$ or $\boldsymbol{x, \dot{x}, \ddot{x}}$
     \item Matrix will be uppercase bold letters: $\boldsymbol{A, C, X}$
-\end{itemize} 
+\end{itemize}
+
+\section{Introduction}
+This chapter is a basis for tensor definition and operation. It is not an in depth review of linear or tensor algebra but rather a simple, short take on the required notions for continuum mechanics.
 
 \section{Matrices, Vectors and Tensors}
 A vector is defined as:
@@ -20,7 +28,7 @@ $$
     \boldsymbol{v} = 
     \begin{pmatrix}
         i \\
-        ... \\
+        \dots \\
         n
     \end{pmatrix}    
 $$
@@ -29,9 +37,10 @@ A matrix is defined as:
 $$ 
     \boldsymbol{M} = 
     \begin{bmatrix}
-        1 & 2 & n \\
-        2 & ... & ...\\
-        m & ... & mn    
+        1   & 2 &\dots& n \\
+        2   & \ddots &    & \vdots\\
+        \vdots &  & \ddots  & \vdots\\
+        m   & \dots & \dots  & mn    
     \end{bmatrix}    
 $$
 The dot product of two vector is: 
@@ -40,7 +49,7 @@ $$ \mathbf{a}\cdot \mathbf{b} = a_i b_i = a_1b_1 + a_2b_2 + a_3b_3 = c$$
 
 Above, the example use tensor notation and $c$ is a scalar. That means that the use of subscript defines the size of each container (vector $=$ 1st order tensor) and how they interact with each other. 
 \begin{keyconcept}{Einstein notation}
-    \label{ex:einstein}
+    \label{keyconcept:einstein}
     Their is one relatively simple rule with indices: is an index is repeated twice, it is summed. For example:
     $$c_{ij} = a_ib_j \neq a_1b_1 + a_2b_2 + a_3b_3$$
 
@@ -115,7 +124,7 @@ The identity matrix in tensor notation is the Kronecker Delta.
 
 \end{example}
 
-Another symbol called the permutation symbol (or the Levi-Civita symbol) is a scalar defined as $\varepsilon_{ijk...}$. The $...$ means that it exists for higher indices the symbol and works with the same logic. The idea is that if it follows a certain ordering the return value is either 1, -1 or 0 :
+Another symbol called the permutation symbol (or the Levi-Civita symbol) is a scalar defined as $\varepsilon_{ijk\dots}$. The $\dots$ means that it exists for higher indices the symbol and works with the same logic. The idea is that if it follows a certain ordering the return value is either 1, -1 or 0 :
 
 $$
 \epsilon_{ijk} =

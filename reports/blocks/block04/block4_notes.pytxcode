@@ -1,4 +1,4 @@
-=>PYTHONTEX#py#default#default#0#code#####61#
+=>PYTHONTEX#py#default#default#0#code#####62#
 ### Import packages and define functions
 import numpy as np
 import sympy
