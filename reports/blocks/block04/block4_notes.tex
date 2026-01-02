@@ -1,4 +1,4 @@
-\documentclass[]{report}
+\documentclass[]{book}
 
 %----- Graphics packages
 \usepackage{graphics}
@@ -17,6 +17,9 @@
 %----- Tikz
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta, shapes.geometric, babel}
+
+%----- Hyperref
+\usepackage{hyperref}
 
 %----- Citations
 \usepackage{cleveref}[noabrev, capitalize]
@@ -122,17 +125,29 @@ def ltx_num_tensor4(tensor, precision=1):
 \author{Billy Guy}
 \date{25-12-22}
 
-\begin{document}
 
-\begin{abstract}
-    This short report is a collection of notes used to developed a framework for hyper reduction of viscoplastic finite element models.
-\end{abstract}
+
+% \begin{abstract}
+%     This short report is a collection of notes used to developed a framework for hyper reduction of viscoplastic finite element models.
+% \end{abstract}
+
+\begin{document}
 
 \maketitle
 
+\frontmatter
+
+\input{licence.tex}
+
+\input{foreword.tex}
+
+
 \tableofcontents
 
+\mainmatter
 
+\chapter{Introduction}
+High temperature components are in a lot of critical applications and they are stresssed in certain ways that common parts are not. The temperature effect induce certain material behavior that aren't really present in normal applications. One of these material behavior is viscoplasticiy. Viscoplasticity is defined by the change in viscous response of the material due to the rate of solicitation.
 
 \input{TensorFundamentals/TensorFundamentals.tex}
 

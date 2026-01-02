@@ -98,7 +98,7 @@ $$
     The displacement function is given by:
     $$
         \mathbf{u} = \begin{bmatrix}
-            x = X + \tfrac{1}{4}XY + 5 \\
+            X + \tfrac{1}{4}XY + 5 \\
             Y + 4
         \end{bmatrix}
     $$
@@ -119,6 +119,81 @@ $$
     
     \input{DeformationGradient/figures/deformationgradient_hourglass.tex}
 \end{keyconcept}
+
+\marginpar{\footnotesize This section has relied heavily on \cite{McGinty}. Most of the notes are a literal copy of the reference. Especially for the explanation of the rotation and stretch tensor}
+
+The subject of rotation has been approached in a previous example, but this subject is rather important in solid mechanics. Indeed, each deformed body can be explained in parts by translation (strech) and rotation. In large displacement solid mechanics, rotation do not generate strain. Thus, the deformation gradient can be obtained by:
+
+\begin{enumerate}
+    \item Rotating first then stretch, which gives:
+    \begin{equation}
+        \mathbf{F = R \cdot U}
+        \label{eq:deformationstretch}
+    \end{equation}
+    \item Stretching first then rotate, which gives:
+    \begin{equation}
+        \mathbf{F = V \cdot R}
+        \label{eq:deformationrotation}
+    \end{equation}
+\end{enumerate}
+
+
+
+Here $\mathbf{U}$ and $\mathbf{V}$ are the right strech tensor and left stretch tensor respectively. $\mathbf{R}$ is the rotation matrix. From \cref{eq:deformationstretch}  and \cref{eq:deformationrotation} we can confidently say that:
+\begin{equation}
+    \mathbf{V \cdot R = R \cdot U}
+\end{equation}
+
+\begin{keyconcept}{Interesting properties of the rotation matrix $R$}
+    The following is two interesting properties of the rotation matrix:
+    \begin{equation}
+        \det{R} = 1
+    \end{equation}
+    \begin{equation}
+        R^{-1} = R^T
+    \end{equation}
+ 
+\end{keyconcept}
+
+by multiplying both sides by $\mathbf{R^T}$:
+\begin{equation}
+    \mathbf{V \cdot R \cdot R^T = R \cdot U \cdot R^T}
+\end{equation}
+
+\begin{equation}
+    \mathbf{V \cdot I = R \cdot U \cdot R^T}
+\end{equation}
+
+
+
+Thus, 
+
+\begin{equation}
+    \mathbf{V = R \cdot U \cdot R^T}
+\end{equation}
+
+and,
+
+\begin{equation}
+    \mathbf{U = R^T \cdot V \cdot R}
+\end{equation}
+
+Knowing the interesting properties above, the partitioning of stretch and rotation can be determined using:
+\begin{equation}
+    \mathbf{F^T \cdot F = ( R\cdot U )^T \cdot ( R\cdot U )^T}=\mathbf{U^T \cdot R^T \cdot R \cdot U}
+\end{equation}
+The same goes with the left stretch tensor thus
+\begin{equation}
+    \mathbf{F^T \cdot F = U^T \cdot U = V^T\cdot V}
+\end{equation}
+
+\begin{example}{Stretching and Rotation of a body}
+    \input{DeformationGradient/figures/stretchandrotation.tex}    
+\end{example}
+
+
+
+
 
 
 \section{Motion}
@@ -144,6 +219,8 @@ in the same fashion, the acceleration is:
 \begin{equation}
     \mathbf{a}(\mathbf{X}, t)=\dfrac{\partial^2 \phi (\mathbf{X}, t)}{\partial t^2}=\dfrac{\partial^2 \mathbf{u}(\mathbf{X}, t)}{\partial t^2}=\dfrac{\partial \mathbf{v}(\mathbf{X}, t)}{\partial t} \equiv \ddot{\mathbf{u}}
 \end{equation}
+
+
 
 
 

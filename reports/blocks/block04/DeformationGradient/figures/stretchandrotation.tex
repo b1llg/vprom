@@ -1,4 +1,6 @@
-% Basics from Claude, updated to correct Claude mistakes and match the required figure.
+% Figure created from the example: deformationgradient_hourglass.tex
+% Basics from Claude, updated to correct Claude mistakes and match the required figure
+
 \begin{center}
 \begin{tikzpicture}[scale=0.75]
     % Grid
@@ -16,19 +18,19 @@
     
     % Undeformed configuration (blue)
     \draw[blue, very thick] 
-        (-2,-2) -- (-2,2) -- (2,2) -- (2,-2) -- cycle;
+        (0, 3) -- (3, 3) -- (3, 0) -- (0, 0) -- cycle;
     
     % Filled square points for undeformed
-    \foreach \point in {(-2,-2), (-2,2), (2,2), (2,-2)}
+    \foreach \point in {(0, 3), (3, 3), (3,  0), (0, 0)}
         \fill[blue] \point circle (3pt);
     
-    % Deformed configuration (red) - trapezoid showing hourglassing
-    \draw[red, very thick] 
+    % Deformed configuration (red)
+    \draw[blue, very thick] 
         (4,2) -- (2,6) -- (9,6) -- (7,2) -- cycle;
     
     % Filled square points for deformed
     \foreach \point in {(4,2), (2,6), (9,6), (7,2)}
-        \fill[red] \point circle (3pt);
+        \fill[blue] \point circle (3pt);
     
     % Deformation arrow
     \draw[-Stealth, very thick, black] (1,2.2) -- (2.8,4);
