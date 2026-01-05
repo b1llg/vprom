@@ -2,8 +2,19 @@
 
 ## Block 4: Tensor and Continuum Mechanics
 
+### 2026-01-05
+- 
+
+### 2026-01-03
+- Reformat into a book for the whole project (about 0.75hrs)
+- Deformation gradient example (about 0.5hrs)
+
+### 2026-01-02
+- Example for polar decomposition (about 1.5 hrs)
+
 ### 2026-01-01
 - Deformation gradient reading and writing (about 1.5 hrs)
+- Added forword and intro (about 1hr)
 
 ### 2025-12-30
 - Started reading about deformation gradient, material vs spatial description (about 0.75hr)
@@ -30,7 +41,7 @@
 - Write paper content about algorithms. (about 2.5hrs)
 
 ### 2025-12-06
-- Write paper content about vicoplastic models and algorithm implementation (about 2hrs)
+- Write paper content about viscoplastic models and algorithm implementation (about 2hrs)
 
 ### 2025-12-03
 - Write paper content about viscoplastic models (About 2hrs)

@@ -1,7 +1,7 @@
-\chapter{Deformation gradient and motion}
-\label{chap:deformgradmotion}
-\begin{chapterref}
-The references used in this chapter are:
+\section{Deformation gradient and motion}
+\label{subsec:deformgradmotion}
+\begin{sectionref}
+The references used in this section are:
     \begin{itemize}
         \item Belytschko \cite{Belytschko_Liu_Moran_Elkhodary_2014}
         \begin{itemize}
@@ -15,12 +15,13 @@ The references used in this chapter are:
             \item Polar Decomposition
         \end{itemize}
     \end{itemize}
-\end{chapterref}
+\end{sectionref}
 
-\section{Introduction}
+\subsection{Introduction}
+\marginpar{\footnotesize This subsection has relied heavily on \cite{McGinty}. Most of the notes are a literal copy of the reference. Especially for the explanation of the rotation and stretch tensor}
 Continuum mechanics introduce the concepts of \textbf{material} and \textbf{spatial} definition. See \cref{fig:spatialmaterialdescription}. The difference between material and spatial is the definition of what is observed:
 \begin{itemize}
-    \begin{keyconcept}{Material vs Spatial description}
+    \begin{keyconcept}[unbreakable]{Material vs Spatial description}
         \label{keyconcept:materialspatial}
             \item Material $\rightarrow$ Lagrangian: Following a person in a crowd. Typical in solid mechanics (FEA).
             \item Spatial $\rightarrow$ Eulerian: Fixing a point in a crowd and seeing who passes through. Typical in fluid mechanics (CFD).
@@ -29,10 +30,10 @@ Continuum mechanics introduce the concepts of \textbf{material} and \textbf{spat
 
 The configuration of a body is defined by the symbol $\Omega$ and it's boundaries are represented by $\Gamma$. The subscript $_0$ indicates an initial state. To go from $\Omega_0$ to $\Omega$, the body goes from $\mathbf{X}$ to $\mathbf{x}$. Essentially $\mathbf{X}$ means which particle (where is it initially) and $\mathbf{x}$ means where is it now? The idea is the same for the definition of any point $\mathbf{P}$ and $\mathbf{p}$. Then, how $\mathbf{x}$ relates to $\mathbf{X}$ is defined by the deformation map $\varphi(\mathbf{X},t)$ and it's displacement $\mathbf{u}=\mathbf{x} - \mathbf{X}$. The deformation map can be seen as a tracker in the "crowd" example above: Given this initial point in space, what happend to whatever went through this point initially.
 
-\input{DeformationGradient/figures/spatialmaterialdescription.tex}
+\input{block04/DeformationGradient/figures/spatialmaterialdescription.tex}[H]
 
 
-\section{Deformation Gradient}
+\subsection{Deformation Gradient}
 The deformation gradient $\mathbf{F}$ is simply the derivative of each component of the deformed vector from the deformed configuration:  $\mathbf{x}$ with respect to each component of the reference configuration $\mathbf{X}$:
 \begin{equation}
     \label{eq:deformationgradient}
@@ -47,14 +48,15 @@ The deformation gradient $\mathbf{F}$ is simply the derivative of each component
 \end{equation}
 
 \begin{example}{Rigid body motion}
-The displacement function is :
+    Given the following mapping:
 $$ 
     \mathbf{u} = \begin{bmatrix}
         x = X + 5 \\
         y = Y + 2
     \end{bmatrix}
 $$
-Here, $\mathbf{F}$ is simply $\mathbf{I}$ because
+Find the deformation gradient.\\
+\textbf{Answer: } Here, $\mathbf{F}$ is simply $\mathbf{I}$ because
 $$
     \mathbf{F}=\dfrac{x_i}{X_j}=\begin{bmatrix}
         \dfrac{\partial (X + 5)}{\partial X} && \dfrac{\partial (X + 5)}{\partial Y}\\
@@ -70,13 +72,15 @@ Thus, the body is not deformed hence the title \it{Rigid body}.
 \end{example}
 
 \begin{example}{Rotation}
-    The displacement function is:
+    Given the following mapping:
 $$ 
     \mathbf{u} = \begin{bmatrix}
         x = X \cos \theta - Y \sin \theta \\
         y = X \sin \theta + Y \cos \theta
     \end{bmatrix}
 $$
+Find the deformation gradient.\\
+\textbf{Answer: }
 $\mathbf{F}$ is then:
 $$
     \mathbf{F}=\dfrac{\partial x_i}{\partial X_j}=\begin{bmatrix}
@@ -117,11 +121,31 @@ $$
         \end{bmatrix}
     $$
     
-    \input{DeformationGradient/figures/deformationgradient_hourglass.tex}
+    \input{block04/DeformationGradient/figures/deformationgradient_hourglass.tex}
 \end{keyconcept}
 
-\marginpar{\footnotesize This section has relied heavily on \cite{McGinty}. Most of the notes are a literal copy of the reference. Especially for the explanation of the rotation and stretch tensor}
+The determinant of the deformation gradient is called the jacobian determinant:
+\begin{equation}
+    \mathbf{J = \det F}    
+\end{equation}
+It represents the volume ratio of a body:
+$$  
+    \begin{cases}
+        J = 1 & \text{Incompressible}   \\
+        J > 1 & \text{Expanding volume} \\
+        J < 1 & \text{Compressed volume}
+    \end{cases}
+$$
+It must obey:
+\begin{equation}
+    \mathbf{J > 0}
+\end{equation}
+Because $\mathbf{F}$: \begin{enumerate}
+    \item Must have an inverse
+    \item Would mean negative volume
+\end{enumerate} 
 
+\subsection{Polar Decomposition}
 The subject of rotation has been approached in a previous example, but this subject is rather important in solid mechanics. Indeed, each deformed body can be explained in parts by translation (strech) and rotation. In large displacement solid mechanics, rotation do not generate strain. Thus, the deformation gradient can be obtained by:
 
 \begin{enumerate}
@@ -145,12 +169,12 @@ Here $\mathbf{U}$ and $\mathbf{V}$ are the right strech tensor and left stretch 
 \end{equation}
 
 \begin{keyconcept}{Interesting properties of the rotation matrix $R$}
-    The following is two interesting properties of the rotation matrix:
+    The followings are two interesting properties of the rotation matrix:
     \begin{equation}
         \det{R} = 1
     \end{equation}
     \begin{equation}
-        R^{-1} = R^T
+        R^{-1} = R^T \ \rightarrow \text{Orthogonal property}
     \end{equation}
  
 \end{keyconcept}
@@ -163,8 +187,6 @@ by multiplying both sides by $\mathbf{R^T}$:
 \begin{equation}
     \mathbf{V \cdot I = R \cdot U \cdot R^T}
 \end{equation}
-
-
 
 Thus, 
 
@@ -182,43 +204,114 @@ Knowing the interesting properties above, the partitioning of stretch and rotati
 \begin{equation}
     \mathbf{F^T \cdot F = ( R\cdot U )^T \cdot ( R\cdot U )^T}=\mathbf{U^T \cdot R^T \cdot R \cdot U}
 \end{equation}
-The same goes with the left stretch tensor thus
+The same goes with the left stretch tensor ($\mathbf{V}$) thus
 \begin{equation}
+    \label{eq:gradienttransposeproperty}
     \mathbf{F^T \cdot F = U^T \cdot U = V^T\cdot V}
 \end{equation}
 
 \begin{example}{Stretching and Rotation of a body}
-    \input{DeformationGradient/figures/stretchandrotation.tex}    
+    Given the following coordinate mapping:
+    $$
+        \begin{bmatrix}
+            x \\ y
+        \end{bmatrix}
+        = \begin{bmatrix}
+            1.30X - 0.375Y \\
+            0.750X + 0.650Y
+        \end{bmatrix}
+    $$
+    Find the deformation gradient and partition the rotation and stretch tensor.
+    
+    \textbf{Answer: } Use the right stretch tensor $\mathbf{U}$ to find $\mathbf{R}$. First, the deformation gradient:
+    $$
+        \mathbf{F}=\dfrac{x_i}{X_j}=\begin{bmatrix}
+            \dfrac{\partial (1.30X - 0.375Y)}{\partial X} && \dfrac{\partial (1.30X - 0.375Y)}{\partial Y}\\
+            \dfrac{\partial (0.750X + 0.650Y)}{\partial X} && \dfrac{\partial (0.750X + 0.650Y)}{\partial Y}
+        \end{bmatrix}
+    $$
+    $$
+        \mathbf{F}=\begin{bmatrix}
+            1.300 && -0.375 \\
+            0.750 && 0.650
+        \end{bmatrix}
+    $$
+    Hence, $\mathbf{F^T \cdot F = U^T \cdot U }$. Thus we find $\mathbf{U}$ from taking the square root of $\mathbf{F^T \cdot F}$:
+    $$
+        \mathbf{U = \sqrt{U^T \cdot U}}
+    $$
+    $$
+        \mathbf{U} = \sqrt{\begin{bmatrix}
+            2.500 && 0.000 \\
+            0.000 && 0.536
+        \end{bmatrix}
+        } = \begin{bmatrix}
+            1.500 && 0.000 \\
+            0.000 && 0.75
+        \end{bmatrix}
+    $$
+    Then we multiply $\mathbf{F}$ by $\mathbf{U^{-1}}$ to obtain $\mathbf{R}$
+    $$
+        \mathbf{F \cdot U^{-1} = R \cdot U \cdot U^{-1} = R}
+    $$
+    where 
+    $$
+        U^{-1} = \begin{bmatrix}
+            0.667 && 0.000 \\
+            0.000 && 1.333
+        \end{bmatrix}
+    $$
+    thus,
+    $$
+        \mathbf{R = F \cdot U^{-1} = \begin{bmatrix}
+            1.300 && -0.375 \\
+            0.750 && 0.650
+        \end{bmatrix} 
+        \begin{bmatrix}
+            0.667 && 0.000 \\
+            0.000 && 1.333
+        \end{bmatrix}}
+    $$
+    $$
+        R =
+        \begin{bmatrix}
+            0.866 && -0.500 \\
+            0.500 && 0.866
+        \end{bmatrix}
+    $$
+    \input{block04/DeformationGradient/figures/stretchandrotation.tex}    
 \end{example}
+Note that other methods to find $\mathbf{R}$ exist, to list a few:
+\begin{enumerate}
+    \item Using the left stretch tensor $\mathbf{F = V R}$
+    \item Iterative procedure:
+    $$
+        A_{n+1} = \tfrac{1}{2}(A_n + A_n^{-T})
+    $$
+    where $\mathbf{A_n}$ is replaced by $\mathbf{F}$. However, the transpose and inverse of $\mathbf{F}$ have to be computed to find $F_n^{-T}$. After a few iterations, this yields $\mathbf{R}$. Then, $\mathbf{V}$ or $\mathbf{U}$ can be found by using the extensions of \cref{eq:deformationstretch} and \cref{eq:deformationrotation}, remember $\mathbf{R^T = R^{-1}}$:
+    $$
+        \mathbf{R^{-1} F = R^{-1} R U}
+    $$
+    and 
+    $$
+        \mathbf{F R^{-1} = V R R^{-1}}
+    $$
+    yields:
+    \begin{equation}
+        \mathbf{U = R^T F}
+    \end{equation}
+    and:
+    \begin{equation}
+        \mathbf{V = F R^T}
+    \end{equation}
+\end{enumerate}
+
+\input{block04/DeformationGradient/problemset.tex}
 
 
 
 
 
-
-\section{Motion}
-\label{sec:motion}
-As described earlier, the displacement of a body is defined by: 
-\begin{equation}
-    \mathbf{u = x - X}
-    \label{eq:continuumdisplaceent}
-\end{equation}
-
-and the map from $\mathbf{X}$ to $\mathbf{x}$ is:
-\begin{equation}
-    \phi(\mathbf{X},t)
-    \label{eq:deformationmap}
-\end{equation}
-
-The velocity $\mathbf{v}(\mathbf{X}, t)$ is then, from \cref{eq:continuumdisplaceent} and \cref{eq:deformationmap}:
-\begin{equation}
-    \mathbf{v}(\mathbf{X}, t)=\dfrac{\partial \phi (\mathbf{X}, t)}{\partial t}=\dfrac{\partial \mathbf{u}(\mathbf{X}, t)}{\partial t} \equiv \dot{\mathbf{u}}
-\end{equation}
-
-in the same fashion, the acceleration is:
-\begin{equation}
-    \mathbf{a}(\mathbf{X}, t)=\dfrac{\partial^2 \phi (\mathbf{X}, t)}{\partial t^2}=\dfrac{\partial^2 \mathbf{u}(\mathbf{X}, t)}{\partial t^2}=\dfrac{\partial \mathbf{v}(\mathbf{X}, t)}{\partial t} \equiv \ddot{\mathbf{u}}
-\end{equation}
 
 
 

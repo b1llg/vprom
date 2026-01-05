@@ -1,0 +1,134 @@
+\subsection{Problem set}
+
+\begin{problem}
+    Deformation gradient interpretation
+\end{problem}
+Given the deformation map $\varphi$:
+$$
+    \varphi = \begin{bmatrix}
+        x \\ y \\ z
+    \end{bmatrix} = 
+    \begin{bmatrix}
+        1.2X \\
+        0.8Y \\
+        Z
+    \end{bmatrix}
+$$
+Find $\mathbf{F}$ and $\mathbf{J}$, interpret. 
+\\\\ \textbf{Answer:} $F$ is defined as:
+\begin{pyblock}
+from sympy import Matrix, symbols
+X, Y, Z = symbols('X Y Z')
+ref_coords = Matrix([X, Y, Z])
+
+# Define the deformation map
+phi = Matrix(
+    [1.2*X,
+     0.8*Y,
+     1.0*Z])
+
+# Calculate the deformation gradient (F)
+F = phi.jacobian(ref_coords)
+
+# Calculate the Jacobian (det F)
+J = F.det()
+\end{pyblock}
+Finally,
+
+$$
+    F = \py{ltx_sym_matrix(F)}
+$$
+
+$$
+    \det{F} = J = \py{J}
+$$
+Since $\mathbf{J} < 1$, the body is underdoing compression since the stretch in $\mathbf{X}$ is larger than the stretch in the other directions.
+
+\begin{problem}
+    Deformation gradient and rotation
+\end{problem}
+Find $\mathbf{F}$ for a rotation of 30°. Verify that $\det{\mathbf{F}}=1$ and $\mathbf{F}^{T}\mathbf{F}=\mathbf{I}$ 
+\\\\ \textbf{Answer:}:
+The rotation matrix $\mathbf{R}$ in 2D is defined as:
+$$
+    \begin{bmatrix}
+        \cos \theta && -\sin \theta \\
+        \sin \theta && \cos \theta
+    \end{bmatrix}
+$$
+
+We replace $\theta = 30$°, and compute $\mathbf{F}$.
+
+\begin{pyblock}
+import numpy as np
+
+
+# Define the angle
+theta = np.deg2rad(30)
+
+# Define the deformation gradient
+F = np.array([
+    [np.cos(theta), -np.sin(theta)],
+    [np.sin(theta), np.cos(theta)]
+])
+
+# Verify that F^t * F = I
+verif1 = np.transpose(F) * F
+
+# Verify that det(F) = 1
+verif2 = np.linalg.det(F)
+
+\end{pyblock}
+We can then verify that:
+$$
+    \mathbf{F^T F = I = \py{ltx_num_matrix(np.matmul(np.transpose(F),F))}}
+$$
+and 
+
+$$
+    \mathbf{J} = \det{\mathbf{F}} = \py{verif2}
+$$
+Since rotation is considered rigid body motion, the volume does not undergo deformation which makes since since the jacobian is unity.
+
+
+\begin{problem}
+    Deformation gradient and polar decomposition
+\end{problem}
+Given 
+$$
+    \mathbf{F} = \begin{bmatrix}
+        1.3 && -0.375 \\
+        0.75 && 0.65
+    \end{bmatrix}
+$$
+Compute the polar decomposition (Find V, U and R).
+\\\\ \textbf{Answer:}: From \cref{eq:gradienttransposeproperty} We take the square root of $\mathbf{F^T F}$ to find $\mathbf{U}$. Then we compute the inverse of $\mathbf{U}$ to find $\mathbf{R}$:
+\begin{pyblock} 
+import numpy as np
+
+# Define the deformation gradient
+F = np.array([
+    [1.3, -0.375],
+    [0.75, 0.65]
+])
+
+# Compute U
+U = np.sqrt(np.matmul(np.transpose(F), F))
+
+# Compute R
+R = np.matmul(F, np.linalg.inv(U))
+\end{pyblock}
+$$
+    U = \py{ltx_num_matrix(U)}
+$$
+and
+
+$$
+    R = \py{ltx_num_matrix(R)}
+$$
+
+\hl{WIP}
+
+\begin{problem}
+    Volume change and $J$
+\end{problem}

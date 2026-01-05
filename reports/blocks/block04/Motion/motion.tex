@@ -1,0 +1,68 @@
+\section{Motion}
+\label{subsec:motion}
+As described earlier, the displacement of a body is defined by: 
+\begin{equation}
+    \mathbf{u = x - X}
+    \label{eq:continuumdisplaceent}
+\end{equation}
+
+and the map from $\mathbf{X}$ to $\mathbf{x}$ is:
+\begin{equation}
+    \varphi(\mathbf{X},t)
+    \label{eq:deformationmap}
+\end{equation}
+
+The velocity $\mathbf{v}(\mathbf{X}, t)$ is then, from \cref{eq:continuumdisplaceent} and \cref{eq:deformationmap}:
+\begin{equation}
+    \label{eq:materialvelocity}
+    \mathbf{v}(\mathbf{X}, t)=\dfrac{\partial \varphi (\mathbf{X}, t)}{\partial t}=\dfrac{\partial \mathbf{u}(\mathbf{X}, t)}{\partial t} \equiv \dot{\mathbf{u}}
+\end{equation}
+
+in the same fashion, the acceleration is:
+\begin{equation}
+    \label{eq:materialacceleration}
+    \mathbf{a}(\mathbf{X}, t)=\dfrac{\partial^2 \varphi (\mathbf{X}, t)}{\partial t^2}=\dfrac{\partial^2 \mathbf{u}(\mathbf{X}, t)}{\partial t^2}=\dfrac{\partial \mathbf{v}(\mathbf{X}, t)}{\partial t} \equiv \ddot{\mathbf{u}}
+\end{equation}
+
+\cref{eq:materialvelocity} and \cref{eq:materialacceleration} both relates to the spatial description of the body (point in the crowd). To define a quantity using the spatial description (person in the crowd), one has to define a material derivative using the chain rule. 
+
+\begin{equation}
+    \label{eq:materialderiv-chain1}
+    \dfrac{Dv_i(\mathbf{x},t)}{Dt} = 
+    \dfrac{\partial v_i (\mathbf{x}, t)}{\partial t}
+     + \dfrac{\partial v_i (\mathbf{x}, t)}{\partial x_j}
+     \dfrac{\partial \varphi_i (\mathbf{X}, t)}{\partial t}
+\end{equation}
+
+The derivative of the deformation map $\varphi$ with respect to time, in the second term on the right hand side yields:
+
+\begin{equation}
+    \dfrac{\partial v_i (\mathbf{x}, t)}{\partial x_j}
+     \dfrac{\partial \varphi_i (\mathbf{X}, t)}{\partial t} = v_j
+\end{equation}
+
+Which finally give:
+
+\begin{equation}
+    \label{eq:materialderiv-final}
+    \dfrac{Dv_i(\mathbf{x},t)}{Dt} = 
+    \dfrac{\partial v_i}{\partial t} + \dfrac{\partial v_i}{\partial x_j}v_j
+\end{equation}
+
+Or in matrix-vector from:
+
+\begin{equation}
+    \label{eq:materialderiv-final2}
+    \dfrac{D \mathbf{v}(\mathbf{x},t)}{Dt} = 
+    \dfrac{\partial \mathbf{v}(\mathbf{x}, t)}{\partial t} + \mathbf{v} \cdot \nabla \mathbf{v}
+\end{equation}
+
+
+which gives, in a more generic form:
+
+\begin{equation}
+    \label{eq:materialderiv-generic}
+    \underbrace{\dfrac{D(\cdot)}{Dt} }_{\text{Material Derivative}}=
+    \underbrace{\dfrac{\partial (\cdot)}{\partial t}}_{\text{Spatial term}} + 
+    \underbrace{\mathbf{v } \cdot \nabla (\cdot)}_{\text{Convective/Adjective term}}
+\end{equation}

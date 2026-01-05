@@ -39,4 +39,6 @@ venv/
 *.dvi
 *.ps
 *.gz
+*.pytxcode
+**/pythontex-files*
 

@@ -16,30 +16,40 @@
     \foreach \y in {-3,-2,-1,1,2,3,4,5,6,7}
         \draw (0.1,\y) -- (-0.1,\y) node[left] {\small $\y$};
     
+    %----- Undeformed
     % Undeformed configuration (blue)
-    \draw[blue, very thick] 
+    \draw[red, very thick] 
         (0, 3) -- (3, 3) -- (3, 0) -- (0, 0) -- cycle;
     
     % Filled square points for undeformed
     \foreach \point in {(0, 3), (3, 3), (3,  0), (0, 0)}
-        \fill[blue] \point circle (3pt);
+        \fill[red] \point circle (3pt);
     
+    %----- Rotated
     % Deformed configuration (red)
-    \draw[blue, very thick] 
-        (4,2) -- (2,6) -- (9,6) -- (7,2) -- cycle;
+    \draw[orange, very thick] 
+        (-1.5, 2.6) -- (1.1, 4.1) -- (2.5, 1.45) -- (0, 0) -- cycle;
     
     % Filled square points for deformed
-    \foreach \point in {(4,2), (2,6), (9,6), (7,2)}
+    \foreach \point in {(-1.5, 2.6), (1.1, 4.1), (2.5, 1.45), (0, 0)}
+        \fill[orange] \point circle (3pt);
+    
+    %----- Stretched
+    % Deformed configuration (red)
+    \draw[blue, very thick] 
+        (-1.12, 1.95) -- (2.77, 4.2) -- (3.9, 2.25) -- (0, 0) -- cycle;
+    
+    % Filled square points for deformed
+    \foreach \point in {(-1.12, 1.95), (2.77, 4.2), (3.9, 2.25), (0, 0)}
         \fill[blue] \point circle (3pt);
     
-    % Deformation arrow
-    \draw[-Stealth, very thick, black] (1,2.2) -- (2.8,4);
-    
     % Labels
-    \node[below, blue] at (3.5,-0.5) {Undeformed};
-    \node[right, red] at (4.5,4) {Deformed};
+    \node[right, red] at (4.5, 3.5) {(1) Undeformed};
+    \node[right, orange] at (4.5, 2.5) {(2) Deformed - (R)otated};
+    \node[right, blue] at (4.5, 1.5) {(3) Deformed - (S)tretched};
+    \node[right, black] at (4.5, 4.5) {$\mathbf{F = R\cdot U}$};
     
 \end{tikzpicture}
 
-\textit{Example of hourglassing and deformed configuration of a body}
+\textit{Example of stretch and rotate}
 \end{center}

@@ -40,7 +40,7 @@
 
 %----- Custom tables
 
-\newtcolorbox{chapterref}{
+\newtcolorbox{sectionref}{
     title=Section References,
     boxrule=2pt,
     colframe=black!90,
@@ -48,6 +48,8 @@
 }
 
 \newtcolorbox[auto counter, number within=section]{example}[2][]{
+    breakable,
+    enhanced,
     title={Example \thetcbcounter: #2},
     boxrule=2pt,
     colframe=blue!30,
@@ -56,6 +58,8 @@
 }
 
 \newtcolorbox[auto counter, number within=section]{keyconcept}[2][]{
+    breakable,
+    enhanced,
     title={Key Concept \thetcbcounter: #2},
     boxrule=2pt,
     colframe=red!30,
@@ -121,15 +125,9 @@ def ltx_num_tensor4(tensor, precision=1):
 \newtheorem{problem}{Problem}[chapter]
 
 %%%%%%%%%%%%%%%%%%%
-\title{Block 4: Introduction to continuum mechanics}
+\title{VPROM: A Reduced Order Model Framework Applied to Viscoplasticity and High Temperature Components }
 \author{Billy Guy}
 \date{25-12-22}
-
-
-
-% \begin{abstract}
-%     This short report is a collection of notes used to developed a framework for hyper reduction of viscoplastic finite element models.
-% \end{abstract}
 
 \begin{document}
 
@@ -147,11 +145,9 @@ def ltx_num_tensor4(tensor, precision=1):
 \mainmatter
 
 \chapter{Introduction}
-High temperature components are in a lot of critical applications and they are stresssed in certain ways that common parts are not. The temperature effect induce certain material behavior that aren't really present in normal applications. One of these material behavior is viscoplasticiy. Viscoplasticity is defined by the change in viscous response of the material due to the rate of solicitation.
+High temperature components are in a lot of critical applications and they are stresssed in certain ways that common parts are not. The temperature effect induce certain material behavior that aren't really present in normal applications. One of these material behavior is viscoplasticiy. Viscoplasticity is defined by the change in viscous response of the material due to the rate of solicitation. \hl{WIP}
 
-\input{TensorFundamentals/TensorFundamentals.tex}
-
-\input{DeformationGradient/deformationgradient.tex}
+\input{block04/elements_of_continuum_mechanics.tex}
 
 \bibliographystyle{plain}
 \bibliography{references}

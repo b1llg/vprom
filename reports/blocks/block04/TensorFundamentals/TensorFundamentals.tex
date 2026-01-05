@@ -1,7 +1,7 @@
-\chapter{Tensor Fundamentals}
-\label{chap:tensorfundamentals}
-\begin{chapterref}
-The references used in this chapter are:
+\section{Tensor Fundamentals}
+\label{sec:tensorfundamentals}
+\begin{sectionref}
+The references used in this section are:
     \begin{itemize}
         \item Continuum Mechanics website \cite{McGinty}
         \begin{itemize}
@@ -11,18 +11,18 @@ The references used in this chapter are:
             \item Tensor Notation (Advanced)
         \end{itemize}
     \end{itemize}
-\end{chapterref}
-This chapter will cover the vector and tensor essentials to understand tensor algebra applied to solid mechanics. Vectors and matrix are essentially containers for scalars. Scalar are ordered in a certain fashion and some operation can be done with them. Tensors are an extension to vector and matrix. In this report, this notation will be used:
+\end{sectionref}
+This section will cover the vector and tensor essentials to understand tensor algebra applied to solid mechanics. Vectors and matrix are essentially containers for scalars. Scalar are ordered in a certain fashion and some operation can be done with them. Tensors are an extension to vector and matrix. In this report, this notation will be used:
 \begin{itemize}
     \item Scalars will be lower case letters, i.e.: $a,b,c,..$
     \item Vectors will be lowercase bold letters, i.e.: $\boldsymbol{x,v,a}$ or $\boldsymbol{x, \dot{x}, \ddot{x}}$
     \item Matrix will be uppercase bold letters: $\boldsymbol{A, C, X}$
 \end{itemize}
 
-\section{Introduction}
-This chapter is a basis for tensor definition and operation. It is not an in depth review of linear or tensor algebra but rather a simple, short take on the required notions for continuum mechanics.
+\subsection{Introduction}
+This section is a basis for tensor definition and operation. It is not an in depth review of linear or tensor algebra but rather a simple, short take on the required notions for continuum mechanics.
 
-\section{Matrices, Vectors and Tensors}
+\subsection{Matrices, Vectors and Tensors}
 A vector is defined as:
 $$ 
     \boldsymbol{v} = 
@@ -93,9 +93,9 @@ Important note: here, this expression could be reduced to a simpler expression u
 
 $$ \boldsymbol{\sigma} = \boldsymbol{C} :\boldsymbol{\varepsilon} $$
 
-Voigt notation will be in \hl{chapter n}.
+Voigt notation will be in \hl{section n}.
 
-\section{Symbols and Tensor Operation}
+\subsection{Symbols and Tensor Operation}
 \label{sec:tensoroperation}
 Another use of index notation and helpful for expression contraction is the Kronecker Delta ($\delta_{ij}$). The Kronecker Delta takes two inputs ($i$ and $j$) and returns one if both are greater than zero (should always be) and are equal:
 
@@ -164,4 +164,4 @@ $$c_i = \epsilon_{ijk}a_jb_k$$
 \end{example}
 
 
-\input{TensorFundamentals/problemset.tex}
+\input{block04/TensorFundamentals/problemset.tex}
