@@ -101,10 +101,11 @@ $$
         0.75 && 0.65
     \end{bmatrix}
 $$
-Compute the polar decomposition (Find V, U and R).
-\\\\ \textbf{Answer:}: From \cref{eq:gradienttransposeproperty} We take the square root of $\mathbf{F^T F}$ to find $\mathbf{U}$. Then we compute the inverse of $\mathbf{U}$ to find $\mathbf{R}$:
+Compute the polar decomposition (Find $\mathbf{C}$, $\mathbf{U}$,  $\mathbf{V}$ and $\mathbf{R}$).
+\\\\ \textbf{Answer:}: From \cref{eq:gradienttransposeproperty} We take the square root of $\mathbf{F^T F}$ to find $\mathbf{U}$. Then we compute the inverse of $\mathbf{U}$ to find $\mathbf{R}$, see \cref{eq:deformationstretch}:
 \begin{pyblock} 
 import numpy as np
+import scipy as sp
 
 # Define the deformation gradient
 F = np.array([
@@ -112,23 +113,85 @@ F = np.array([
     [0.75, 0.65]
 ])
 
-# Compute U
-U = np.sqrt(np.matmul(np.transpose(F), F))
+# Compute C =  F^T F => right Cauchy-Green deformation tensor
+C = np.matmul(np.transpose(F), F)
 
-# Compute R
+# Compute U = sqrt(C)
+U = np.sqrt(C)
+
+# Compute R = F U^-1
 R = np.matmul(F, np.linalg.inv(U))
+
+# Compute V = F R^-1
+V = np.matmul(F, np.linalg.inv(R))
+
+# Validation using sp.linalg.polar
+R2, U2 = sp.linalg.polar(F)
+
+# Find R using iterative approach
+
+Ak = F
+
+Ak1 = 0.5 * (Ak + np.transpose(np.linalg.inv(Ak)))
+Ak2 = 0.5 * (Ak1 + np.transpose(np.linalg.inv(Ak1)))
+Ak3 = 0.5 * (Ak2 + np.transpose(np.linalg.inv(Ak2)))
+    
+
 \end{pyblock}
+Giving,
 $$
-    U = \py{ltx_num_matrix(U)}
-$$
-and
-
-$$
-    R = \py{ltx_num_matrix(R)}
+    C = \py{ltx_num_matrix(C)}
 $$
 
-\hl{WIP}
+$$
+    U = \py{ltx_num_matrix(U)} = U2 = \py{ltx_num_matrix(U2)}
+$$
+
+$$
+    V = \py{ltx_num_matrix(V)}
+$$
+
+$$
+    R = \py{ltx_num_matrix(R)} = R2 = \py{ltx_num_matrix(R2)} Ak = \py{ltx_num_matrix(Ak)}
+$$
+Then, the validation of the iterative approach to find $\mathbf{R}$ using 3 steps
+$$
+    A_{k(0)} = \py{ltx_num_matrix(Ak)}
+$$
+$$
+    A_{k(1)} = \py{ltx_num_matrix(Ak1)}, \epsilon =\py{f"{np.linalg.norm(Ak - Ak1):.4e}"}
+$$
+$$
+    A_{k(2)} = \py{ltx_num_matrix(Ak2)}, \epsilon = \py{f"{np.linalg.norm(Ak1 - Ak2):.4e}"}
+$$
+$$
+    A_{k(3)} = \py{ltx_num_matrix(Ak3)}, \epsilon = \py{f"{np.linalg.norm(Ak2 - Ak3):.4e}"}
+$$
+The polar decomposition using \textit{sp.linalg.polar} gives the same results as the manual decomposition using \textit{numpy}. Also, the iterative procedure gives quick results without too much effort to find $\mathbf{R}$
 
 \begin{problem}
     Volume change and $J$
 \end{problem}
+Compute the volume change given
+$$
+    \mathbf{F} = \begin{bmatrix}
+        1.5 && 0 && 0 \\
+        0 && 1.2 && 0 \\
+        0 && 0 && 1.8
+    \end{bmatrix}
+$$
+\\\\ \textbf{Answer:}: Compute the jacobian ($J$):
+\begin{pyblock} 
+import numpy as np
+
+# Define the deformation gradient
+F = np.array([
+    [1.5, 0, 0],
+    [0, 1.2, 0],
+    [0, 0, 1.8]
+])
+
+# Compute J=det(F)
+J = np.linalg.det(F)
+\end{pyblock}
+Since $J = \py{J} > 1$. The body becomes $\py{J}$ larger, thus the volume is $\py{J}$ times bigger.

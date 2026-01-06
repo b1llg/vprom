@@ -8,7 +8,7 @@ As described earlier, the displacement of a body is defined by:
 
 and the map from $\mathbf{X}$ to $\mathbf{x}$ is:
 \begin{equation}
-    \varphi(\mathbf{X},t)
+    \mathbf{x} = \varphi(\mathbf{X},t)
     \label{eq:deformationmap}
 \end{equation}
 
@@ -66,3 +66,40 @@ which gives, in a more generic form:
     \underbrace{\dfrac{\partial (\cdot)}{\partial t}}_{\text{Spatial term}} + 
     \underbrace{\mathbf{v } \cdot \nabla (\cdot)}_{\text{Convective/Adjective term}}
 \end{equation}
+
+\begin{example}{Ball drop}
+    The position of a falling object, with respect to time and initial height ($Y$), is given by:
+
+    $$
+        \varphi(\mathbf{X}, t) = y = Y + v_0t - \tfrac{1}{2}gt^2
+    $$
+    With,
+    $$
+        \mathbf{u = x - X} 
+    $$
+    The definition of $\mathbf{u}$ becomes:
+    $$
+        \mathbf{u}(\mathbf{X}, t) = \varphi(\mathbf{X}, t) - \mathbf{X} 
+    $$
+    Since $\mathbf{X}=0=\text{constant}$, $\mathbf{u}$ becomes:
+    $$
+        \mathbf{u}(\mathbf{X}, t) = \varphi(\mathbf{X}, t) = Y + v_0t - \tfrac{1}{2}gt^2
+    $$
+    Then the velocity is: 
+    $$
+        \mathbf{v}(\mathbf{X},t) = \dfrac{\partial \mathbf{u}(\mathbf{X}, t)}{\partial t} = v_0 -gt
+    $$
+    and the acceleration:
+    $$
+        \mathbf{a}(\mathbf{X},t) = \dfrac{\partial \mathbf{v}(\mathbf{X}, t)}{\partial t} = -g
+    $$
+
+    Then what is the velocity field (velocity at any point and time)? From \cref{eq:materialderiv-generic}, we find that:
+
+    $$
+    \mathbf{v}(\mathbf{x}, t) = \dfrac{D \mathbf{u}(\mathbf{x},t)}{Dt} = 
+    \dfrac{\partial \mathbf{u}(\mathbf{x}, t)}{\partial t} + \mathbf{v} \cdot \nabla \mathbf{u}  
+    $$
+    \hl{WIP}
+    
+\end{example}

@@ -2,8 +2,11 @@
 
 ## Block 4: Tensor and Continuum Mechanics
 
+### 2026-01-06
+- Exercices about deformation gradient (about 1hrs)
+
 ### 2026-01-05
-- 
+- Exercices about deformation gradient (about 1hrs)
 
 ### 2026-01-03
 - Reformat into a book for the whole project (about 0.75hrs)
