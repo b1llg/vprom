@@ -2,6 +2,9 @@
 
 ## Block 4: Tensor and Continuum Mechanics
 
+### 2021-01-11
+- Complete deformation gradient section, move onto strain measure (about 2hrs)
+
 ### 2026-01-06
 - Exercices about deformation gradient (about 1hrs)
 

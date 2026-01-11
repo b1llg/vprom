@@ -1,0 +1,58 @@
+\section{Strain Measures: Small and Finite}
+\label{subsec:strainmeasures}
+\begin{sectionref}
+The references used in this section are:
+    \begin{itemize}
+        \item Belytschko \cite{Belytschko_Liu_Moran_Elkhodary_2014}
+        \begin{itemize}
+            \item 3.4.1 - 3.4.2
+        \end{itemize}
+        \item Continuum Mechanics website \cite{McGinty}
+        \begin{itemize}
+            \item Small Strain
+            \item Green Strain
+        \end{itemize}
+    \end{itemize}
+\end{sectionref}
+
+Strain measure can be split into two different groups:
+\begin{enumerate}
+    \item Small strain (infinitesimal strain)
+    \item Finite strain
+\end{enumerate}
+
+Both of them have their respective use. Small strain is useful in linear statics where the relative displacement of a body is small. While finite scale is used in large displacement nonlinear finite element analysis. 
+
+\begin{keyconcept}{Large Displacement Rule of Thumb}
+    It is important to note that a nonlinear problem can still be solved using the small scale strain. However, one should keep in mind that as a rule of thumb if a body undergoes more than 5\% total strain (at this point nonlinear material should be used since it's most likely also undergoing inelastic deformation), a large displacement formulation should be used with the finite element solver.
+
+    A good way of seeing when large displacement is important: think of a fishing rod. If you apply a load perpendicular to the tip, it will bend quite a lot a first. But as the tip gets more and more displaced by the load induced by the fish, the stiffness of the rod changes. Using the two different scale, here is what would happen:
+    \begin{itemize}
+        \item Small Scale: The stiffness would remain the same. It would basically be the same as solving a cantilever beam problem. One could expect very large vertical displacement.
+        $$
+            \underbrace{K}_{\text{Stiffness Matrix}}
+            \underbrace{u}_{\text{Displacement Field}}
+            \underbrace{f_{ext}}_{\text{External Forces}}
+        $$
+        
+        \item Finite Scale: First, a nonlinear solution would be used to solver the problem in a way that the stiffness matrix updates on every (most likely) iteration \textbf{AND} consider the rotation of the elements (bodies). Now, the problem to solve becomes a nonlinear solution:
+        $$
+            \mathbf{R(u)=f_{int}(u) - f_{ext}=0}
+        $$
+        where
+        $$
+            \mathbf{f_{int}=K u}
+        $$
+        then
+        $$
+            \mathbf{R(u_k + \Delta u) \approx R(u_k) + \dfrac{\partial R}{\partial u}\Delta u}
+        $$
+    \end{itemize}
+\end{keyconcept}
+
+\subsection{Small Strain}
+\label{subsec:smallstrain}
+
+
+\subsection{Large Strain}
+\label{subsec:largestrain}
