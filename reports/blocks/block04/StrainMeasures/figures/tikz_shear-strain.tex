@@ -1,0 +1,25 @@
+\begin{center}
+    \label{fig:shearstrain}
+    % Figure 2: Shear Strain (Simple Shear)
+    \begin{tikzpicture}[>=Stealth, thick, scale=1.2]
+        % Reference configuration (dashed purple rectangle)
+        \draw[red, dashed, line width=1.5pt] (0,0) rectangle (2.5,2);
+        
+        % Current configuration (parallelogram with horizontal top and bottom)
+        \draw[blue, line width=1.5pt] (0,0) -- (2.5,1) -- (2.5, 3) -- (0,2) -- cycle;
+        
+        % Horizontal dimension - T (from origin to bottom right corner)
+        \draw[<->, >=Stealth] (0,-0.5) -- (2.5,-0.5) node[midway, below] {$T$};
+        
+        % Vertical dimension - D (from x-axis to bottom right corner)
+        \draw[<->, >=Stealth] (2.7,0) -- (2.7,1) node[midway, right] {$D$};
+        
+        % Axes
+        \draw[->, very thick] (-0.5,0) -- (4.0,0) node[right] {$x$};
+        \draw[->, very thick] (0,-0.3) -- (0,2.8) node[above] {$y$};
+
+        % Label
+        \node[below] at (2,-1) {\textbf{Shear Strain}};
+    \end{tikzpicture}
+    
+\end{center}

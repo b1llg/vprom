@@ -2,7 +2,10 @@
 
 ## Block 4: Tensor and Continuum Mechanics
 
-### 2021-01-11
+### 20206-01-22
+- Started definition of small strain measure (about 1hrs)
+
+### 2026-01-11
 - Complete deformation gradient section, move onto strain measure (about 2hrs)
 
 ### 2026-01-06

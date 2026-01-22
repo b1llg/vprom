@@ -24,18 +24,20 @@ Strain measure can be split into two different groups:
 Both of them have their respective use. Small strain is useful in linear statics where the relative displacement of a body is small. While finite scale is used in large displacement nonlinear finite element analysis. 
 
 \begin{keyconcept}{Large Displacement Rule of Thumb}
-    It is important to note that a nonlinear problem can still be solved using the small scale strain. However, one should keep in mind that as a rule of thumb if a body undergoes more than 5\% total strain (at this point nonlinear material should be used since it's most likely also undergoing inelastic deformation), a large displacement formulation should be used with the finite element solver.
+    It is important to note that a nonlinear problem can still be solved using the small scale strain. However, one should keep in mind that as a rule of thumb if the stress of any elastic body goes past yield stress ($\sigma^Y$) and a body undergoes more than 5\% total strain (at this point nonlinear material should be used since it's most likely also undergoing inelastic deformation), a large displacement formulation should be used with the finite element solver.
 
     A good way of seeing when large displacement is important: think of a fishing rod. If you apply a load perpendicular to the tip, it will bend quite a lot a first. But as the tip gets more and more displaced by the load induced by the fish, the stiffness of the rod changes. Using the two different scale, here is what would happen:
     \begin{itemize}
         \item Small Scale: The stiffness would remain the same. It would basically be the same as solving a cantilever beam problem. One could expect very large vertical displacement.
         $$
             \underbrace{K}_{\text{Stiffness Matrix}}
+            \cdot
             \underbrace{u}_{\text{Displacement Field}}
+            =
             \underbrace{f_{ext}}_{\text{External Forces}}
         $$
         
-        \item Finite Scale: First, a nonlinear solution would be used to solver the problem in a way that the stiffness matrix updates on every (most likely) iteration \textbf{AND} consider the rotation of the elements (bodies). Now, the problem to solve becomes a nonlinear solution:
+        \item Finite Scale: First, a nonlinear solution would be used to solve the problem in a way that the stiffness matrix updates on every (most likely) increment \textbf{AND} consider the rotation of the elements (bodies). Now, the problem to solve becomes a nonlinear solution:
         $$
             \mathbf{R(u)=f_{int}(u) - f_{ext}=0}
         $$
@@ -48,10 +50,45 @@ Both of them have their respective use. Small strain is useful in linear statics
             \mathbf{R(u_k + \Delta u) \approx R(u_k) + \dfrac{\partial R}{\partial u}\Delta u}
         $$
     \end{itemize}
+
+    Since the stiffness change with the applied load, in this case the stress and displacement should be quite lower than in the small scale case. Not all problems respond like this. Not all problems yields results as the fishing rod example. Another one would be the traction specimen problem:
+        \begin{itemize}
+        \item Small Scale: The stiffness would remain the same. It would require at lot more force to keep the applied displacement rate or equivalently the intended strain rate. 
+  
+        
+        \item Finite Scale: The same principle of evolving stiffness would apply but in this case since the specimen is most likely undergoing plastic deformation. Plastic distribution thus make the cross-section smaller at the middle (hopefully) of the specimen. Making the required force to keep driving the deformation at the required strain rate smaller and smaller.
+ 
+        \end{itemize}
+    Both are good examples to understand the difference between small and finite strain measure. In the end, one takes assumptions to simplify the problem and the other takes into account a more complex physic to better simulate the problem. When small scale hypothesis applies, large scale should give more or less the same thing.
+    
 \end{keyconcept}
 
 \subsection{Small Strain}
 \label{subsec:smallstrain}
+Small scale strains are relatively simple and have been taught in all resistance of material courses. There is three types of strain:
+\begin{itemize}
+    \item Normal:
+    \begin{equation}
+        \label{eq:normalstrain}
+        \epsilon = \dfrac{\Delta L}{L_0}
+    \end{equation}
+    \input{block04/StrainMeasures/figures/tikz_normal-strain.tex}
+
+    \item Shear: do not include rotation (rigid body motion)
+    \begin{equation}
+        \label{eq:shearstrain}
+        \gamma = \dfrac{D}{T}
+    \end{equation}
+    \input{block04/StrainMeasures/figures/tikz_shear-strain.tex}
+        
+    \item Pure shear:
+    \begin{equation}
+        \label{eq:pureshearstrain}
+        \gamma = \dfrac{\Delta x + \Delta y}{T}
+    \end{equation}
+    \input{block04/StrainMeasures/figures/tikz_pure-shear-strain.tex}
+    
+\end{itemize}
 
 
 \subsection{Large Strain}

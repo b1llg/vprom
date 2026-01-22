@@ -1,0 +1,32 @@
+% Figure 1: Normal Strain (Uniaxial Extension)
+\begin{center}
+    \label{fig:normalstrain}
+    % Figure 1: Normal Strain (Uniaxial Extension)
+    \begin{tikzpicture}[>=Stealth, thick, scale=1.2]
+        % Reference configuration (dashed purple)
+        \draw[red, dashed, line width=1.5pt] (0,0) rectangle (3,1.5);
+        
+        % Current configuration (solid blue)
+        \draw[blue, line width=1.5pt] (0,0) rectangle (3.8,1.5);
+        
+        % Dimension arrows - Initial length
+        \draw[<->, >=Stealth] (0,2) -- (3,2) node[midway, above] {$L_0$};
+        
+        % Dimension arrows - Final length
+        \draw[<->, >=Stealth] (0,2.5) -- (3.8,2.5) node[midway, above] {$L_f$};
+        
+        % Delta L (raised for clarity)
+        \draw[<->, >=Stealth, red, dashed] (3,0.6) -- (3.8,0.6) node[midway, above] {$\Delta L$};
+        
+        % Vertical dashed line
+        \draw[dashed, gray] (3,1.5) -- (3,2);
+        \draw[dashed, gray] (3.8,1.5) -- (3.8,2.5);
+        
+        % Axes
+        \draw[->, very thick] (-0.5,0) -- (4.5,0) node[right] {$x$};
+        \draw[->, very thick] (0,-0.3) -- (0,2.8) node[above] {$y$};
+
+        % Label
+        \node[below] at (2,-0.5) {\textbf{Normal Strain (Uniaxial Extension)}};
+    \end{tikzpicture}
+\end{center}
